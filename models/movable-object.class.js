@@ -3,11 +3,18 @@ class MovableObject {
     y;
     img;
 
+   loadImage(path) {
+    
+   }
+
     moveRight() {
         console.log('Moving right');
+    }
+
+    moveLeft(){
         
     }
-    constructor(parameters) {
+    constructor(x) {
         
     }
 }
