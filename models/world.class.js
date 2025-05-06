@@ -21,7 +21,7 @@ class World {
   }
 
   setWorld() {
-    this.character.world = this.world;
+    this.character.world = this;
   }
 
   draw() {
