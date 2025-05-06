@@ -4,10 +4,22 @@ class MovableObject {
     img;
     height = 150;
     width = 100;
+    imageCache = [];
+    speed = 1.5
+
 
    loadImage(path) {
     this.img = new Image(); 
     this.img.src = path;
+   }
+
+   loadImages(arr) {
+
+    arr.forEach((path) => {
+        let img  = new Image();
+        img.src = path;
+        this.imageCache[path] = img;
+    });
    }
 
    positionFigure(x, y, height, width) {
@@ -21,8 +33,13 @@ class MovableObject {
         console.log('Moving right');
     }
 
-    moveLeft(){
-        
+    moveLeft() {
+        setInterval( () => {
+            this.x -= this.speed;
+            if (this.x < -450) {
+                this.x = 800;
+            }
+        }, 2000 / 60)
     }
     constructor() {
         
