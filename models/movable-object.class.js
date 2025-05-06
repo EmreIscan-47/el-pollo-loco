@@ -7,7 +7,7 @@ class MovableObject {
     imageCache = [];
     speed = 1.5
     otherDirection = false;
-
+currentImage = 0;
 
    loadImage(path) {
     this.img = new Image(); 
@@ -41,6 +41,12 @@ class MovableObject {
                 this.x = 800;
             }
         }, 2000 / 60)
+    }
+    playAnimation(images) {
+        let i = this.currentImage % this.IMAGES_WALKING.length;
+        let path = this.IMAGES_WALKING[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
     }
     constructor() {
         
