@@ -22,6 +22,8 @@ window.addEventListener("keydown", (event) => {
     keyboard.DOWN = true;
   } else if (event.keyCode == 32) {
     keyboard.SPACE = true;
+  }else if (event.keyCode == 68) {
+    keyboard.THROWBOTTLE = true;
   }
 });
 
@@ -37,6 +39,8 @@ window.addEventListener("keyup", (event) => {
       keyboard.DOWN = false;
     } else if (event.keyCode == 32) {
       keyboard.SPACE = false;
+    } else if (event.keyCode == 68) {
+      keyboard.THROWBOTTLE = false;
     }
 
   });

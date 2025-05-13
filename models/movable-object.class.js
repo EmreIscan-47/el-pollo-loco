@@ -19,7 +19,11 @@ class MovableObject extends DrawableObjects {
     this.speedY = 18;
   }
   isAboveGround() {
-    return this.y < 156;
+    if(this instanceof ThrowableObjects) {
+      return true;
+    } else {
+      return this.y < 156;
+    }
   }
 
   
