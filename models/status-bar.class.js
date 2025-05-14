@@ -27,35 +27,56 @@ class StatusBar extends DrawableObjects {
   ];
   
   percentage = 100;
-
-  constructor() {
+  collect = 0;
+  constructor(imgs, y, percentage) {
     super();
     this.loadImages(this.IMAGES_HEALTH);
     this.loadImages(this.IMAGES_COINS);
     this.loadImages(this.IMAGES_BOTTLE);
     this.x = 20;
-    this.y = 0;
-    this.width = 250;
-    this.height = 70;
-    this.setPercentage(this.percentage);
+    this.y = y;
+    this.width = 150;
+    this.height = 50;
+    this.loadStatusBar(imgs, percentage);
   }
 
-  setPercentage(percentage) {
-        this.percentage = percentage;
-        let path = this.IMAGES_HEALTH[this.resolveImageIndex()];
+loadStatusBar(imgs, percentage){
+  let path;
+  switch (imgs) {
+    case "HEALTH":
+      this.percentage = percentage / 20;
+        path = this.IMAGES_HEALTH[this.resolveImageIndex()];
         this.img = this.imageCache[path];
+      break;
+      case "COINS":
+        this.percentage = percentage;
+          path = this.IMAGES_COINS[this.resolveImageIndex()];
+          this.img = this.imageCache[path];
+        break;
+        case "BOTTLE":
+      this.percentage = percentage;
+        path = this.IMAGES_BOTTLE[this.resolveImageIndex()];
+        this.img = this.imageCache[path];
+      break;
+    default:
+      console.log("Nothing here");
+      
+      break;
   }
+}
+
+ 
 
   resolveImageIndex() {
-    if (this.percentage == 100) {
+    if (this.percentage == 5) {
       return 5;
-    } else if (this.percentage > 80) {
+    } else if (this.percentage >= 4) {
       return 4;
-    } else if (this.percentage > 60) {
+    } else if (this.percentage >= 3) {
       return 3;
-    } else if (this.percentage > 40) {
+    } else if (this.percentage >= 2) {
       return 2;
-    } else if (this.percentage > 20) {
+    } else if (this.percentage >= 1) {
       return 1;
     } else {
       return 0;

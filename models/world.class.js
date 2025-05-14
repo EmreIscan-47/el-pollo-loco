@@ -5,7 +5,11 @@ class World {
   canvas;
   keyboard;
   camera_x = 0;
-  statusBar = new StatusBar();
+  statusBar = [
+    new StatusBar("HEALTH", 0, 100),
+    new StatusBar("COINS", 50, 0),
+    new StatusBar("BOTTLE", 100, 0),
+  ];
   throwableObjects = [];
 
   collectableObjectsCoins = [
@@ -62,19 +66,37 @@ class World {
   }
 
   checkCollisionsCoins() {
-   this.collectableObjectsCoins.forEach((coin) => {
-    if (this.character.isColliding(coin)) {
-     coin.loadImage("");
-    }
-   })
+    this.collectableObjectsCoins.forEach((coin) => {
+      if (this.character.isColliding(coin)) {
+        if (this.character.collectedCoins <= 4) {
+          this.character.collectedCoins += 1;
+          this.statusBar[1].loadStatusBar(
+            "COINS",
+            this.character.collectedCoins
+          );
+          coin.loadImage("");
+          coin.y = -1000;
+        } else {
+        }
+
+      }
+    });
   }
 
   checkCollisionsBottles() {
     this.collectableObjectsBottle.forEach((bottle) => {
       if (this.character.isColliding(bottle)) {
-       bottle.loadImage("");
+        if (this.character.collectedBottles <= 4) {
+          this.character.collectedBottles += 1;
+          bottle.loadImage("");
+          bottle.y = -1000;
+          this.statusBar[2].loadStatusBar(
+            "BOTTLE",
+            this.character.collectedBottles
+          );
+        }
       }
-     })
+    });
   }
 
   checkCollisionsEnemy() {
@@ -86,7 +108,7 @@ class World {
           this.character.checkEnergy
         );
         this.character.hit();
-        this.statusBar.setPercentage(this.character.energy);
+        this.statusBar[0].loadStatusBar("HEALTH", this.character.energy);
       }
     });
   }
@@ -98,7 +120,7 @@ class World {
 
     this.ctx.globalCompositeOperation = "destination-over";
     this.ctx.translate(-this.camera_x, 0);
-    this.addToMap(this.statusBar);
+    this.addObjectsToMap(this.statusBar);
     this.ctx.translate(this.camera_x, 0);
     this.addToMap(this.character);
 

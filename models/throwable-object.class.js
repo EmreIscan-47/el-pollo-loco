@@ -32,8 +32,6 @@ class ThrowableObjects extends MovableObject {
     this.height = 100;
     this.width = 80;
     this.throw(x, y);
-
-    
   }
 
   throwBottleAnimation() {
@@ -46,9 +44,7 @@ class ThrowableObjects extends MovableObject {
     this.x = x;
     this.y = y;
     this.speedY = 20;
-
     this.applyGravity();
-
     const interval = setInterval(() => {
       if (this.y > 340) {
         this.splashingBottle();
@@ -61,7 +57,7 @@ class ThrowableObjects extends MovableObject {
   }
 
   splashingBottle() {
-    this.y = 340; // Stelle sicher, dass die Flasche auf dem Boden bleibt
+    this.y = 340;
     this.speedY = 0;
     clearInterval(this.bottleAnimationInterval);
 

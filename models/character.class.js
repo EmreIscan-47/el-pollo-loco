@@ -50,6 +50,8 @@ class Character extends MovableObject {
   acceleration = 1;
   energy = 100;
   checkEnergy = 100;
+  collectedCoins = 0;
+  collectedBottles = 0;
   
   constructor() {
     super();
