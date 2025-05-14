@@ -5,9 +5,9 @@ class MovableObject extends DrawableObjects {
   acceleration = 1;
   energy = 100;
   checkEnergy;
-
+  gravityInterval;
   applyGravity() {
-    setInterval(() => {
+    this.gravityInterval = setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
@@ -15,29 +15,31 @@ class MovableObject extends DrawableObjects {
     }, 1000 / 25);
   }
 
+  stopGravity() {
+    clearInterval(this.gravityInterval);
+  }
+
   jump() {
     this.speedY = 18;
   }
   isAboveGround() {
-    if(this instanceof ThrowableObjects) {
+    if (this instanceof ThrowableObjects) {
       return true;
     } else {
       return this.y < 156;
     }
   }
 
-  
-
   isColliding(mo) {
     return (
-      this.x + this.width > mo.x +40 &&
-      this.y + this.height > mo.y   &&
-      this.x < mo.x  &&
-      this.y < mo.y + mo.height 
+      this.x + this.width > mo.x + 40 &&
+      this.y + this.height > mo.y &&
+      this.x < mo.x &&
+      this.y < mo.y + mo.height
     );
   }
 
-   /* isColliding(mo) {
+  /* isColliding(mo) {
   return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
   this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && 
   this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
@@ -59,14 +61,13 @@ class MovableObject extends DrawableObjects {
   moveLeft() {
     this.x -= this.speed;
   }
-  
+
   playAnimation(images) {
     let i = this.currentImage % images.length;
     let path = images[i];
     this.img = this.imageCache[path];
     this.currentImage++;
   }
-
 
   hit() {
     this.energy -= 5;
@@ -76,11 +77,10 @@ class MovableObject extends DrawableObjects {
   }
 
   isHurt() {
-   return this.checkEnergy > this.energy && this.checkEnergy >= 0
+    return this.checkEnergy > this.energy && this.checkEnergy >= 0;
   }
 
   isDead() {
     return this.energy == 0;
   }
-
 }
