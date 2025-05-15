@@ -6,6 +6,7 @@ class MovableObject extends DrawableObjects {
   energy = 100;
   checkEnergy;
   gravityInterval;
+  
   applyGravity() {
     this.gravityInterval = setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {

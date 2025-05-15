@@ -40,6 +40,10 @@ class World {
     this.draw();
     this.setWorld();
     this.run();
+    this.statusBar[2].loadStatusBar(
+      "BOTTLE",
+      this.character.collectedBottles
+    );
   }
 
   setWorld() {
@@ -56,12 +60,18 @@ class World {
   }
 
   checkThrowObjects() {
-    if (this.keyboard.THROWBOTTLE) {
+    if (this.keyboard.THROWBOTTLE && this.character.collectedBottles != 0) {
+      this.character.collectedBottles -=1;
+      this.statusBar[2].loadStatusBar(
+        "BOTTLE",
+        this.character.collectedBottles
+      );
       let bottle = new ThrowableObjects(
         this.character.x,
         this.character.y + 100
       );
       this.throwableObjects.push(bottle);
+      
     }
   }
 
@@ -97,6 +107,14 @@ class World {
         }
       }
     });
+  }
+
+  returnBottleAmount() {
+    return this.character.collectedBottles;
+  }
+
+  decreaseBottleAmount() {
+    this.character.collectedBottles -=1;
   }
 
   checkCollisionsEnemy() {

@@ -3,6 +3,8 @@ class ThrowableObjects extends MovableObject {
   speedY;
   bottleAnimationInterval;
   visible;
+  
+
 
   isSplashing = true;
   IMAGES_BOTTLES = [
@@ -32,6 +34,7 @@ class ThrowableObjects extends MovableObject {
     this.height = 100;
     this.width = 80;
     this.throw(x, y);
+ 
   }
 
   throwBottleAnimation() {
@@ -74,4 +77,6 @@ class ThrowableObjects extends MovableObject {
       frame++;
     }, 25);
   }
+
+
 }

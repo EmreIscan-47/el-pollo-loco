@@ -51,7 +51,7 @@ class Character extends MovableObject {
   energy = 100;
   checkEnergy = 100;
   collectedCoins = 0;
-  collectedBottles = 0;
+  collectedBottles = 5;
   
   constructor() {
     super();
@@ -104,4 +104,6 @@ class Character extends MovableObject {
       }
     }, 1000 / 20)
   }
+
+ 
 }
