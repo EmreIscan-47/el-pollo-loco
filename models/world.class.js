@@ -96,6 +96,7 @@ class World {
   checkCollisionsBottles() {
     this.collectableObjectsBottle.forEach((bottle) => {
       if (this.character.isColliding(bottle)) {
+        
         if (this.character.collectedBottles <= 4) {
           this.character.collectedBottles += 1;
           bottle.loadImage("");
@@ -109,22 +110,17 @@ class World {
     });
   }
 
-  returnBottleAmount() {
-    return this.character.collectedBottles;
-  }
-
-  decreaseBottleAmount() {
-    this.character.collectedBottles -=1;
-  }
-
   checkCollisionsEnemy() {
     this.level.enemies.forEach((enemy) => {
+      if (this.character.isCollidingOnTop(enemy)) {
+        
+        if (enemy.chickenDead()) {
+            enemy.chickenDead();
+            this.character.jumpOnEnemy();
+            
+          }
+      }
       if (this.character.isColliding(enemy)) {
-        console.log(
-          "Collision with Character, energy",
-          this.character.energy,
-          this.character.checkEnergy
-        );
         this.character.hit();
         this.statusBar[0].loadStatusBar("HEALTH", this.character.energy);
       }
@@ -133,15 +129,22 @@ class World {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
     this.ctx.translate(this.camera_x, 0);
-
     this.ctx.globalCompositeOperation = "destination-over";
     this.ctx.translate(-this.camera_x, 0);
     this.addObjectsToMap(this.statusBar);
     this.ctx.translate(this.camera_x, 0);
     this.addToMap(this.character);
+    this.callAllObjectsToMap();
+    this.ctx.translate(-this.camera_x, 0);
+    // Draw() wird immer wieder aufgerufen
+    self = this;
+    requestAnimationFrame(function () {
+      self.draw();
+    });
+  }
 
+  callAllObjectsToMap() {
     this.addObjectsToMap(this.collectableObjectsCoins);
     this.addObjectsToMap(this.collectableObjectsBottle);
     this.addObjectsToMap(this.throwableObjects);
@@ -149,12 +152,6 @@ class World {
     this.addObjectsToMap(this.level.clouds);
     this.addObjectsToMap(this.level.backgroundObjects);
 
-    this.ctx.translate(-this.camera_x, 0);
-    // Draw() wird immer wieder aufgerufen
-    self = this;
-    requestAnimationFrame(function () {
-      self.draw();
-    });
   }
 
   addObjectsToMap(obj) {

@@ -37,12 +37,7 @@ class Character extends MovableObject {
   ]
   world;
 
-  offset = {
-    top: 120,
-    left: 40,
-    right: 30,
-    bottom: 30
-}
+
 
   speed = 3;
   currentImage = 0;
@@ -104,6 +99,12 @@ class Character extends MovableObject {
       }
     }, 1000 / 20)
   }
-
+  
+jumpOnEnemy() {
+  this.stopGravity()
+    this.speedY = 28;
+    
+  }
+  
  
 }

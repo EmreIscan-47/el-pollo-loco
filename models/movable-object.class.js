@@ -23,6 +23,7 @@ class MovableObject extends DrawableObjects {
   jump() {
     this.speedY = 18;
   }
+
   isAboveGround() {
     if (this instanceof ThrowableObjects) {
       return true;
@@ -39,6 +40,19 @@ class MovableObject extends DrawableObjects {
       this.y < mo.y + mo.height
     );
   }
+
+  isCollidingOnTop(mo) {
+    const tolerance = 35;
+  const horizontalOverlap = 
+    this.x + this.width > mo.x && 
+    this.x < mo.x + mo.width;
+  const landsOnTop = 
+    (this.y + this.height > mo.y) &&
+    (this.y + this.height < mo.y + tolerance);
+
+    
+  return horizontalOverlap && landsOnTop;
+}
 
   /* isColliding(mo) {
   return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
@@ -72,6 +86,8 @@ class MovableObject extends DrawableObjects {
 
   hit() {
     this.energy -= 5;
+    this.x -= 10;
+    this.speedY = 1;
     if (this.energy < 0) {
       this.energy = 0;
     }

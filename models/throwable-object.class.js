@@ -54,7 +54,6 @@ class ThrowableObjects extends MovableObject {
         clearInterval(interval);
       } else {
         this.x += 10;
-        console.log("yo");
       }
     }, 24);
   }
@@ -63,7 +62,6 @@ class ThrowableObjects extends MovableObject {
     this.y = 340;
     this.speedY = 0;
     clearInterval(this.bottleAnimationInterval);
-
     let frame = 0;
     const animationInterval = setInterval(() => {
       if (frame >= this.IMAGES_SPLASH.length) {
@@ -72,7 +70,6 @@ class ThrowableObjects extends MovableObject {
         this.loadImage("");
         return;
       }
-
       this.playAnimation(this.IMAGES_SPLASH);
       frame++;
     }, 25);
