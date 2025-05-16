@@ -3,8 +3,9 @@ class ThrowableObjects extends MovableObject {
   speedY;
   bottleAnimationInterval;
   visible;
-  
-
+  interval;
+  animationInterval;
+  bottleSplashInterval;
 
   isSplashing = true;
   IMAGES_BOTTLES = [
@@ -34,7 +35,6 @@ class ThrowableObjects extends MovableObject {
     this.height = 100;
     this.width = 80;
     this.throw(x, y);
- 
   }
 
   throwBottleAnimation() {
@@ -48,10 +48,10 @@ class ThrowableObjects extends MovableObject {
     this.y = y;
     this.speedY = 20;
     this.applyGravity();
-    const interval = setInterval(() => {
+    this.interval = setInterval(() => {
       if (this.y > 340) {
         this.splashingBottle();
-        clearInterval(interval);
+        clearInterval(this.interval);
       } else {
         this.x += 10;
       }
@@ -63,17 +63,42 @@ class ThrowableObjects extends MovableObject {
     this.speedY = 0;
     clearInterval(this.bottleAnimationInterval);
     let frame = 0;
-    const animationInterval = setInterval(() => {
+    this.animationInterval = setInterval(() => {
       if (frame >= this.IMAGES_SPLASH.length) {
-        clearInterval(animationInterval);
+        clearInterval(this.animationInterval);
         this.stopGravity();
         this.loadImage("");
         return;
       }
+      console.log("Yoo");
+
       this.playAnimation(this.IMAGES_SPLASH);
       frame++;
     }, 25);
   }
 
+  splashingOnEnemy() {
+    this.stopGravity();
+    this.x = this.x;
+    this.y = this.y;
+    clearInterval(this.interval);
+    clearInterval(this.animationInterval);
+    clearInterval(this.bottleAnimationInterval);
+    setInterval(() => {
+      let i = this.x;
+      this.x = i + 2;
+      this.y += 2;
+    }, 2);
 
+    this.speedY = 0;
+
+    this.bottleSplashInterval = setInterval(() => {
+      this.playAnimation(this.IMAGES_SPLASH);
+      setInterval(() => {
+      this.y = 10000;
+      clearInterval(this.bottleSplashInterval);
+      }, 50);
+     
+    }, 50);
+  }
 }

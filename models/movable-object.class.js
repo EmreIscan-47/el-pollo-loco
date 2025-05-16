@@ -6,7 +6,7 @@ class MovableObject extends DrawableObjects {
   energy = 100;
   checkEnergy;
   gravityInterval;
-  
+
   applyGravity() {
     this.gravityInterval = setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
@@ -34,25 +34,21 @@ class MovableObject extends DrawableObjects {
 
   isColliding(mo) {
     return (
-      this.x + this.width > mo.x + 40 &&
-      this.y + this.height > mo.y &&
+      this.x + this.width > mo.x &&
+      this.y + this.height > mo.y +70 &&
       this.x < mo.x &&
       this.y < mo.y + mo.height
     );
   }
 
   isCollidingOnTop(mo) {
-    const tolerance = 35;
-  const horizontalOverlap = 
-    this.x + this.width > mo.x && 
-    this.x < mo.x + mo.width;
-  const landsOnTop = 
-    (this.y + this.height > mo.y) &&
-    (this.y + this.height < mo.y + tolerance);
-
-    
-  return horizontalOverlap && landsOnTop;
-}
+    const tolerance = 40;
+    const horizontalOverlap =
+      this.x + this.width > mo.x && this.x < mo.x + mo.width;
+    const landsOnTop =
+      this.y + this.height > mo.y && this.y + this.height < mo.y + tolerance;
+    return horizontalOverlap && landsOnTop;
+  }
 
   /* isColliding(mo) {
   return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
@@ -86,7 +82,7 @@ class MovableObject extends DrawableObjects {
 
   hit() {
     this.energy -= 5;
-    this.x -= 10;
+    this.x -= 20;
     this.speedY = 1;
     if (this.energy < 0) {
       this.energy = 0;
