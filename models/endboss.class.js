@@ -13,14 +13,17 @@ class Endboss extends MovableObject {
     name;
     energy = 100;
     checkEnergy = 100;
+
+  
+
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.name = "Endboss";
         this.loadImages(this.IMAGES_WALKING);
         this.x = 1000;
-        this.height = 380;
-        this.width = 380;
-        this.y = 70;
+        this.height = 500;
+        this.width = 500;
+        this.y = -30;
         this.animate();
     }
 

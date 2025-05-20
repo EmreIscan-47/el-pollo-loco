@@ -78,7 +78,7 @@ class ThrowableObjects extends MovableObject {
   }
 
   splashingOnEnemy() {
-    this.stopGravity();
+    this.stopGravity()
     this.x = this.x;
     this.y = this.y;
     clearInterval(this.interval);
@@ -86,19 +86,16 @@ class ThrowableObjects extends MovableObject {
     clearInterval(this.bottleAnimationInterval);
     setInterval(() => {
       let i = this.x;
-      this.x = i + 2;
-      this.y += 2;
-    }, 2);
-
+      this.x = i;
+      
+    }, 20);
     this.speedY = 0;
-
     this.bottleSplashInterval = setInterval(() => {
       this.playAnimation(this.IMAGES_SPLASH);
       setInterval(() => {
       this.y = 10000;
       clearInterval(this.bottleSplashInterval);
-      }, 50);
-     
-    }, 50);
+      }, 85);
+    }, 100);
   }
 }

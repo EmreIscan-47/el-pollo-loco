@@ -9,12 +9,7 @@ class Chicken extends MovableObject {
       ];
       currentImage = 0;
 
-      offset = {
-        top: 120,
-        left: 40,
-        right: 30,
-        bottom: 30
-    }
+    
     
     constructor () {
         super();

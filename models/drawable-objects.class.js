@@ -1,5 +1,4 @@
 class DrawableObjects {
-
   img;
   imageCache = {};
   currentImage = 0;
@@ -26,7 +25,11 @@ class DrawableObjects {
   }
 
   drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Chicken) {
+    if (
+      this instanceof Character ||
+      this instanceof Chicken ||
+      this instanceof Endboss
+    ) {
       ctx.beginPath();
       ctx.lineWidth = "5";
       ctx.strokeStyle = "blue";
@@ -34,4 +37,34 @@ class DrawableObjects {
       ctx.stroke();
     }
   }
+
+  /* drawOffsetFrame(ctx) {
+    if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
+      ctx.beginPath();
+      ctx.lineWidth = "5";
+      ctx.strokeStyle = "red";
+      ctx.rect(
+        this.x + this.offset.left,
+        this.y + this.offset.top,
+        this.width - this.offset.left - this.offset.right,
+        this.height - this.offset.bottom - this.offset.top
+      );
+      ctx.stroke();
+    }
+  }
+
+  drawOffsetHeadFrame(ctx) {
+    if (this instanceof Endboss) {
+      ctx.beginPath();
+      ctx.lineWidth = "5";
+      ctx.strokeStyle = "red";
+      ctx.rect(
+        this.x + this.offset_head.left,
+        this.y + this.offset_head.top,
+        this.width - this.offset_head.left - this.offset_head.right,
+        this.height - this.offset_head.bottom - this.offset_head.top
+      );
+      ctx.stroke();
+    }
+  } */
 }

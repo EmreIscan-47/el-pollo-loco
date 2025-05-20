@@ -43,6 +43,9 @@ class World {
     this.setWorld();
     this.run();
     this.statusBar[2].loadStatusBar("BOTTLE", this.character.collectedBottles);
+    setInterval(() => {
+          this.checkThrowObjects();
+    }, 1400);
   }
 
   setWorld() {
@@ -54,15 +57,14 @@ class World {
       this.checkCollisionsEnemy();
       this.checkCollisionsCoins();
       this.checkCollisionsBottles();
-      this.checkCollisionWithEndboss();
-      this.checkThrowObjects();
-      
-    }, 200);
+      this.checkCollisionWithEndboss(); 
+    }, 20);
   }
 
   checkThrowObjects() {
     if (this.keyboard.THROWBOTTLE && this.character.collectedBottles != 0) {
       this.character.collectedBottles -= 1;
+    
       this.statusBar[2].loadStatusBar(
         "BOTTLE",
         this.character.collectedBottles
@@ -72,6 +74,10 @@ class World {
         this.character.y + 100
       );
       this.throwableObjects.push(bottle);
+      console.log(this.throwableObjects.length);
+      
+      
+      this.bottleAmountThrown = this.throwableObjects.length;
     }
   }
 
@@ -122,16 +128,17 @@ class World {
   }
 
   checkCollisionWithEndboss() {
-    this.bottleAmountThrown = this.throwableObjects.length;
+  
     if (this.throwableObjects[this.bottleAmountThrown - 1] != undefined) {
       this.level.enemies.forEach((enemy) => {
         if (
           this.throwableObjects[this.bottleAmountThrown - 1].isColliding(enemy)
         ) {
           if (enemy.name == "Endboss") {
+          
             clearInterval(this.runIntervall);
-            console.log("yo");
-           
+            console.log(this.bottleAmountThrown - 1);
+            
             this.throwableObjects[this.bottleAmountThrown - 1].splashingOnEnemy(
               this.x,
               this.y
@@ -151,7 +158,7 @@ class World {
     this.addObjectsToMap(this.statusBar);
     this.ctx.translate(this.camera_x, 0);
     this.addToMap(this.character);
-    this.callAllObjectsToMap();
+    this.callAllAddObjectsToMap();
     this.ctx.translate(-this.camera_x, 0);
     // Draw() wird immer wieder aufgerufen
     self = this;
@@ -160,7 +167,7 @@ class World {
     });
   }
 
-  callAllObjectsToMap() {
+  callAllAddObjectsToMap() {
     this.addObjectsToMap(this.collectableObjectsCoins);
     this.addObjectsToMap(this.collectableObjectsBottle);
     this.addObjectsToMap(this.throwableObjects);
@@ -181,6 +188,7 @@ class World {
     }
     mo.draw(this.ctx);
     mo.drawFrame(this.ctx);
+   
 
     if (mo.otherDirection) {
       this.flipImageBack(mo);

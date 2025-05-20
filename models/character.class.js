@@ -1,11 +1,11 @@
 class Character extends MovableObject {
   IMAGES_WALKING = [
-    "../img/2_character_pepe/2_walk/W-21.png",
-    "../img/2_character_pepe/2_walk/W-22.png",
-    "../img/2_character_pepe/2_walk/W-23.png",
-    "../img/2_character_pepe/2_walk/W-24.png",
-    "../img/2_character_pepe/2_walk/W-25.png",
-    "../img/2_character_pepe/2_walk/W-26.png",
+    "img/2_character_pepe/2_walk/W-21.png",
+    "img/2_character_pepe/2_walk/W-22.png",
+    "img/2_character_pepe/2_walk/W-23.png",
+    "img/2_character_pepe/2_walk/W-24.png",
+    "img/2_character_pepe/2_walk/W-25.png",
+    "img/2_character_pepe/2_walk/W-26.png",
   ];
 
   IMAGES_JUMPING = [
@@ -48,9 +48,10 @@ class Character extends MovableObject {
   collectedCoins = 0;
   collectedBottles = 5;
   
+
   constructor() {
     super();
-    this.loadImage("../img/2_character_pepe/2_walk/W-21.png");
+    this.loadImage("img/2_character_pepe/2_walk/W-21.png");
     this.y = 155;
     this.height = 280;
     this.loadImages(this.IMAGES_WALKING);
@@ -99,7 +100,7 @@ class Character extends MovableObject {
       }
     }, 1000 / 20)
   }
-  
+
 jumpOnEnemy() {
   this.stopGravity()
     this.speedY = 28;
