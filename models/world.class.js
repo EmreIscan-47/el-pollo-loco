@@ -1,5 +1,6 @@
 class World {
   character = new Character();
+  endboss = new Endboss();
   level = level1;
   ctx;
   canvas;
@@ -13,6 +14,9 @@ class World {
   throwableObjects = [];
   bottleAmountThrown;
   runIntervall;
+  attackIntervall;
+  animateWalkingIntervall;
+  startBattleIntervall;
 
   collectableObjectsCoins = [
     new Coins(),
@@ -44,8 +48,11 @@ class World {
     this.run();
     this.statusBar[2].loadStatusBar("BOTTLE", this.character.collectedBottles);
     setInterval(() => {
-          this.checkThrowObjects();
+      this.checkThrowObjects();
     }, 1400);
+    this.startBattleIntervall = setInterval(() => {
+      this.startWalkingEndbossAnimation();
+    }, 20);
   }
 
   setWorld() {
@@ -57,14 +64,14 @@ class World {
       this.checkCollisionsEnemy();
       this.checkCollisionsCoins();
       this.checkCollisionsBottles();
-      this.checkCollisionWithEndboss(); 
+      this.checkCollisionWithEndboss();
     }, 20);
   }
 
   checkThrowObjects() {
     if (this.keyboard.THROWBOTTLE && this.character.collectedBottles != 0) {
       this.character.collectedBottles -= 1;
-    
+
       this.statusBar[2].loadStatusBar(
         "BOTTLE",
         this.character.collectedBottles
@@ -75,9 +82,16 @@ class World {
       );
       this.throwableObjects.push(bottle);
       console.log(this.throwableObjects.length);
-      
-      
+
       this.bottleAmountThrown = this.throwableObjects.length;
+    }
+  }
+
+  startWalkingEndbossAnimation() {
+    if (this.character.collectedCoins == 5) {
+      clearInterval(this.startBattleIntervall);
+
+      this.level.enemies[3].startEndBossBattle(true);
     }
   }
 
@@ -122,28 +136,25 @@ class World {
       } else if (this.character.isColliding(enemy)) {
         this.character.hit();
         this.statusBar[0].loadStatusBar("HEALTH", this.character.energy);
-        console.log(enemy.name);
       }
     });
   }
 
+  checkEndBossAttack() {}
+
   checkCollisionWithEndboss() {
-  
     if (this.throwableObjects[this.bottleAmountThrown - 1] != undefined) {
       this.level.enemies.forEach((enemy) => {
         if (
           this.throwableObjects[this.bottleAmountThrown - 1].isColliding(enemy)
         ) {
           if (enemy.name == "Endboss") {
-          
             clearInterval(this.runIntervall);
-            console.log(this.bottleAmountThrown - 1);
-            
             this.throwableObjects[this.bottleAmountThrown - 1].splashingOnEnemy(
               this.x,
               this.y
             );
-             this.run()
+            this.run();
           }
         }
       });
@@ -188,7 +199,6 @@ class World {
     }
     mo.draw(this.ctx);
     mo.drawFrame(this.ctx);
-   
 
     if (mo.otherDirection) {
       this.flipImageBack(mo);
