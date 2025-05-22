@@ -1,15 +1,14 @@
 class World {
   character = new Character();
-  endboss = new Endboss();
   level = level1;
   ctx;
   canvas;
   keyboard;
   camera_x = 0;
   statusBar = [
-    new StatusBar("HEALTH", 0, 100),
-    new StatusBar("COINS", 50, 0),
-    new StatusBar("BOTTLE", 100, 0),
+    new StatusBar("HEALTH", 0, 20, 100),
+    new StatusBar("COINS", 50, 20, 0),
+    new StatusBar("BOTTLE", 100, 20, 0)
   ];
   throwableObjects = [];
   bottleAmountThrown;
@@ -17,6 +16,7 @@ class World {
   attackIntervall;
   animateWalkingIntervall;
   startBattleIntervall;
+  thrownBottle = false;
 
   collectableObjectsCoins = [
     new Coins(),
@@ -48,8 +48,9 @@ class World {
     this.run();
     this.statusBar[2].loadStatusBar("BOTTLE", this.character.collectedBottles);
     setInterval(() => {
-      this.checkThrowObjects();
-    }, 1400);
+        this.checkThrowObjects();
+
+    }, 500);
     this.startBattleIntervall = setInterval(() => {
       this.startWalkingEndbossAnimation();
     }, 20);
@@ -70,8 +71,13 @@ class World {
 
   checkThrowObjects() {
     if (this.keyboard.THROWBOTTLE && this.character.collectedBottles != 0) {
+        if (!this.thrownBottle) {
+
       this.character.collectedBottles -= 1;
 
+      this.thrownBottle = true;
+      console.log(this.thrownBottle);
+      
       this.statusBar[2].loadStatusBar(
         "BOTTLE",
         this.character.collectedBottles
@@ -81,9 +87,12 @@ class World {
         this.character.y + 100
       );
       this.throwableObjects.push(bottle);
-      console.log(this.throwableObjects.length);
 
       this.bottleAmountThrown = this.throwableObjects.length;
+      setInterval(() => {
+         this.thrownBottle = false;
+      }, 2500);
+       }
     }
   }
 
@@ -91,6 +100,8 @@ class World {
     if (this.character.collectedCoins == 5) {
       clearInterval(this.startBattleIntervall);
       this.level.enemies[3].startEndBossBattle(true, false, false);
+      let endbossBar = new StatusBar("ENDBOSS", 0, 500, 100);
+      this.statusBar.push(endbossBar)
     }
   }
 
@@ -159,6 +170,8 @@ class World {
               this.y
             );
             enemy.startEndBossBattle(false, false, true);
+            enemy.energy -= 20;
+            this.statusBar[3].loadStatusBar("ENDBOSS", enemy.energy);
             this.run();
             }
          

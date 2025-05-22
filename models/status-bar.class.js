@@ -25,15 +25,25 @@ class StatusBar extends DrawableObjects {
     "img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/80.png",
     "img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png",
   ];
+
+  IMAGES_ENDBOSS = [
+    "img/7_statusbars/2_statusbar_endboss/orange/orange0.png",
+    "img/7_statusbars/2_statusbar_endboss/orange/orange20.png",
+    "img/7_statusbars/2_statusbar_endboss/orange/orange40.png",
+    "img/7_statusbars/2_statusbar_endboss/orange/orange60.png",
+    "img/7_statusbars/2_statusbar_endboss/orange/orange80.png",
+    "img/7_statusbars/2_statusbar_endboss/orange/orange100.png",
+  ];
   
   percentage = 100;
   collect = 0;
-  constructor(imgs, y, percentage) {
+  constructor(imgs, y, x, percentage) {
     super();
     this.loadImages(this.IMAGES_HEALTH);
     this.loadImages(this.IMAGES_COINS);
     this.loadImages(this.IMAGES_BOTTLE);
-    this.x = 20;
+    this.loadImages(this.IMAGES_ENDBOSS);
+    this.x = x;
     this.y = y;
     this.width = 150;
     this.height = 50;
@@ -57,15 +67,19 @@ loadStatusBar(imgs, percentage){
       this.percentage = percentage;
         path = this.IMAGES_BOTTLE[this.resolveImageIndex()];
         this.img = this.imageCache[path];
+        break;
+        case "ENDBOSS": 
+         this.percentage = percentage / 20;
+        path = this.IMAGES_ENDBOSS[this.resolveImageIndex()];
+        this.img = this.imageCache[path];
       break;
     default:
       console.log("Nothing here");
-      
       break;
   }
 }
 
- 
+
 
   resolveImageIndex() {
     if (this.percentage == 5) {
