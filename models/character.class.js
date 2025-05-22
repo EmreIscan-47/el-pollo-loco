@@ -33,11 +33,9 @@ class Character extends MovableObject {
   IMAGES_HURT = [
     "img/2_character_pepe/4_hurt/H-41.png",
     "img/2_character_pepe/4_hurt/H-42.png",
-    "img/2_character_pepe/4_hurt/H-43.png"
-  ]
+    "img/2_character_pepe/4_hurt/H-43.png",
+  ];
   world;
-
-
 
   speed = 3;
   currentImage = 0;
@@ -47,7 +45,6 @@ class Character extends MovableObject {
   checkEnergy = 100;
   collectedCoins = 4;
   collectedBottles = 5;
-  
 
   constructor() {
     super();
@@ -57,7 +54,7 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
     this.loadImages(this.IMAGES_DYING);
-    this.loadImages(this.IMAGES_HURT)
+    this.loadImages(this.IMAGES_HURT);
     this.applyGravity();
     this.animate();
   }
@@ -65,25 +62,22 @@ class Character extends MovableObject {
   animate() {
     setInterval(() => {
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-       this.moveRight();
+        this.moveRight();
       }
-
       if (this.world.keyboard.LEFT && this.x > 0) {
         this.moveLeft();
         this.otherDirection = true;
       }
-
       if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-       this.jump()
+        this.jump();
       }
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 
     setInterval(() => {
-      if(this.isDead()) {
-        this.playAnimation(this.IMAGES_DYING)
+      if (this.isDead()) {
+        this.playAnimation(this.IMAGES_DYING);
       }
-
       if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
       } else {
@@ -96,16 +90,13 @@ class Character extends MovableObject {
     setInterval(() => {
       if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
-        this.checkEnergy -= 5;    
+        this.checkEnergy -= 5;
       }
-    }, 1000 / 20)
+    }, 1000 / 20);
   }
 
-jumpOnEnemy() {
-  this.stopGravity()
+  jumpOnEnemy() {
+    this.stopGravity();
     this.speedY = 28;
-    
   }
-  
- 
 }

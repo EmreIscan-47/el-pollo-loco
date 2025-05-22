@@ -90,8 +90,7 @@ class World {
   startWalkingEndbossAnimation() {
     if (this.character.collectedCoins == 5) {
       clearInterval(this.startBattleIntervall);
-
-      this.level.enemies[3].startEndBossBattle(true);
+      this.level.enemies[3].startEndBossBattle(true, false, false);
     }
   }
 
@@ -136,6 +135,9 @@ class World {
       } else if (this.character.isColliding(enemy)) {
         this.character.hit();
         this.statusBar[0].loadStatusBar("HEALTH", this.character.energy);
+        if (enemy.name = "Endboss") {
+          enemy.startEndBossBattle(false, true, false);
+        }
       }
     });
   }
@@ -149,12 +151,17 @@ class World {
           this.throwableObjects[this.bottleAmountThrown - 1].isColliding(enemy)
         ) {
           if (enemy.name == "Endboss") {
+            if (enemy.endBossGotHit) {
+              enemy.endBossGotHit = false;
             clearInterval(this.runIntervall);
             this.throwableObjects[this.bottleAmountThrown - 1].splashingOnEnemy(
               this.x,
               this.y
             );
+            enemy.startEndBossBattle(false, false, true);
             this.run();
+            }
+         
           }
         }
       });

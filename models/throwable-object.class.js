@@ -70,7 +70,6 @@ class ThrowableObjects extends MovableObject {
         this.loadImage("");
         return;
       }
-      console.log("Yoo");
 
       this.playAnimation(this.IMAGES_SPLASH);
       frame++;
@@ -93,9 +92,10 @@ class ThrowableObjects extends MovableObject {
     this.bottleSplashInterval = setInterval(() => {
       this.playAnimation(this.IMAGES_SPLASH);
       setInterval(() => {
+        
       this.y = 10000;
       clearInterval(this.bottleSplashInterval);
-      }, 85);
+      }, 50);
     }, 100);
   }
 }

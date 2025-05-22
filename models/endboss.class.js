@@ -43,10 +43,14 @@ class Endboss extends MovableObject {
   energy = 100;
   checkEnergy = 100;
   animateEndbossInterval;
+  animateWalkingIntervall;
   animateLeftInterval;
   animateAlertInterval;
   animateAttackInterval;
+  animateHurtInterval;
   startEndBattle = false;
+  attackCharacter = false;
+  endBossGotHit = true;
 
   constructor(startBattle) {
     super().loadImage(this.IMAGES_ALERT[0]);
@@ -56,25 +60,29 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
-    this.x = 1500;
+    this.x = 1000;
     this.height = 500;
     this.width = 500;
     this.y = -30;
-
-    console.log("Yo");
-    
-    this.startEndBossBattle(false);
-    
+    this.startEndBossBattle(false, false, false);
     this.speed = 1.5 + Math.random() * 4.25;
   }
 
-  startEndBossBattle(startEndBattle) {
-this.startEndBattle = startEndBattle;
-console.log(this.startEndBattle);
-
- if (this.startEndBattle) {
-      clearInterval(this.animateAlertInterval)
+  startEndBossBattle(startEndBattle, attackCharacter, hurtEndboss) {
+    if (startEndBattle) {
+      clearInterval(this.animateAlertInterval);
+      clearInterval(this.animateAttackInterval);
+      clearInterval(this.animateHurtInterval),
+      this.animateEndBoss();
+    } else if (attackCharacter) {
+      clearInterval(this.animateWalkingInterval);
+      clearInterval(this.animateLeftInterval);
+      clearInterval(this.animateHurtInterval)
       this.animateAttack();
+    } else if (hurtEndboss) {
+      clearInterval(this.animateWalkingInterval);
+      clearInterval(this.animateLeftInterval);
+      this.animateHurtEndboss();
     } else {
       this.animate();
     }
@@ -83,21 +91,48 @@ console.log(this.startEndBattle);
   animate() {
     this.animateAlertInterval = setInterval(() => {
       this.playAnimation(this.IMAGES_ALERT);
-    }, 1000);
+    }, 6500 / 5);
   }
 
   animateEndBoss() {
-    this.animateAttackInterval = setInterval(() => {
+    this.animateWalkingInterval = setInterval(() => {
       this.playAnimation(this.IMAGES_WALKING);
     }, 6500 / 60);
     this.animateLeftInterval = setInterval(() => {
       this.moveLeft();
+      
     }, 2000 / 60);
   }
 
   animateAttack() {
+    let frame = 0;
     this.animateAttackInterval = setInterval(() => {
-      this.playAnimation(this.IMAGES_ATTACK);
-    }, 3200 / 30);
+      if (frame >= this.IMAGES_ATTACK.length) {
+        console.log("Yo1");
+        this.startEndBossBattle(true, false, false);
+      } else {
+        let i = frame % this.IMAGES_ATTACK.length;
+        let path = this.IMAGES_ATTACK[i];
+        this.img = this.imageCache[path];
+        frame++;
+      }
+    }, 100);
+  }
+
+  animateHurtEndboss() {
+      let frame = 0;
+      console.log(frame >= this.IMAGES_HURT.length);
+    this.animateHurtInterval = setInterval(() => {
+      if (frame >= this.IMAGES_HURT.length) {
+        this.endBossGotHit = true;
+        this.startEndBossBattle(true, false, false);
+        return;
+      } else {
+        let i = frame % this.IMAGES_HURT.length;
+        let path = this.IMAGES_HURT[i];
+        this.img = this.imageCache[path];
+        frame++;
+      }
+    }, 100);
   }
 }
