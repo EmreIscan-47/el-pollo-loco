@@ -49,9 +49,9 @@ class MovableObject extends DrawableObjects {
 
   isColliding(mo) {
     return (
-      this.x + this.width > mo.x + 30 &&
-      this.y + this.height > mo.y + 50 &&
-      this.x < mo.x + 30 &&
+      this.x + this.width  > mo.x + 30 &&
+      this.y + this.height > mo.y + 60 &&
+      this.x < mo.x + 20 &&
       this.y < mo.y + mo.height
     );
   }

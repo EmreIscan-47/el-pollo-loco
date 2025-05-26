@@ -6,8 +6,11 @@ class Keyboard {
     DOWN = false;
     JUMP = false;
     THROWBOTTLE = false;
+    shortIdle = false;
+    longIdle = false;
 
-    constructor(parameters) {
+
+    constructor() {
         
     }
 }

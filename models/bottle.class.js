@@ -1,9 +1,14 @@
 class Bottle extends CollectableObjects{
 
 
-    constructor() {
+    constructor(bottleOnGround) {
         super();
-        this.loadImage("img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png");
+        if (bottleOnGround == "right") {
+            this.loadImage("img/6_salsa_bottle/1_salsa_bottle_on_ground.png");
+        }else {
+            this.loadImage("img/6_salsa_bottle/2_salsa_bottle_on_ground.png");
+        }
+        
         this.x = 200 + Math.random() * 2000;
         if (this.x > 2000) {
             this.x -= 300;

@@ -69,7 +69,6 @@ class Endboss extends MovableObject {
     this.y = -30;
     this.startEndBossBattle(false, false, false);
     this.deadInterval = setInterval(() => {
-       console.log(this.energy);
        
       if (this.energy == 0) {
         this.endBossDeadd = true;
@@ -151,9 +150,7 @@ class Endboss extends MovableObject {
   }
 
    endBossDead() {
-
     this.clearEverything();
-            console.log("YOLO");
     setInterval(() => {
         
        this.playAnimation(this.IMAGES_DEAD)

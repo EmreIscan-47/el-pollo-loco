@@ -1,11 +1,38 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let lastKeyTime = Date.now();
+let timerInterval = null;
 
 function init() {
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
 }
+
+function updateIdleTime() {
+  const idleSeconds = ((Date.now() - lastKeyTime) / 1000).toFixed(1);
+
+
+  if (10 >= idleSeconds && idleSeconds >= 2) {
+     keyboard.longIdle = false;
+    keyboard.shortIdle = true;
+  } else if (idleSeconds > 10) {    
+    keyboard.longIdle = true;
+    keyboard.shortIdle = false;
+  } else {
+     keyboard.longIdle = false;
+     keyboard.shortIdle = false;
+  }
+}
+
+function resetTimer() {
+  lastKeyTime = Date.now();
+  updateIdleTime();
+}
+
+window.addEventListener('keydown', resetTimer);
+
+timerInterval = setInterval(updateIdleTime, 100);
 
 window.addEventListener("onkeypress", (e) => {
   console.log(e);

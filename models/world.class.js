@@ -30,13 +30,13 @@ class World {
   ];
 
   collectableObjectsBottle = [
-    new Bottle(),
-    new Bottle(),
-    new Bottle(),
-    new Bottle(),
-    new Bottle(),
-    new Bottle(),
-    new Bottle(),
+    new Bottle("right"),
+    new Bottle("left"),
+    new Bottle("right"),
+    new Bottle("left"),
+    new Bottle("right"),
+    new Bottle("left"),
+    new Bottle("right"),
   ];
 
   constructor(canvas, keyboard) {
