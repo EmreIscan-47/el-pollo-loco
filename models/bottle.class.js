@@ -1,5 +1,11 @@
 class Bottle extends CollectableObjects{
-
+ 
+    offset = {
+    top: 80,
+    left: 70,
+    right: 70,
+    bottom: 60,
+  };
 
     constructor(bottleOnGround) {
         super();

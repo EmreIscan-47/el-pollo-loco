@@ -10,14 +10,14 @@ class MovableObject extends DrawableObjects {
 
   offset = {
     top: 0,
-    length: 0,
+    left: 0,
     right: 0,
     bottom: 0
   };
 
   offset_head = {
     top: 0,
-    length: 0,
+    left: 0,
     right: 0,
     bottom: 0
   };
@@ -47,7 +47,7 @@ class MovableObject extends DrawableObjects {
     }
   }
 
-  isColliding(mo) {
+  isCollidingObjects(mo) {
     return (
       this.x + this.width  > mo.x + 30 &&
       this.y + this.height > mo.y + 60 &&
@@ -57,7 +57,7 @@ class MovableObject extends DrawableObjects {
   }
 
   isCollidingOnTop(mo) {
-    const tolerance = 40;
+    const tolerance = 20;
     const horizontalOverlap =
       this.x + this.width > mo.x && this.x < mo.x + mo.width;
     const landsOnTop =
@@ -65,12 +65,15 @@ class MovableObject extends DrawableObjects {
     return horizontalOverlap && landsOnTop;
   }
 
-/*   isColliding(mo) {
-  return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
-  this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && 
-  this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
-  this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
-} */
+  isColliding(mo) {
+    
+   return (
+      this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+      this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+      this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+      this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
+    );
+}
 
   positionFigure(x, y, height, width) {
     this.x = x;

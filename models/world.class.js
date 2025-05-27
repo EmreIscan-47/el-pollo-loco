@@ -8,7 +8,7 @@ class World {
   statusBar = [
     new StatusBar("HEALTH", 0, 20, 100),
     new StatusBar("COINS", 50, 20, 0),
-    new StatusBar("BOTTLE", 100, 20, 0)
+    new StatusBar("BOTTLE", 100, 20, 0),
   ];
   throwableObjects = [];
   bottleAmountThrown;
@@ -48,8 +48,7 @@ class World {
     this.run();
     this.statusBar[2].loadStatusBar("BOTTLE", this.character.collectedBottles);
     setInterval(() => {
-        this.checkThrowObjects();
-
+      this.checkThrowObjects();
     }, 500);
     this.startBattleIntervall = setInterval(() => {
       this.startWalkingEndbossAnimation();
@@ -71,43 +70,42 @@ class World {
 
   checkThrowObjects() {
     if (this.keyboard.THROWBOTTLE && this.character.collectedBottles != 0) {
-        if (!this.thrownBottle) {
+      if (!this.thrownBottle) {
+        this.character.collectedBottles -= 1;
 
-      this.character.collectedBottles -= 1;
+        this.thrownBottle = true;
+        console.log(this.thrownBottle);
 
-      this.thrownBottle = true;
-      console.log(this.thrownBottle);
-      
-      this.statusBar[2].loadStatusBar(
-        "BOTTLE",
-        this.character.collectedBottles
-      );
-      let bottle = new ThrowableObjects(
-        this.character.x,
-        this.character.y + 100
-      );
-      this.throwableObjects.push(bottle);
+        this.statusBar[2].loadStatusBar(
+          "BOTTLE",
+          this.character.collectedBottles
+        );
+        let bottle = new ThrowableObjects(
+          this.character.x,
+          this.character.y + 100
+        );
+        this.throwableObjects.push(bottle);
 
-      this.bottleAmountThrown = this.throwableObjects.length;
-      setInterval(() => {
-         this.thrownBottle = false;
-      }, 2500);
-       }
+        this.bottleAmountThrown = this.throwableObjects.length;
+        setInterval(() => {
+          this.thrownBottle = false;
+        }, 1500);
+      }
     }
   }
 
   startWalkingEndbossAnimation() {
     if (this.character.collectedCoins == 5) {
       clearInterval(this.startBattleIntervall);
-      this.level.enemies[3].startEndBossBattle(true, false, false);
+      this.level.enemies[6].startEndBossBattle(true, false, false);
       let endbossBar = new StatusBar("ENDBOSS", 0, 500, 100);
-      this.statusBar.push(endbossBar)
+      this.statusBar.push(endbossBar);
     }
   }
 
   checkCollisionsCoins() {
     this.collectableObjectsCoins.forEach((coin) => {
-      if (this.character.isColliding(coin)) {
+      if (this.character.isCollidingObjects(coin)) {
         if (this.character.collectedCoins <= 4) {
           this.character.collectedCoins += 1;
           this.statusBar[1].loadStatusBar(
@@ -124,7 +122,7 @@ class World {
 
   checkCollisionsBottles() {
     this.collectableObjectsBottle.forEach((bottle) => {
-      if (this.character.isColliding(bottle)) {
+      if (this.character.isCollidingObjects(bottle)) {
         if (this.character.collectedBottles <= 4) {
           this.character.collectedBottles += 1;
           bottle.loadImage("");
@@ -146,7 +144,7 @@ class World {
       } else if (this.character.isColliding(enemy)) {
         this.character.hit();
         this.statusBar[0].loadStatusBar("HEALTH", this.character.energy);
-        if (enemy.name = "Endboss") {
+        if ((enemy.name = "Endboss")) {
           enemy.startEndBossBattle(false, true, false);
         }
       }
@@ -158,23 +156,26 @@ class World {
   checkCollisionWithEndboss() {
     if (this.throwableObjects[this.bottleAmountThrown - 1] != undefined) {
       this.level.enemies.forEach((enemy) => {
-        if (
-          this.throwableObjects[this.bottleAmountThrown - 1].isColliding(enemy)
-        ) {
-          if (enemy.name == "Endboss") {
-            if (enemy.endBossGotHit) {
-              enemy.endBossGotHit = false;
-            clearInterval(this.runIntervall);
-            this.throwableObjects[this.bottleAmountThrown - 1].splashingOnEnemy(
-              this.x,
-              this.y
-            );
-            enemy.startEndBossBattle(false, false, true);
-            enemy.energy -= 20;
-            this.statusBar[3].loadStatusBar("ENDBOSS", enemy.energy);
-            this.run();
+        for (let index = 0; index < this.throwableObjects.length; index++) {
+          if (this.throwableObjects[index].isCollidingObjects(enemy)) {
+            if (enemy.name == "Endboss") {
+              if (enemy.endBossGotHit) {
+                enemy.endBossGotHit = false;
+                clearInterval(this.runIntervall);
+                this.throwableObjects[
+                  index
+                ].splashingOnEnemy(this.x, this.y);
+                enemy.startEndBossBattle(false, false, true);
+                enemy.energy -= 20;
+                if (enemy.energy == 0) {
+                  this.character.characterWon = true;
+
+                  
+                }
+                this.statusBar[3].loadStatusBar("ENDBOSS", enemy.energy);
+                this.run();
+              }
             }
-         
           }
         }
       });
@@ -219,6 +220,7 @@ class World {
     }
     mo.draw(this.ctx);
     mo.drawFrame(this.ctx);
+    mo.drawOffsetFrame(this.ctx)
 
     if (mo.otherDirection) {
       this.flipImageBack(mo);

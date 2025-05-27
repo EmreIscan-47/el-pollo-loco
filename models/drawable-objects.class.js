@@ -38,7 +38,7 @@ class DrawableObjects {
     }
   }
 
-  /* drawOffsetFrame(ctx) {
+  drawOffsetFrame(ctx) {
     if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
       ctx.beginPath();
       ctx.lineWidth = "5";
@@ -66,5 +66,5 @@ class DrawableObjects {
       );
       ctx.stroke();
     }
-  } */
+  }
 }

@@ -73,6 +73,14 @@ class Character extends MovableObject {
   collectedCoins = 0;
   collectedBottles = 5;
   characterDead = false;
+  characterWon = false;
+
+    offset = {
+    top: 130,
+    left: 80,
+    right: 90,
+    bottom: 10,
+  };
 
   constructor() {
     super();
@@ -90,8 +98,12 @@ class Character extends MovableObject {
   }
 
   animate() {
+    if (!this.characterWon) {
+      console.log("yo");
+      
+  
     setInterval(() => {
-      if (!this.characterDead) {
+      if (!this.characterDead && !this.characterWon) {
         if (
           this.world.keyboard.RIGHT &&
           this.x < this.world.level.level_end_x
@@ -119,7 +131,7 @@ class Character extends MovableObject {
        */
       /* console.log(this.world.keyboard.longIdle);
        */
-      if (!this.characterDead) {
+      if (!this.characterDead && !this.characterWon) {
         if (this.isAboveGround()) {
           this.playAnimation(this.IMAGES_JUMPING);
         } else {
@@ -132,6 +144,8 @@ class Character extends MovableObject {
         } else if (this.world.keyboard.longIdle) {
           this.playAnimation(this.IMAGES_LONG_IDLE);
         }
+      } else {
+        this.playAnimation(this.IMAGES_SHORT_IDLE);
       }
     }, 1000 / 10);
 
@@ -139,8 +153,10 @@ class Character extends MovableObject {
       if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
         this.checkEnergy -= 5;
+        this.x -= 10
       }
     }, 1000 / 20);
+      }
   }
 
   jumpOnEnemy() {
