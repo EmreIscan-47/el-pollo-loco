@@ -75,10 +75,10 @@ class Character extends MovableObject {
   characterDead = false;
   characterWon = false;
 
-    offset = {
-    top: 130,
-    left: 80,
-    right: 90,
+  offset = {
+    top: 90,
+    left: 20,
+    right: 30,
     bottom: 10,
   };
 

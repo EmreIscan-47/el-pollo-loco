@@ -46,7 +46,7 @@ class ThrowableObjects extends MovableObject {
   throw(x, y) {
     this.x = x;
     this.y = y;
-    this.speedY = 20;
+    this.speedY = 13;
     this.applyGravity();
     this.interval = setInterval(() => {
       if (this.y > 340) {

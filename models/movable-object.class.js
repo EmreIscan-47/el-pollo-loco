@@ -7,7 +7,6 @@ class MovableObject extends DrawableObjects {
   checkEnergy;
   gravityInterval;
 
-
   offset = {
     top: 0,
     left: 0,
@@ -49,9 +48,9 @@ class MovableObject extends DrawableObjects {
 
   isCollidingObjects(mo) {
     return (
-      this.x + this.width  > mo.x + 30 &&
-      this.y + this.height > mo.y + 60 &&
-      this.x < mo.x + 20 &&
+      this.x + this.width  > mo.x &&
+      this.y + this.height > mo.y &&
+      this.x < mo.x &&
       this.y < mo.y + mo.height
     );
   }

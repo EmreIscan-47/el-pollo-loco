@@ -1,9 +1,35 @@
-body {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.game-location {
+ position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-position: center;
+  background-image: url("img/5_background/game_background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0;
 }
 
 canvas {
   background-color: black;
+}
+
+.canvas-location {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.game-background {
+  height: 100%;
+  width: 100%;
+  z-index: 0;
 }

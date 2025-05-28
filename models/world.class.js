@@ -158,6 +158,7 @@ class World {
       this.level.enemies.forEach((enemy) => {
         for (let index = 0; index < this.throwableObjects.length; index++) {
           if (this.throwableObjects[index].isCollidingObjects(enemy)) {
+             enemy.chickenDead();
             if (enemy.name == "Endboss") {
               if (enemy.endBossGotHit) {
                 enemy.endBossGotHit = false;
