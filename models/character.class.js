@@ -95,9 +95,11 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_LONG_IDLE);
     this.applyGravity();
     this.animate();
+
   }
 
   animate() {
+    
     if (!this.characterWon) {
       console.log("yo");
       
@@ -124,7 +126,9 @@ class Character extends MovableObject {
     setInterval(() => {
       if (this.isDead()) {
         this.characterDead = true;
+        this.speedY += 10;
         this.playAnimation(this.IMAGES_DYING);
+
       }
 
       /* console.log(this.world.keyboard.shortIdle);
@@ -144,19 +148,24 @@ class Character extends MovableObject {
         } else if (this.world.keyboard.longIdle) {
           this.playAnimation(this.IMAGES_LONG_IDLE);
         }
-      } else {
-        this.playAnimation(this.IMAGES_SHORT_IDLE);
-      }
+      } 
     }, 1000 / 10);
 
     setInterval(() => {
       if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
         this.checkEnergy -= 5;
-        this.x -= 10
+        this.x -= 2
+        console.log(this.otherDirection);
+        
+        if (this.otherDirection == true) {
+
+          this.x += 10
+        }
       }
     }, 1000 / 20);
       }
+      
   }
 
   jumpOnEnemy() {

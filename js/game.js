@@ -3,16 +3,29 @@ let world;
 let keyboard = new Keyboard();
 let lastKeyTime = Date.now();
 let timerInterval = null;
+let startTheGame = true;
 
 function init() {
-  canvas = document.getElementById("canvas");
-  world = new World(canvas, keyboard);
+
 }
+
+function startGame() {
+  let startImgREF = document.getElementById("start-img");
+  let startButtonREF = document.getElementById("start-buttons")
+  if (!startImgREF.classList.contains("d-none")) {
+    startImgREF.classList.add("d-none");
+    startButtonREF.classList.add("d-none");
+    canvas = document.getElementById("canvas");
+    world = new World(canvas, keyboard);
+  } else {
+    startImgREF.classList.remove("d-none");
+    startButtonREF.classList.remove("d-none")
+  }
+}
+
 
 function updateIdleTime() {
   const idleSeconds = ((Date.now() - lastKeyTime) / 1000).toFixed(1);
-
-
   if (10 >= idleSeconds && idleSeconds >= 2) {
      keyboard.longIdle = false;
     keyboard.shortIdle = true;

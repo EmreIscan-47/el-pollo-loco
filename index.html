@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <script src="models/drawable-objects.class.js"></script>
     <script src="models/movable-object.class.js"></script>
     <script src="models/status-bar.class.js"></script>
     <script src="models/character.class.js"></script>
-    <script src="models/chicken.class.js"></script>´
+    <script src="models/chicken.class.js"></script>
+    ´
     <script src="models/little-chicken.class.js"></script>
     <script src="models/cloud.class.js"></script>
     <script src="models/world.class.js"></script>
@@ -23,18 +24,35 @@
     <script src="models/collectable-object.class.js"></script>
     <script src="models/coins.class.js"></script>
     <script src="models/bottle.class.js"></script>
+    <script src="js/templates.js"></script>
     <script src="js/game.js"></script>
-
-</head>
-<body onload="init()">
-   
-<div class="game-location">
-
- <div class="canvas-location">
-    <canvas id="canvas" width="720" height="480"></canvas>
+  </head>
+  <body onload="init()">
+    <div class="game-location">
+      <div class="canvas-location">
+        <canvas id="canvas" width="720" height="480"></canvas>
+      </div>
     </div>
-</div>
 
-    
-</body>
+ 
+    <div id="start-img" class="start-screen-img">
+      <div class="start-screen-position">
+        <img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="" />
+      </div>
+    </div>
+        <div id="start-buttons" class="start-screen">
+        <div class="start-screen-button">
+            <div class="top-buttons">
+                <button class="top-button"><img src="img/0_svgs/volume-icon.svg" alt=""> </button>
+                <button class="top-button"><img src="img/0_svgs/interesting-facts-icon.svg" alt=""></button>
+                <button class="top-button"></button>
+            </div>
+            <div class="bottom-button">
+                           <button onclick="startGame()" class="start-button"> Start the Game!</button>
+            </div>
+  
+        </div>
+          
+    </div>
+  </body>
 </html>

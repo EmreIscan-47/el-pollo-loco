@@ -1,11 +1,12 @@
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
 .game-location {
- position: absolute;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
@@ -15,6 +16,87 @@ html, body {
   background-repeat: no-repeat;
   background-size: cover;
   margin: 0;
+}
+
+.start-button {
+  width: 100px;
+  height: 50px;
+  background-color: #f75849b3;
+}
+
+.start-button:hover {
+  cursor: pointer;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+}
+.start-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.start-screen-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 100px;
+  height: 480px;
+}
+
+.bottom-button {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 350px;
+}
+
+.start-screen-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+}
+
+.start-screen-position {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    margin-top: 100px;
+}
+
+.start-screen-position img {
+  width: 722px;
+  height: 480px;
+}
+.top-buttons {
+  display: flex;
+  justify-content: end;
+  width: 650px;
+  gap: 20px;
+}
+
+.top-button {
+  width: 75px;
+  height: 75px;
+  border-radius: 50px;
+  background-color: rgb(228, 149, 3);
+}
+
+.top-button img {
+  width: 45px;
+  height: 45px;
+}
+
+.top-button h2 {
+  font-size: 12px;
 }
 
 canvas {
@@ -32,4 +114,8 @@ canvas {
   height: 100%;
   width: 100%;
   z-index: 0;
+}
+
+.d-none {
+  display: none;
 }

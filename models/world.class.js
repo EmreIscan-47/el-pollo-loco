@@ -144,7 +144,10 @@ class World {
       } else if (this.character.isColliding(enemy)) {
         this.character.hit();
         this.statusBar[0].loadStatusBar("HEALTH", this.character.energy);
-        if ((enemy.name = "Endboss")) {
+        console.log(enemy);
+        
+        if ((enemy.name == "Endboss")) {
+          
           enemy.startEndBossBattle(false, true, false);
         }
       }
@@ -158,7 +161,10 @@ class World {
       this.level.enemies.forEach((enemy) => {
         for (let index = 0; index < this.throwableObjects.length; index++) {
           if (this.throwableObjects[index].isCollidingObjects(enemy)) {
-             enemy.chickenDead();
+            if (enemy.name == "chicken" && enemy.chickenDead()) {
+               enemy.chickenDead();
+            }
+            
             if (enemy.name == "Endboss") {
               if (enemy.endBossGotHit) {
                 enemy.endBossGotHit = false;
@@ -170,8 +176,6 @@ class World {
                 enemy.energy -= 20;
                 if (enemy.energy == 0) {
                   this.character.characterWon = true;
-
-                  
                 }
                 this.statusBar[3].loadStatusBar("ENDBOSS", enemy.energy);
                 this.run();
