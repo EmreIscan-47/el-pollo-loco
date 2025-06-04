@@ -85,7 +85,7 @@ class Endboss extends MovableObject {
       }
     }, 1000);
 
-    this.speed = 1.5 + Math.random() * 4.25;
+    this.speed = 1.5 + Math.random() * 8.25;
   }
 
   startEndBossBattle(startEndBattle, attackCharacter, hurtEndboss) {
