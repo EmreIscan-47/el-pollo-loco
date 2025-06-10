@@ -57,20 +57,20 @@ window.addEventListener("onkeypress", (e) => {
 
 window.addEventListener("keydown", (event) => {
   if (event.keyCode == 37) {
-    keyboardPress(event.keyCode)
+    keyboardPress(event.keyCode);
     keyboard.LEFT = true;
   } else if (event.keyCode == 38) {
     keyboard.UP = true;
   } else if (event.keyCode == 39) {
-    keyboardPress(event.keyCode)
+    keyboardPress(event.keyCode);
     keyboard.RIGHT = true;
   } else if (event.keyCode == 40) {
     keyboard.DOWN = true;
   } else if (event.keyCode == 32) {
-    keyboardPress(event.keyCode)
+    keyboardPress(event.keyCode);
     keyboard.SPACE = true;
   } else if (event.keyCode == 68) {
-    keyboardPress(event.keyCode)
+    keyboardPress(event.keyCode);
     keyboard.THROWBOTTLE = true;
   }
 });
@@ -115,18 +115,52 @@ function keyboardDown(keyCode) {
 
 window.addEventListener("keyup", (event) => {
   if (event.keyCode == 37) {
-    keyboardDown(event.keyCode)
+    keyboardDown(event.keyCode);
     keyboard.LEFT = false;
   } else if (event.keyCode == 39) {
-    keyboardDown(event.keyCode)
+    keyboardDown(event.keyCode);
     keyboard.RIGHT = false;
   } else if (event.keyCode == 40) {
     keyboard.DOWN = false;
   } else if (event.keyCode == 32) {
-    keyboardDown(event.keyCode)
+    keyboardDown(event.keyCode);
     keyboard.SPACE = false;
   } else if (event.keyCode == 68) {
-    keyboardDown(event.keyCode)
+    keyboardDown(event.keyCode);
     keyboard.THROWBOTTLE = false;
   }
 });
+
+function openControls() {
+  let controlsInfoREF = document.getElementById("controls-info");
+  if (!controlsInfoREF.classList.contains("d-none")) {
+    controlsInfoREF.classList.add("d-none");
+  } else {
+    controlsInfoREF.classList.remove("d-none");
+  }
+}
+
+function openStory() {
+    let storyInfoREF = document.getElementById("story-info");
+  if (!storyInfoREF.classList.contains("d-none")) {
+    storyInfoREF.classList.add("d-none");
+  } else {
+    storyInfoREF.classList.remove("d-none");
+  }
+}
+
+function noClose(event) {
+  event.stopPropagation();
+}
+
+function changeSound() {
+  let soundOffSrc = "img/0_svgs/volume-muted-icon.svg";
+  let soundOnSrc = "img/0_svgs/volume-icon.svg";
+  let soundIconREF = document.getElementById("sound-icon");
+
+  if (soundIconREF.src.endsWith(soundOffSrc)) {
+    soundIconREF.src = soundOnSrc;
+  } else {
+    soundIconREF.src = soundOffSrc;
+  }
+}
