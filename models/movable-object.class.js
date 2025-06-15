@@ -6,6 +6,8 @@ class MovableObject extends DrawableObjects {
   energy = 100;
   checkEnergy;
   gravityInterval;
+  jumpSound = new Audio("audio/808216_17002826-hq.mp3");;
+  moveSound = new Audio("audio/moveSound.mp3");
 
   offset = {
     top: 0,
@@ -36,13 +38,14 @@ class MovableObject extends DrawableObjects {
 
   jump() {
     this.speedY = 18;
+    this.jumpSound.play()
   }
 
   isAboveGround() {
     if (this instanceof ThrowableObjects) {
       return true;
     } else {
-      return this.y < 156;
+      return this.y < 155;
     }
   }
 

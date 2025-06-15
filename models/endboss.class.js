@@ -54,6 +54,7 @@ class Endboss extends MovableObject {
   attackCharacter = false;
   endBossGotHit = true;
   endBossIsDead = false;
+  endBossHurtSound = new Audio("")
 
     offset = {
     top: 100,
@@ -85,7 +86,7 @@ class Endboss extends MovableObject {
       }
     }, 1000);
 
-    this.speed = 1.5 + Math.random() * 8.25;
+    this.speed = 1.5 + Math.random() * 6.25;
   }
 
   startEndBossBattle(startEndBattle, attackCharacter, hurtEndboss) {
@@ -127,7 +128,6 @@ class Endboss extends MovableObject {
 
   animateAttack() {
     if (!this.endBossIsDead) {
- 
     let frame = 0;
     this.animateAttackInterval = setInterval(() => {
       if (frame >= this.IMAGES_ATTACK.length) {
@@ -146,8 +146,6 @@ class Endboss extends MovableObject {
   animateHurtEndboss() {
     if (!this.endBossIsDead) {
       let frame = 0;
-      console.log(frame >= this.IMAGES_HURT.length);
-
       this.animateHurtInterval = setInterval(() => {
         if (frame >= this.IMAGES_HURT.length) {
           this.endBossGotHit = true;
@@ -168,6 +166,8 @@ class Endboss extends MovableObject {
     setInterval(() => {
       this.playAnimation(this.IMAGES_DEAD);
     }, 200);
+
+    jojo();
   }
 
   clearEverything() {

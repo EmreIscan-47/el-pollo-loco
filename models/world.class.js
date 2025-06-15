@@ -65,7 +65,7 @@ class World {
       this.checkCollisionsCoins();
       this.checkCollisionsBottles();
       this.checkCollisionWithEndboss();
-    }, 20);
+    }, 40);
   }
 
   checkThrowObjects() {
@@ -145,9 +145,7 @@ class World {
         this.character.hit();
         this.statusBar[0].loadStatusBar("HEALTH", this.character.energy);
         console.log(enemy);
-        
-        if ((enemy.name == "Endboss")) {
-          
+        if (enemy.name == "Endboss") {
           enemy.startEndBossBattle(false, true, false);
         }
       }
@@ -162,16 +160,14 @@ class World {
         for (let index = 0; index < this.throwableObjects.length; index++) {
           if (this.throwableObjects[index].isCollidingObjects(enemy)) {
             if (enemy.name == "chicken" && enemy.chickenDead()) {
-               enemy.chickenDead();
+              enemy.chickenDead();
             }
-            
+
             if (enemy.name == "Endboss") {
               if (enemy.endBossGotHit) {
                 enemy.endBossGotHit = false;
                 clearInterval(this.runIntervall);
-                this.throwableObjects[
-                  index
-                ].splashingOnEnemy(this.x, this.y);
+                this.throwableObjects[index].splashingOnEnemy(this.x, this.y);
                 enemy.startEndBossBattle(false, false, true);
                 enemy.energy -= 20;
                 if (enemy.energy == 0) {
@@ -225,7 +221,7 @@ class World {
     }
     mo.draw(this.ctx);
     mo.drawFrame(this.ctx);
-    mo.drawOffsetFrame(this.ctx)
+    mo.drawOffsetFrame(this.ctx);
 
     if (mo.otherDirection) {
       this.flipImageBack(mo);

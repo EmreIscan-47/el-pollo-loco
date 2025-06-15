@@ -4,16 +4,20 @@ let keyboard = new Keyboard();
 let lastKeyTime = Date.now();
 let timerInterval = null;
 let startTheGame = true;
+   let gameStartSound = new Audio("audio/gameStartSound.mp3");
 const keyboardLeftREF = document.getElementById("keyboard-left");
 const keyboardRightREF = document.getElementById("keyboard-right");
 const keyboardSpaceREF = document.getElementById("keyboard-space");
 const keyboardThrowREF = document.getElementById("keyboard-throw");
 
-function init() {}
+function init() {
+
+}
 
 function startGame() {
   let startImgREF = document.getElementById("start-img");
   let startButtonREF = document.getElementById("start-buttons");
+  gameStartSound.play();
   let controlsInGameREF = document.getElementById("controls-in-game");
   if (!startImgREF.classList.contains("d-none")) {
     startImgREF.classList.add("d-none");
@@ -28,6 +32,10 @@ function startGame() {
   }
 }
 
+function jojo() {
+
+  
+}
 function updateIdleTime() {
   const idleSeconds = ((Date.now() - lastKeyTime) / 1000).toFixed(1);
   if (10 >= idleSeconds && idleSeconds >= 2) {

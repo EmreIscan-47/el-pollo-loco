@@ -9,7 +9,7 @@ class Chicken extends MovableObject {
   ];
   currentImage = 0;
 
- offset = {
+  offset = {
     top: 9,
     right: 4,
     bottom: 10,
@@ -40,7 +40,11 @@ class Chicken extends MovableObject {
         this.y = 1000;
       }, 500);
     }, 200);
+      let enemyDead = new Audio("audio/enemyDead.mp3");
+       enemyDead.play();
   }
+
+
 
   animateChicken() {
     this.animateChickenInterval = setInterval(() => {

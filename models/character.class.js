@@ -64,7 +64,7 @@ class Character extends MovableObject {
 
   world;
 
-  speed = 3;
+  speed = 2;
   currentImage = 0;
   speedY = 0;
   acceleration = 1;
@@ -72,6 +72,7 @@ class Character extends MovableObject {
   checkEnergy = 100;
   collectedCoins = 0;
   collectedBottles = 5;
+  moveSound = new Audio("audio/footStep.mp3");
   characterDead = false;
   characterWon = false;
 
@@ -111,9 +112,17 @@ class Character extends MovableObject {
           this.x < this.world.level.level_end_x
         ) {
           this.moveRight();
+          if (!this.isAboveGround) {
+                 this.moveSound.play();
+          }
+     
         } else if (this.world.keyboard.LEFT && this.x > 0) {
           this.moveLeft();
+          if (!this.isAboveGround) {
+                 this.moveSound.play();
+          }
           this.otherDirection = true;
+          
         }
 
         if (this.world.keyboard.SPACE && !this.isAboveGround()) {
