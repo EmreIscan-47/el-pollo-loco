@@ -6,6 +6,7 @@ class ThrowableObjects extends MovableObject {
   interval;
   animationInterval;
   bottleSplashInterval;
+  bottleBreakSound = new Audio("audio/bottle_break.mp3")
 
   isSplashing = true;
   IMAGES_BOTTLES = [
@@ -63,6 +64,7 @@ class ThrowableObjects extends MovableObject {
     this.speedY = 0;
     clearInterval(this.bottleAnimationInterval);
     let frame = 0;
+         this.bottleBreakSound.play();
     this.animationInterval = setInterval(() => {
       if (frame >= this.IMAGES_SPLASH.length) {
         clearInterval(this.animationInterval);
@@ -92,10 +94,10 @@ class ThrowableObjects extends MovableObject {
     this.bottleSplashInterval = setInterval(() => {
       this.playAnimation(this.IMAGES_SPLASH);
       setInterval(() => {
-        
       this.y = 10000;
       clearInterval(this.bottleSplashInterval);
       }, 50);
     }, 100);
+     this.bottleBreakSound.play();
   }
 }
