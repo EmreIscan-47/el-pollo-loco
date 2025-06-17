@@ -172,6 +172,9 @@ class World {
                 enemy.energy -= 20;
                 if (enemy.energy == 0) {
                   this.character.characterWon = true;
+                  this.gameOver = true;
+
+
                 }
                 this.statusBar[3].loadStatusBar("ENDBOSS", enemy.energy);
                 this.run();
@@ -185,6 +188,14 @@ class World {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        if (this.gameOver) {
+      // Optional: Gewinnbildschirm zeichnen
+      this.ctx.font = "48px Arial";
+      this.ctx.fillStyle = "green";
+      this.ctx.fillText("Du hast gewonnen!", 100, 200);
+      return; // Keine weiteren Objekte mehr zeichnen!
+    }
     this.ctx.translate(this.camera_x, 0);
     this.ctx.globalCompositeOperation = "destination-over";
     this.ctx.translate(-this.camera_x, 0);

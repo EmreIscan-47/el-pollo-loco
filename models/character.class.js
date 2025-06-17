@@ -116,7 +116,7 @@ class Character extends MovableObject {
                  this.moveSound.play();
           }
      
-        } else if (this.world.keyboard.LEFT && this.x > 0) {
+        } else if (this.world.keyboard.LEFT /* && this.x > 0 */) {
           this.moveLeft();
           if (!this.isAboveGround) {
                  this.moveSound.play();

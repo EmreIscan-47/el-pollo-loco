@@ -25,6 +25,7 @@ function startGame() {
     controlsInGameREF.classList.remove("d-none");
     canvas = document.getElementById("canvas");
     canvas.style.border = "5px solid black";
+    initLevel();
     world = new World(canvas, keyboard);
   } else {
     startImgREF.classList.remove("d-none");
@@ -32,6 +33,14 @@ function startGame() {
   }
 }
 
+function deleteWorld() {
+
+  world = null;
+ initLevel();
+ world = new World(canvas, keyboard); 
+
+  
+}
 function jojo() {
 
   
