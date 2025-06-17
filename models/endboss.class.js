@@ -55,6 +55,7 @@ class Endboss extends MovableObject {
   endBossGotHit = true;
   endBossIsDead = false;
   endBossHurtSound = new Audio("")
+  endBossDeadSound = new Audio("audio/endBossDeadSound.mp3")
 
     offset = {
     top: 100,
@@ -167,7 +168,7 @@ class Endboss extends MovableObject {
       this.playAnimation(this.IMAGES_DEAD);
     }, 200);
 
-    jojo();
+    this.endBossDeadSound.play();
   }
 
   clearEverything() {

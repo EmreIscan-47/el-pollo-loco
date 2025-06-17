@@ -8,6 +8,7 @@ class MovableObject extends DrawableObjects {
   gravityInterval;
   jumpSound = new Audio("audio/808216_17002826-hq.mp3");;
   moveSound = new Audio("audio/moveSound.mp3");
+  chickenSound = new Audio("audio/chicken_sound.mp3");
 
   offset = {
     top: 0,

@@ -3,6 +3,12 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  font-family: 'zabars';
+}
+
+@font-face {
+  font-family: 'zabars';
+  src: url('./fonts/zabars.ttf') format('truetype');
 }
 
 :root {
@@ -28,6 +34,8 @@ body {
   height: 80px;
   border-radius: 50px;
   background-color: var(--backgroundsnohover);
+  font-family: 'zabars';
+  font-size: 24px;
 }
 
 .start-button:hover {
@@ -121,6 +129,7 @@ body {
 canvas {
   background-color: black;
   border-radius: 20px;
+  display: block;
 }
 
 .canvas-location {
@@ -234,6 +243,10 @@ canvas {
  padding-left: 20px;
 }
 
+.overlay-content h1 {
+  font-size: 40px;
+}
+
 .overlay-header {
   font-size: 28px;
   font-weight: 800;
@@ -259,4 +272,26 @@ canvas {
   align-items: center;
   padding-left: 50px;
   gap: 25px;
+}
+
+.story-text {
+  font-size: 28px;
+}
+
+@media only screen and (max-width: 760px) {
+  canvas {
+    width: 100%;
+  }
+  .start-screen-position {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-height: 480px) {
+  canvas {
+    height: 100vh;
+  }
+   .start-screen-position {
+   height: 100vh;
+  }
 }

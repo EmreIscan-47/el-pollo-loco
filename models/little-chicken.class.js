@@ -28,7 +28,8 @@ class LittleChicken extends MovableObject {
         this.y = 1000;
       }, 500);
       }, 200);
-     
+     let enemyDead = new Audio("audio/enemyDead.mp3");
+    enemyDead.play();
     }
   animateLittleChicken() {
        this.animateChickenInterval = setInterval(() => {

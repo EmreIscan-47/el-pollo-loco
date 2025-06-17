@@ -7,6 +7,7 @@ class Chicken extends MovableObject {
     "img/3_enemies_chicken/chicken_normal/1_walk/2_w.png",
     "img/3_enemies_chicken/chicken_normal/1_walk/3_w.png",
   ];
+  chickenSound = new Audio("audio/chicken_sound.mp3");
   currentImage = 0;
 
   offset = {
@@ -40,18 +41,18 @@ class Chicken extends MovableObject {
         this.y = 1000;
       }, 500);
     }, 200);
-      let enemyDead = new Audio("audio/enemyDead.mp3");
-       enemyDead.play();
+    let enemyDead = new Audio("audio/enemyDead.mp3");
+    enemyDead.play();
   }
-
-
 
   animateChicken() {
     this.animateChickenInterval = setInterval(() => {
       this.playAnimation(this.IMAGES_WALKING);
+      this.chickenSound.volume = 0.1;
+    this.chickenSound.play().catch(() => {});
     }, 6500 / 60);
-    /*  this.animateLeftInterval = setInterval(() => {
-            this.moveLeft();
-          }, 2000 / 60); */
+    this.animateLeftInterval = setInterval(() => {
+      this.moveLeft();
+    }, 2000 / 60);
   }
 }
