@@ -9,6 +9,7 @@ class Chicken extends MovableObject {
   ];
   chickenSound = new Audio("audio/chicken_sound.mp3");
   currentImage = 0;
+  stopSounds = false;
 
   offset = {
     top: 9,
@@ -48,8 +49,10 @@ class Chicken extends MovableObject {
   animateChicken() {
     this.animateChickenInterval = setInterval(() => {
       this.playAnimation(this.IMAGES_WALKING);
-      this.chickenSound.volume = 0.1;
-    this.chickenSound.play().catch(() => {});
+      if (!this.stopSounds) {
+        this.chickenSound.volume = 0.1;
+        this.chickenSound.play().catch(() => {});
+      }
     }, 6500 / 60);
     this.animateLeftInterval = setInterval(() => {
       this.moveLeft();

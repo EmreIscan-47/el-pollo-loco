@@ -75,7 +75,7 @@ class Character extends MovableObject {
   moveSound = new Audio("audio/footStep.mp3");
   characterDead = false;
   characterWon = false;
-
+  stopSounds = false;
   offset = {
     top: 90,
     left: 20,
@@ -96,85 +96,78 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_LONG_IDLE);
     this.applyGravity();
     this.animate();
-
   }
 
   animate() {
-    
     if (!this.characterWon) {
       console.log("yo");
-      
-  
-    setInterval(() => {
-      if (!this.characterDead && !this.characterWon) {
-        if (
-          this.world.keyboard.RIGHT &&
-          this.x < this.world.level.level_end_x
-        ) {
-          this.moveRight();
-          if (!this.isAboveGround) {
-                 this.moveSound.play();
+
+      setInterval(() => {
+        if (!this.characterDead && !this.characterWon) {
+          if (
+            this.world.keyboard.RIGHT &&
+            this.x < this.world.level.level_end_x
+          ) {
+            this.moveRight();
+
+            if (!this.stopSounds) {
+              this.moveSound.play();
+            }
+          } else if (this.world.keyboard.LEFT && this.x > 0) {
+            this.moveLeft();
+            if (!this.isAboveGround) {
+              this.moveSound.play();
+            }
+            this.otherDirection = true;
           }
-     
-        } else if (this.world.keyboard.LEFT /* && this.x > 0 */) {
-          this.moveLeft();
-          if (!this.isAboveGround) {
-                 this.moveSound.play();
+
+          if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+            this.jump();
           }
-          this.otherDirection = true;
-          
+          this.world.camera_x = -this.x + 100;
+        }
+      }, 1000 / 60);
+
+      setInterval(() => {
+        if (this.isDead()) {
+          this.characterDead = true;
+          this.speedY += 10;
+          this.playAnimation(this.IMAGES_DYING);
         }
 
-        if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-          this.jump();
-        }
-        this.world.camera_x = -this.x + 100;
-      }
-    }, 1000 / 60);
-
-    setInterval(() => {
-      if (this.isDead()) {
-        this.characterDead = true;
-        this.speedY += 10;
-        this.playAnimation(this.IMAGES_DYING);
-
-      }
-
-      /* console.log(this.world.keyboard.shortIdle);
-       */
-      /* console.log(this.world.keyboard.longIdle);
-       */
-      if (!this.characterDead && !this.characterWon) {
-        if (this.isAboveGround()) {
-          this.playAnimation(this.IMAGES_JUMPING);
-        } else {
-          if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-            this.playAnimation(this.IMAGES_WALKING);
+        /* console.log(this.world.keyboard.shortIdle);
+         */
+        /* console.log(this.world.keyboard.longIdle);
+         */
+        if (!this.characterDead && !this.characterWon) {
+          if (this.isAboveGround()) {
+            this.playAnimation(this.IMAGES_JUMPING);
+          } else {
+            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+              this.playAnimation(this.IMAGES_WALKING);
+            }
+          }
+          if (this.world.keyboard.shortIdle && this.isAboveGround) {
+            this.playAnimation(this.IMAGES_SHORT_IDLE);
+          } else if (this.world.keyboard.longIdle) {
+            this.playAnimation(this.IMAGES_LONG_IDLE);
           }
         }
-        if (this.world.keyboard.shortIdle && this.isAboveGround) {
-          this.playAnimation(this.IMAGES_SHORT_IDLE);
-        } else if (this.world.keyboard.longIdle) {
-          this.playAnimation(this.IMAGES_LONG_IDLE);
-        }
-      } 
-    }, 1000 / 10);
+      }, 1000 / 10);
 
-    setInterval(() => {
-      if (this.isHurt()) {
-        this.playAnimation(this.IMAGES_HURT);
-        this.checkEnergy -= 5;
-        this.x -= 2
-        console.log(this.otherDirection);
-        
-        if (this.otherDirection == true) {
+      setInterval(() => {
+        if (this.isHurt()) {
+          this.playAnimation(this.IMAGES_HURT);
+          this.checkEnergy -= 5;
+          this.x -= 2;
+          console.log(this.otherDirection);
 
-          this.x += 10
+          if (this.otherDirection == true) {
+            this.x += 10;
+          }
         }
-      }
-    }, 1000 / 20);
-      }
-      
+      }, 1000 / 20);
+    }
   }
 
   jumpOnEnemy() {

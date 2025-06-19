@@ -1,0 +1,5 @@
+class SoundObjects {
+    constructor(parameters) {
+        
+    }
+}

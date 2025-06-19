@@ -6,8 +6,8 @@ class ThrowableObjects extends MovableObject {
   interval;
   animationInterval;
   bottleSplashInterval;
-  bottleBreakSound = new Audio("audio/bottle_break.mp3")
-
+  bottleBreakSound = new Audio("audio/bottle_break.mp3");
+  stopSounds = false;
   isSplashing = true;
   IMAGES_BOTTLES = [
     "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
@@ -64,7 +64,10 @@ class ThrowableObjects extends MovableObject {
     this.speedY = 0;
     clearInterval(this.bottleAnimationInterval);
     let frame = 0;
-         this.bottleBreakSound.play();
+    if (!this.stopSounds) {
+       this.bottleBreakSound.play();
+    }
+   
     this.animationInterval = setInterval(() => {
       if (frame >= this.IMAGES_SPLASH.length) {
         clearInterval(this.animationInterval);
@@ -79,7 +82,7 @@ class ThrowableObjects extends MovableObject {
   }
 
   splashingOnEnemy() {
-    this.stopGravity()
+    this.stopGravity();
     this.x = this.x;
     this.y = this.y;
     clearInterval(this.interval);
@@ -88,16 +91,15 @@ class ThrowableObjects extends MovableObject {
     setInterval(() => {
       let i = this.x;
       this.x = i;
-      
     }, 20);
     this.speedY = 0;
     this.bottleSplashInterval = setInterval(() => {
       this.playAnimation(this.IMAGES_SPLASH);
       setInterval(() => {
-      this.y = 10000;
-      clearInterval(this.bottleSplashInterval);
+        this.y = 10000;
+        clearInterval(this.bottleSplashInterval);
       }, 50);
     }, 100);
-     this.bottleBreakSound.play();
+    this.bottleBreakSound.play();
   }
 }

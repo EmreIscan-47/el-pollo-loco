@@ -4,47 +4,73 @@ let keyboard = new Keyboard();
 let lastKeyTime = Date.now();
 let timerInterval = null;
 let startTheGame = true;
-   let gameStartSound = new Audio("audio/gameStartSound.mp3");
+let gameStartSound = new Audio("audio/gameStartSound.mp3");
 const keyboardLeftREF = document.getElementById("keyboard-left");
 const keyboardRightREF = document.getElementById("keyboard-right");
 const keyboardSpaceREF = document.getElementById("keyboard-space");
 const keyboardThrowREF = document.getElementById("keyboard-throw");
 
-function init() {
-
-}
+function init() {}
 
 function startGame() {
   let startImgREF = document.getElementById("start-img");
   let startButtonREF = document.getElementById("start-buttons");
-  gameStartSound.play();
   let controlsInGameREF = document.getElementById("controls-in-game");
   if (!startImgREF.classList.contains("d-none")) {
-    startImgREF.classList.add("d-none");
-    startButtonREF.classList.add("d-none");
-    controlsInGameREF.classList.remove("d-none");
     canvas = document.getElementById("canvas");
     canvas.style.border = "5px solid black";
     initLevel();
-    world = new World(canvas, keyboard);
+    world = new World(canvas, keyboard, false);
+    setTimeout(() => {
+      startImgREF.classList.add("d-none");
+      startButtonREF.classList.add("d-none");
+      controlsInGameREF.classList.remove("d-none");
+      gameStartSound.play();
+    }, 1000);
   } else {
     startImgREF.classList.remove("d-none");
     startButtonREF.classList.remove("d-none");
   }
 }
 
+function winScreen() {
+  let endImgREF = document.getElementById("end-img");
+  let controlsInGameREF = document.getElementById("controls-in-game");
+  if (!endImgREF.classList.contains("d-none")) {
+    endImgREF.classList.add("d-none");
+  } else {
+    endImgREF.classList.remove("d-none");
+    controlsInGameREF.classList.add("d-none");
+  }
+}
+
 function deleteWorld() {
+  let endImgREF = document.getElementById("end-img");
 
+  if (!endImgREF.classList.contains("d-none")) {
+    endImgREF.classList.add("d-none");
+  } else {
+    endImgREF.classList.remove("d-none");
+  }
   world = null;
- initLevel();
- world = new World(canvas, keyboard); 
-
-  
+  initLevel();
+  world = new World(canvas, keyboard, false);
 }
-function jojo() {
-
-  
+function returnToStartScreen() {
+  let startImgREF = document.getElementById("start-img");
+  let startButtonREF = document.getElementById("start-buttons");
+  let endImgREF = document.getElementById("end-img");
+  if (!endImgREF.classList.contains("d-none")) {
+    endImgREF.classList.add("d-none");
+    startImgREF.classList.remove("d-none");
+    startButtonREF.classList.remove("d-none");
+  } else {
+    startImgREF.classList.add("d-none");
+    startButtonREF.classList.add("d-none");
+    endImgREF.classList.remove("d-none");
+  }
 }
+
 function updateIdleTime() {
   const idleSeconds = ((Date.now() - lastKeyTime) / 1000).toFixed(1);
   if (10 >= idleSeconds && idleSeconds >= 2) {
@@ -158,7 +184,7 @@ function openControls() {
 }
 
 function openStory() {
-    let storyInfoREF = document.getElementById("story-info");
+  let storyInfoREF = document.getElementById("story-info");
   if (!storyInfoREF.classList.contains("d-none")) {
     storyInfoREF.classList.add("d-none");
   } else {

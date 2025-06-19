@@ -33,12 +33,26 @@
       </div>
     </section>
 
-    <section id="start-img" class="start-screen-img">
+    <section id="start-img" class="start-screen-img d-none">
       <div class="start-screen-position">
         <img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="" />
       </div>
     </section>
-    <section id="start-buttons" class="start-screen">
+
+    <section id="end-img" class="end-screen-img ">
+      <div class="end-screen-position">
+        <div class="end-screen-background"></div>
+        <img src="img/You won, you lost/You won A.png" alt="" />
+        <div class="end-screen-buttons">
+          <div class="end-screen-buttons-positions">
+            <button onclick="deleteWorld()" class="end-screen-button">Neu Starten!</button>
+            <button onclick="returnToStartScreen()" class="end-screen-button">Startbildschirm</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="start-buttons" class="start-screen d-none">
       <div class="start-screen-button">
         <div class="top-buttons">
           <button onclick="changeSound()" class="top-button">
@@ -59,6 +73,8 @@
       </div>
     </section>
 
+    <section></section>
+
     <section onclick="openStory()" id="story-info" class="overlay d-none">
       <div class="overlay-location">
         <div onclick="noClose(event)" class="overlay-info">
@@ -66,13 +82,12 @@
             <h1>Backstory...</h1>
             <span class="story-text"
               >In El Polo-Loco, you play as a daring adventurer in a
-              sun-scorched desert, trying to save the crazy
-              Chicken Kingdom. Mischievous chickens have scattered bottles and
-              golden coins everywhere to keep intruders away. Collect all the
-              coins to unlock the gate to the boss fight—a giant, wild chicken
-              threatening to plunge the desert kingdom into chaos. Only the
-              bravest can conquer the challenges and restore peace to the
-              land!</span
+              sun-scorched desert, trying to save the crazy Chicken Kingdom.
+              Mischievous chickens have scattered bottles and golden coins
+              everywhere to keep intruders away. Collect all the coins to unlock
+              the gate to the boss fight—a giant, wild chicken threatening to
+              plunge the desert kingdom into chaos. Only the bravest can conquer
+              the challenges and restore peace to the land!</span
             >
           </div>
         </div>
@@ -207,7 +222,6 @@
         <div class="controls-in-game-style">
           <div class="controls-in-game-stlye-description">
             <svg
-              onclick="deleteWorld()"
               id="keyboard-left"
               class="control-buttons"
               version="1.1"

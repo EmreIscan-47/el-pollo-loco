@@ -56,6 +56,7 @@ class Endboss extends MovableObject {
   endBossIsDead = false;
   endBossHurtSound = new Audio("")
   endBossDeadSound = new Audio("audio/endBossDeadSound.mp3")
+  stopSounds = false;
 
     offset = {
     top: 100,
@@ -167,8 +168,10 @@ class Endboss extends MovableObject {
     setInterval(() => {
       this.playAnimation(this.IMAGES_DEAD);
     }, 200);
-
-    this.endBossDeadSound.play();
+  if (!this.stopSounds) {
+      this.endBossDeadSound.play();
+  }
+  
   }
 
   clearEverything() {

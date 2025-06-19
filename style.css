@@ -94,6 +94,64 @@ body {
   border-radius: 20px;
 }
 
+.end-screen-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.end-screen-position {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 170px;
+}
+
+.end-screen-position img {
+  width: 422px;
+  height: 350px;
+  border-radius: 20px;
+  background-color: #f4a422;
+  z-index: 1;
+}
+
+.end-screen-background {
+  position: absolute;
+      width: 720px;
+    height: 480px;
+   border-radius: 15px;
+  background-color: #f4a422;
+ z-index: 0;
+}
+
+.end-screen-buttons {
+  position: absolute;
+  margin-top: 300px;
+  z-index: 200;
+}
+
+.end-screen-buttons-positions {
+  display: flex;
+  gap: 40px;
+}
+
+.end-screen-button {
+   width: 140px;
+   height: 70px;
+   border-radius: 40px;
+   background-color: var(--backgroundsnohover);
+   font-family: 'zabars';
+   font-size: 24px;
+}
+
+.end-screen-button:hover {
+  cursor: pointer;
+  background-color: var(--backgroundshover);
+}
+
 .top-buttons {
   display: flex;
   justify-content: end;

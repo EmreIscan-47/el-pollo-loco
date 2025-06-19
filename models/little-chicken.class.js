@@ -4,6 +4,8 @@ class LittleChicken extends MovableObject {
     "img/3_enemies_chicken/chicken_small/1_walk/2_w.png",
     "img/3_enemies_chicken/chicken_small/1_walk/3_w.png",
   ];
+  stopSounds = false;
+
   constructor() {
     super();
         this.name = "little_chicken";

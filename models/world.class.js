@@ -17,6 +17,9 @@ class World {
   animateWalkingIntervall;
   startBattleIntervall;
   thrownBottle = false;
+  stopSounds = false;
+  bottle;
+  winScreenShown = false;
 
   collectableObjectsCoins = [
     new Coins(),
@@ -46,6 +49,7 @@ class World {
     this.draw();
     this.setWorld();
     this.run();
+    this.gameOver = false;
     this.statusBar[2].loadStatusBar("BOTTLE", this.character.collectedBottles);
     setInterval(() => {
       this.checkThrowObjects();
@@ -69,7 +73,11 @@ class World {
   }
 
   checkThrowObjects() {
-    if (this.keyboard.THROWBOTTLE && this.character.collectedBottles != 0) {
+    if (
+      this.keyboard.THROWBOTTLE &&
+      this.character.collectedBottles != 0 &&
+      !this.stopSounds
+    ) {
       if (!this.thrownBottle) {
         this.character.collectedBottles -= 1;
 
@@ -80,11 +88,11 @@ class World {
           "BOTTLE",
           this.character.collectedBottles
         );
-        let bottle = new ThrowableObjects(
+        this.bottle = new ThrowableObjects(
           this.character.x,
           this.character.y + 100
         );
-        this.throwableObjects.push(bottle);
+        this.throwableObjects.push(this.bottle);
 
         this.bottleAmountThrown = this.throwableObjects.length;
         setInterval(() => {
@@ -173,8 +181,6 @@ class World {
                 if (enemy.energy == 0) {
                   this.character.characterWon = true;
                   this.gameOver = true;
-
-
                 }
                 this.statusBar[3].loadStatusBar("ENDBOSS", enemy.energy);
                 this.run();
@@ -186,16 +192,38 @@ class World {
     }
   }
 
-  draw() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  stopAllSounds() {
+    this.character.stopSounds = true;
+    this.stopSounds = true;
+    this.level.enemies.forEach((enemy) => {
+      enemy.stopSounds = true;
+    });
+  }
 
-        if (this.gameOver) {
-      // Optional: Gewinnbildschirm zeichnen
-      this.ctx.font = "48px Arial";
-      this.ctx.fillStyle = "green";
-      this.ctx.fillText("Du hast gewonnen!", 100, 200);
-      return; // Keine weiteren Objekte mehr zeichnen!
+  
+
+    draw() {
+    this.canvasDrawing();
+       if (this.gameOver) {
+        if (!this.winTime) {
+            this.winTime = Date.now();
+        }
+        if (Date.now() - this.winTime > 4000 && !this.winScreenShown) {
+            this.winScreenShown = true;
+            winScreen();
+            this.stopAllSounds();
+            return; // Danach nicht mehr weiterzeichnen
+        }
     }
+
+    self = this;
+    requestAnimationFrame(function () {
+      self.draw();
+    });
+  }
+
+  canvasDrawing() {
+   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
     this.ctx.globalCompositeOperation = "destination-over";
     this.ctx.translate(-this.camera_x, 0);
@@ -204,11 +232,6 @@ class World {
     this.addToMap(this.character);
     this.callAllAddObjectsToMap();
     this.ctx.translate(-this.camera_x, 0);
-    // Draw() wird immer wieder aufgerufen
-    self = this;
-    requestAnimationFrame(function () {
-      self.draw();
-    });
   }
 
   callAllAddObjectsToMap() {
