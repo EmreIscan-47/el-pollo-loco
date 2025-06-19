@@ -20,6 +20,7 @@ class World {
   stopSounds = false;
   bottle;
   winScreenShown = false;
+  stopGame = false;
 
   collectableObjectsCoins = [
     new Coins(),
@@ -151,8 +152,10 @@ class World {
         enemy.chickenDead();
       } else if (this.character.isColliding(enemy)) {
         this.character.hit();
+        if (this.character.energy == 0) {
+          this.gameOver = true;
+        }
         this.statusBar[0].loadStatusBar("HEALTH", this.character.energy);
-        console.log(enemy);
         if (enemy.name == "Endboss") {
           enemy.startEndBossBattle(false, true, false);
         }
@@ -181,6 +184,7 @@ class World {
                 if (enemy.energy == 0) {
                   this.character.characterWon = true;
                   this.gameOver = true;
+                  this.winScreenShown = true;
                 }
                 this.statusBar[3].loadStatusBar("ENDBOSS", enemy.energy);
                 this.run();
@@ -200,30 +204,33 @@ class World {
     });
   }
 
-  
+  draw() {
+    if (!this.stopGame) {
+      this.canvasDrawing();
+      if (this.gameOver) {
+        if (!this.time) {
+          this.time = Date.now();
+        }
+        if (Date.now() - this.time > 4000) {
+          if (this.winScreenShown) {
+              winScreen();
+          } else {
+            gameLostScreen();
+          }
+          this.stopAllSounds();
+          return; // Danach nicht mehr weiterzeichnen
+        }
+      }
 
-    draw() {
-    this.canvasDrawing();
-       if (this.gameOver) {
-        if (!this.winTime) {
-            this.winTime = Date.now();
-        }
-        if (Date.now() - this.winTime > 4000 && !this.winScreenShown) {
-            this.winScreenShown = true;
-            winScreen();
-            this.stopAllSounds();
-            return; // Danach nicht mehr weiterzeichnen
-        }
+      self = this;
+      requestAnimationFrame(function () {
+        self.draw();
+      });
     }
-
-    self = this;
-    requestAnimationFrame(function () {
-      self.draw();
-    });
   }
 
   canvasDrawing() {
-   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
     this.ctx.globalCompositeOperation = "destination-over";
     this.ctx.translate(-this.camera_x, 0);

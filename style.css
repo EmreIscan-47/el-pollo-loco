@@ -110,12 +110,27 @@ body {
   margin-top: 170px;
 }
 
+@keyframes popIn {
+  0% {
+    transform: scale(0.1); /* Start ganz klein */
+  }
+  70% {
+    transform: scale(1.2); /* Schnell groß werden (leicht größer als Zielgröße) */
+  }
+  90% {
+    transform: scale(0.95); /* Etwas kleiner zurückschwingen */
+  }
+  100% {
+    transform: scale(0.75); /* Endgröße */
+  }
+}
+
 .end-screen-position img {
   width: 422px;
   height: 350px;
   border-radius: 20px;
-  background-color: #f4a422;
   z-index: 1;
+  animation: popIn 0.8s cubic-bezier(.68,-0.55,.27,1.55) forwards;
 }
 
 .end-screen-background {
@@ -123,7 +138,7 @@ body {
       width: 720px;
     height: 480px;
    border-radius: 15px;
-  background-color: #f4a422;
+  background-color: #f4a322;
  z-index: 0;
 }
 
@@ -138,13 +153,24 @@ body {
   gap: 40px;
 }
 
+@keyframes fadeInButton {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .end-screen-button {
-   width: 140px;
-   height: 70px;
-   border-radius: 40px;
-   background-color: var(--backgroundsnohover);
-   font-family: 'zabars';
-   font-size: 24px;
+  width: 140px;
+  height: 70px;
+  border-radius: 40px;
+  background-color: var(--backgroundsnohover);
+  font-family: 'zabars';
+  font-size: 24px;
+  opacity: 0; /* Start transparent */
+  animation: fadeInButton 1.2s ease-in forwards; /* Dauer und Animation */
 }
 
 .end-screen-button:hover {

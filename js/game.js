@@ -36,26 +36,61 @@ function startGame() {
 function winScreen() {
   let endImgREF = document.getElementById("end-img");
   let controlsInGameREF = document.getElementById("controls-in-game");
+  let endButtonsREF = document.getElementById("end-screen-buttons");
   if (!endImgREF.classList.contains("d-none")) {
     endImgREF.classList.add("d-none");
   } else {
     endImgREF.classList.remove("d-none");
+     setTimeout(() => {
+      endButtonsREF.classList.remove("d-none");
+    }, 1500);
     controlsInGameREF.classList.add("d-none");
+  }
+}
+
+function gameLostScreen() {
+  let endImgREF = document.getElementById("end-img");
+  let controlsInGameREF = document.getElementById("controls-in-game");
+  let endButtonsREF = document.getElementById("end-screen-buttons");
+  let endScreenImgREF = document.getElementById("end-screen-img");
+  if (!endImgREF.classList.contains("d-none")) {
+    endImgREF.classList.add("d-none");
+  } else {
+    endImgREF.classList.remove("d-none");
+    endScreenImgREF.src = "img/You won, you lost/Game over A.png";
+     setTimeout(() => {
+      endButtonsREF.classList.remove("d-none");
+    }, 1500);
+    controlsInGameREF.classList.add("d-none");
+  }
+}
+
+function stopDrawing() {
+  if (!world.stopGame) {
+    world.stopGame = true;
+  } else {
+    world.stopGame = false;
+    world.draw();
   }
 }
 
 function deleteWorld() {
   let endImgREF = document.getElementById("end-img");
-
+  let endButtonsREF = document.getElementById("end-screen-buttons");
+  let controlsInGameREF = document.getElementById("controls-in-game");
   if (!endImgREF.classList.contains("d-none")) {
+    controlsInGameREF.classList.remove("d-none");
     endImgREF.classList.add("d-none");
+    endButtonsREF.classList.add("d-none");
   } else {
     endImgREF.classList.remove("d-none");
+    endButtonsREF.classList.remove("d-none");
   }
   world = null;
   initLevel();
   world = new World(canvas, keyboard, false);
 }
+
 function returnToStartScreen() {
   let startImgREF = document.getElementById("start-img");
   let startButtonREF = document.getElementById("start-buttons");

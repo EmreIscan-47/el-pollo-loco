@@ -33,18 +33,18 @@
       </div>
     </section>
 
-    <section id="start-img" class="start-screen-img d-none">
+    <section id="start-img" class="start-screen-img">
       <div class="start-screen-position">
         <img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="" />
       </div>
     </section>
 
-    <section id="end-img" class="end-screen-img ">
+    <section id="end-img" class="end-screen-img d-none">
       <div class="end-screen-position">
         <div class="end-screen-background"></div>
-        <img src="img/You won, you lost/You won A.png" alt="" />
+        <img id="end-screen-img" src="img/You won, you lost/You won A.png" alt="" />
         <div class="end-screen-buttons">
-          <div class="end-screen-buttons-positions">
+          <div id="end-screen-buttons" class="end-screen-buttons-positions d-none">
             <button onclick="deleteWorld()" class="end-screen-button">Neu Starten!</button>
             <button onclick="returnToStartScreen()" class="end-screen-button">Startbildschirm</button>
           </div>
@@ -52,7 +52,7 @@
       </div>
     </section>
 
-    <section id="start-buttons" class="start-screen d-none">
+    <section id="start-buttons" class="start-screen">
       <div class="start-screen-button">
         <div class="top-buttons">
           <button onclick="changeSound()" class="top-button">
@@ -268,6 +268,7 @@
           </div>
           <div class="controls-in-game-stlye-description">
             <svg
+              onclick="stopDrawing()"
               id="keyboard-space"
               class="control-buttons-space"
               version="1.1"
