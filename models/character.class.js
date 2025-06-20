@@ -111,12 +111,12 @@ class Character extends MovableObject {
             this.moveRight();
 
             if (!this.stopSounds) {
-              this.moveSound.play();
+            soundManager.play("footStep");
             }
           } else if (this.world.keyboard.LEFT && this.x > 0) {
             this.moveLeft();
             if (!this.isAboveGround) {
-              this.moveSound.play();
+              soundManager.play("footStep");
             }
             this.otherDirection = true;
           }

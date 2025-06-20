@@ -169,7 +169,7 @@ class Endboss extends MovableObject {
       this.playAnimation(this.IMAGES_DEAD);
     }, 200);
   if (!this.stopSounds) {
-      this.endBossDeadSound.play();
+      soundManager.play("endBossDead")
   }
   
   }

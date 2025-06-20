@@ -39,7 +39,7 @@ class MovableObject extends DrawableObjects {
 
   jump() {
     this.speedY = 18;
-    this.jumpSound.play()
+    soundManager.play("jump");
   }
 
   isAboveGround() {

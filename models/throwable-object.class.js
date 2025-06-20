@@ -65,7 +65,7 @@ class ThrowableObjects extends MovableObject {
     clearInterval(this.bottleAnimationInterval);
     let frame = 0;
     if (!this.stopSounds) {
-       this.bottleBreakSound.play();
+       soundManager.play("bottleBreak");
     }
    
     this.animationInterval = setInterval(() => {

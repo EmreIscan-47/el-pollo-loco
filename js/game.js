@@ -1,6 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+const soundManager = new SoundManager();
 let lastKeyTime = Date.now();
 let timerInterval = null;
 let startTheGame = true;
@@ -10,15 +11,19 @@ const keyboardRightREF = document.getElementById("keyboard-right");
 const keyboardSpaceREF = document.getElementById("keyboard-space");
 const keyboardThrowREF = document.getElementById("keyboard-throw");
 
-function init() {}
+function init() {
+  loadAllSounds();
+}
 
 function startGame() {
   let startImgREF = document.getElementById("start-img");
   let startButtonREF = document.getElementById("start-buttons");
   let controlsInGameREF = document.getElementById("controls-in-game");
+  let startGameREF = document.getElementById("start-button");
   if (!startImgREF.classList.contains("d-none")) {
     canvas = document.getElementById("canvas");
     canvas.style.border = "5px solid black";
+    startGameREF.setAttribute("disabled", "");
     initLevel();
     world = new World(canvas, keyboard, false);
     setTimeout(() => {
@@ -41,7 +46,7 @@ function winScreen() {
     endImgREF.classList.add("d-none");
   } else {
     endImgREF.classList.remove("d-none");
-     setTimeout(() => {
+    setTimeout(() => {
       endButtonsREF.classList.remove("d-none");
     }, 1500);
     controlsInGameREF.classList.add("d-none");
@@ -58,7 +63,7 @@ function gameLostScreen() {
   } else {
     endImgREF.classList.remove("d-none");
     endScreenImgREF.src = "img/You won, you lost/Game over A.png";
-     setTimeout(() => {
+    setTimeout(() => {
       endButtonsREF.classList.remove("d-none");
     }, 1500);
     controlsInGameREF.classList.add("d-none");
@@ -241,4 +246,15 @@ function changeSound() {
   } else {
     soundIconREF.src = soundOffSrc;
   }
+}
+
+function loadAllSounds() {
+  soundManager.load("jump", "audio/808216_17002826-hq.mp3");
+  soundManager.load("characterMove", "audio/moveSound.mp3");
+  soundManager.load("chickenSound", "audio/chicken_sound.mp3");
+  soundManager.load("footStep", "audio/footStep.mp3");
+  soundManager.load("chickenDead", "audio/enemyDead.mp3");
+  soundManager.load("bottleBreak", "audio/bottle_break.mp3");
+  soundManager.load("endBossDead", "audio/endBossDeadSound.mp3");
+  soundManager.load("jump", "audio/808216_17002826-hq.mp3");
 }
