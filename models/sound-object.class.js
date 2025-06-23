@@ -1,5 +1,6 @@
 class SoundManager {
   sounds;
+  soundMute;
   constructor() {
     this.sounds = {};
     this.lastPlayed = {};
@@ -13,6 +14,7 @@ class SoundManager {
 
   play(name, volume = 1.0) {
     const now = Date.now();
+    if (!this.soundMute) {
     if (this.lastPlayed[name] && now - this.lastPlayed[name] < this.cooldown) {
       return;
     }
@@ -23,6 +25,7 @@ class SoundManager {
       audio.volume = volume;
       audio.play().catch(() => {});
     }
+  }
   }
 
   setVolume(name, volume) {

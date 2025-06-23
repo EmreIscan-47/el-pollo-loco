@@ -6,22 +6,23 @@ class MovableObject extends DrawableObjects {
   energy = 100;
   checkEnergy;
   gravityInterval;
-  jumpSound = new Audio("audio/808216_17002826-hq.mp3");;
+  jumpSound = new Audio("audio/808216_17002826-hq.mp3");
   moveSound = new Audio("audio/moveSound.mp3");
   chickenSound = new Audio("audio/chicken_sound.mp3");
+  stopGame = false;
 
   offset = {
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0
+    bottom: 0,
   };
 
   offset_head = {
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0
+    bottom: 0,
   };
 
   applyGravity() {
@@ -52,7 +53,7 @@ class MovableObject extends DrawableObjects {
 
   isCollidingObjects(mo) {
     return (
-      this.x + this.width  > mo.x &&
+      this.x + this.width > mo.x &&
       this.y + this.height > mo.y &&
       this.x < mo.x &&
       this.y < mo.y + mo.height
@@ -69,14 +70,13 @@ class MovableObject extends DrawableObjects {
   }
 
   isColliding(mo) {
-    
-   return (
+    return (
       this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
       this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
       this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
       this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
     );
-}
+  }
 
   positionFigure(x, y, height, width) {
     this.x = x;
@@ -86,12 +86,16 @@ class MovableObject extends DrawableObjects {
   }
 
   moveRight() {
-    this.x += this.speed;
-    this.otherDirection = false;
+    if (!this.stopGame) {
+      this.x += this.speed;
+      this.otherDirection = false;
+    }
   }
 
   moveLeft() {
-    this.x -= this.speed;
+    if (!this.stopGame) {
+      this.x -= this.speed;
+    }
   }
 
   playAnimation(images) {

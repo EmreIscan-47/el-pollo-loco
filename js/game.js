@@ -5,7 +5,6 @@ const soundManager = new SoundManager();
 let lastKeyTime = Date.now();
 let timerInterval = null;
 let startTheGame = true;
-let gameStartSound = new Audio("audio/gameStartSound.mp3");
 const keyboardLeftREF = document.getElementById("keyboard-left");
 const keyboardRightREF = document.getElementById("keyboard-right");
 const keyboardSpaceREF = document.getElementById("keyboard-space");
@@ -30,7 +29,7 @@ function startGame() {
       startImgREF.classList.add("d-none");
       startButtonREF.classList.add("d-none");
       controlsInGameREF.classList.remove("d-none");
-      gameStartSound.play();
+      soundManager.play("startGame");
     }, 1000);
   } else {
     startImgREF.classList.remove("d-none");
@@ -73,8 +72,10 @@ function gameLostScreen() {
 function stopDrawing() {
   if (!world.stopGame) {
     world.stopGame = true;
+    world.pauseTheGame();
   } else {
     world.stopGame = false;
+      world.pauseTheGame();
     world.draw();
   }
 }
@@ -100,10 +101,12 @@ function returnToStartScreen() {
   let startImgREF = document.getElementById("start-img");
   let startButtonREF = document.getElementById("start-buttons");
   let endImgREF = document.getElementById("end-img");
+  let startGameREF = document.getElementById("start-button");
   if (!endImgREF.classList.contains("d-none")) {
     endImgREF.classList.add("d-none");
     startImgREF.classList.remove("d-none");
     startButtonREF.classList.remove("d-none");
+    startGameREF.removeAttribute("disabled");
   } else {
     startImgREF.classList.add("d-none");
     startButtonREF.classList.add("d-none");
@@ -243,8 +246,10 @@ function changeSound() {
 
   if (soundIconREF.src.endsWith(soundOffSrc)) {
     soundIconREF.src = soundOnSrc;
+    soundManager.soundMute = false;
   } else {
     soundIconREF.src = soundOffSrc;
+     soundManager.soundMute = true;
   }
 }
 
@@ -257,4 +262,5 @@ function loadAllSounds() {
   soundManager.load("bottleBreak", "audio/bottle_break.mp3");
   soundManager.load("endBossDead", "audio/endBossDeadSound.mp3");
   soundManager.load("jump", "audio/808216_17002826-hq.mp3");
+  soundManager.load("startGame", "audio/gameStartSound.mp3");
 }

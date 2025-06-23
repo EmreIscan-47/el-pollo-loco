@@ -204,6 +204,24 @@ class World {
     });
   }
 
+  pauseTheGame() {
+    if (this.stopGame) {
+        soundManager.soundMute = true;
+        this.character.stopGame = true;
+         this.level.enemies.forEach((enemy) => {
+          enemy.stopGame = true;
+         });
+    } else {
+      console.log("Now it is true");
+       soundManager.soundMute = false;
+        this.character.stopGame = false;
+          this.level.enemies.forEach((enemy) => {
+          enemy.stopGame = false;
+         });
+    }
+
+  }
+
   draw() {
     if (!this.stopGame) {
       this.canvasDrawing();

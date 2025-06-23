@@ -100,6 +100,6 @@ class ThrowableObjects extends MovableObject {
         clearInterval(this.bottleSplashInterval);
       }, 50);
     }, 100);
-    this.bottleBreakSound.play();
+    soundManager.play("bottleBreak");
   }
 }
