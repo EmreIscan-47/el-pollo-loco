@@ -3,12 +3,12 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'zabars';
+  font-family: "zabars";
 }
 
 @font-face {
-  font-family: 'zabars';
-  src: url('./fonts/zabars.ttf') format('truetype');
+  font-family: "zabars";
+  src: url("./fonts/zabars.ttf") format("truetype");
 }
 
 :root {
@@ -34,7 +34,7 @@ body {
   height: 80px;
   border-radius: 50px;
   background-color: var(--backgroundsnohover);
-  font-family: 'zabars';
+  font-family: "zabars";
   font-size: 24px;
 }
 
@@ -115,7 +115,9 @@ body {
     transform: scale(0.1); /* Start ganz klein */
   }
   70% {
-    transform: scale(1.2); /* Schnell groß werden (leicht größer als Zielgröße) */
+    transform: scale(
+      1.2
+    ); /* Schnell groß werden (leicht größer als Zielgröße) */
   }
   90% {
     transform: scale(0.95); /* Etwas kleiner zurückschwingen */
@@ -130,16 +132,16 @@ body {
   height: 350px;
   border-radius: 20px;
   z-index: 1;
-  animation: popIn 0.8s cubic-bezier(.68,-0.55,.27,1.55) forwards;
+  animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
 }
 
 .end-screen-background {
   position: absolute;
-      width: 720px;
-    height: 480px;
-   border-radius: 15px;
+  width: 720px;
+  height: 480px;
+  border-radius: 15px;
   background-color: #f4a322;
- z-index: 0;
+  z-index: 0;
 }
 
 .end-screen-buttons {
@@ -167,7 +169,7 @@ body {
   height: 70px;
   border-radius: 40px;
   background-color: var(--backgroundsnohover);
-  font-family: 'zabars';
+  font-family: "zabars";
   font-size: 24px;
   opacity: 0; /* Start transparent */
   animation: fadeInButton 1.2s ease-in forwards; /* Dauer und Animation */
@@ -324,7 +326,7 @@ canvas {
 }
 
 .overlay-content {
- padding-left: 20px;
+  padding-left: 20px;
 }
 
 .overlay-content h1 {
@@ -339,7 +341,6 @@ canvas {
 }
 .overlay-layer {
   display: flex;
-
 }
 
 .overlay-img {
@@ -362,20 +363,252 @@ canvas {
   font-size: 28px;
 }
 
-@media only screen and (max-width: 760px) {
-  canvas {
-    width: 100%;
+.turn-device-overlay {
+  display: none;
+}
+
+.turn-device {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: black;
+}
+
+.turn-device-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.turn-device-img svg {
+  width: 100px;
+  animation: turn-and-hold 2s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
+
+@keyframes turn-and-hold {
+  0% {
+    transform: rotate(0deg);
   }
-  .start-screen-position {
-    width: 100%;
+  40% {
+    transform: rotate(90deg);
+  }
+  80% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(0deg);
   }
 }
 
-@media only screen and (max-height: 480px) {
+@media only screen and (max-width: 800px) {
+  .canvas-location {
+    margin-top: 0;
+  }
+  canvas {
+    width: 100%;
+    background-color: transparent;
+    border-radius: 0;
+  }
+  .start-screen-position img {
+    width: 100%;
+    border: 0;
+    border-radius: 0;
+  }
+  .end-screen-position img {
+    width: 300px;
+    height: 250px;
+    border: 0;
+    border-radius: 0;
+  }
+  .controls-in-game {
+    display: none;
+  }
+
+  .end-screen-background {
+    width: 100%;
+    border: 0;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .start-screen-position {
+    margin-top: 0;
+  }
+  .end-screen-position {
+    margin-top: 0;
+  }
+
+  .overlay-location {
+    margin-top: 0;
+     height: 100vh;
+  }
+
+  .overlay-info {
+    height: 100vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding: 0;
+    margin: 50px;
+
+  }
+
+  .story-text {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 800px) {
+  canvas {
+    border-radius: 0;
+    border: 0 !important;
+  }
+  .start-screen-button {
+    margin-top: 0;
+    height: 430px;
+  }
+  .end-screen-buttons-positions {
+    margin-top: 0;
+    height: 130px;
+  }
+  .top-buttons {
+    width: 550px;
+  }
+  .bottom-button {
+    align-items: center;
+    height: 20px;
+    margin-top: 270px;
+  }
+  .top-button {
+    width: 65px;
+    height: 65px;
+  }
+  .top-button img {
+    width: 35px;
+  }
+  .start-button {
+    width: 140px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 580px) {
+  .top-button {
+    width: 55px;
+    height: 55px;
+  }
+  .top-button img {
+    width: 30px;
+  }
+  .start-button {
+    width: 130px;
+    height: 60px;
+  }
+  .top-buttons {
+    width: 460px;
+  }
+  .bottom-button {
+    align-items: center;
+    height: 150px !important;
+    margin-top: 70px;
+  }
+}
+
+@media (max-width: 460px) {
+  .top-button {
+    width: 55px;
+    height: 55px;
+  }
+  .top-button img {
+    width: 30px;
+  }
+  .start-button {
+    width: 130px;
+    height: 60px;
+  }
+  .top-buttons {
+    width: 380px;
+  }
+  .bottom-button {
+    align-items: center;
+    height: 280px;
+    margin-top: 70px;
+  }
+}
+
+@media (max-width: 390px) {
+  .top-buttons {
+    width: 280px;
+  }
+}
+@media (max-height: 485px) {
+  .bottom-button {
+    align-items: center;
+    height: 80px;
+    margin-top: 220px;
+  }
+}
+
+@media (max-height: 400px) {
+  .bottom-button {
+    align-items: center;
+    height: 120px;
+    margin-top: 150px;
+  }
+}
+
+@media (max-height: 350px) {
+  .bottom-button {
+    align-items: center;
+    height: 250px;
+    margin-top: 110px;
+  }
+  .start-screen-button {
+    height: 380px;
+  }
+}
+
+@media only screen and (max-height: 485px) {
   canvas {
     height: 100vh;
   }
-   .start-screen-position {
-   height: 100vh;
+  .start-screen-position {
+    height: 100vh;
+    margin-top: 0;
+  }
+  .start-screen-position img {
+    height: 100vh;
+  }
+
+  .end-screen-position {
+    height: 100vh;
+    margin-top: 0;
+  }
+
+  .end-screen-button {
+    margin-top: 0;
+  }
+
+  .start-screen-button {
+    margin-top: 0;
+  }
+  .end-screen-position img {
+    height: 100vh;
+  }
+  .end-screen-background {
+    height: 100vh;
+  }
+}
+
+@media (orientation: portrait) {
+  .turn-device-overlay {
+    display: block;
+  }
+  .end-screen {
+    display: none;
   }
 }

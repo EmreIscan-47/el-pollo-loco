@@ -54,11 +54,12 @@ class Endboss extends MovableObject {
   attackCharacter = false;
   endBossGotHit = true;
   endBossIsDead = false;
-  endBossHurtSound = new Audio("")
-  endBossDeadSound = new Audio("audio/endBossDeadSound.mp3")
+  endBossHurtSound = new Audio("");
+  endBossDeadSound = new Audio("audio/endBossDeadSound.mp3");
   stopSounds = false;
+  i = 0;
 
-    offset = {
+  offset = {
     top: 100,
     left: 30,
     right: 90,
@@ -83,7 +84,6 @@ class Endboss extends MovableObject {
         this.endBossIsDead = true;
       }
       if (this.endBossIsDead) {
-        console.log("Yoo");
         this.endBossDead();
       }
     }, 1000);
@@ -118,31 +118,30 @@ class Endboss extends MovableObject {
 
   animateEndBoss() {
     if (!this.endBossIsDead) {
-
-    this.animateWalkingInterval = setInterval(() => {
-      this.playAnimation(this.IMAGES_WALKING);
-    }, 6500 / 60);
-    this.animateLeftInterval = setInterval(() => {
-      this.moveLeft();
-    }, 2000 / 60);
-     }
+      this.animateWalkingInterval = setInterval(() => {
+        this.playAnimation(this.IMAGES_WALKING);
+      }, 6500 / 60);
+      this.animateLeftInterval = setInterval(() => {
+        this.moveLeft();
+      }, 2000 / 60);
+    }
   }
 
   animateAttack() {
     if (!this.endBossIsDead) {
-    let frame = 0;
-    this.animateAttackInterval = setInterval(() => {
-      if (frame >= this.IMAGES_ATTACK.length) {
-        console.log("Yo1");
-        this.startEndBossBattle(true, false, false);
-      } else {
-        let i = frame % this.IMAGES_ATTACK.length;
-        let path = this.IMAGES_ATTACK[i];
-        this.img = this.imageCache[path];
-        frame++;
-      }
-    }, 100);
-     }
+      let frame = 0;
+      this.animateAttackInterval = setInterval(() => {
+        if (frame >= this.IMAGES_ATTACK.length) {
+          console.log("Yo1");
+          this.startEndBossBattle(true, false, false);
+        } else {
+          let i = frame % this.IMAGES_ATTACK.length;
+          let path = this.IMAGES_ATTACK[i];
+          this.img = this.imageCache[path];
+          frame++;
+        }
+      }, 100);
+    }
   }
 
   animateHurtEndboss() {
@@ -164,14 +163,16 @@ class Endboss extends MovableObject {
   }
 
   endBossDead() {
-    this.clearEverything();
-    setInterval(() => {
-      this.playAnimation(this.IMAGES_DEAD);
-    }, 200);
-  if (!this.stopSounds) {
-      soundManager.play("endBossDead")
-  }
-  
+      this.clearEverything();
+      setInterval(() => {
+        this.playAnimation(this.IMAGES_DEAD);
+      }, 200);
+      if (!this.stopSounds && this.i == 0) {
+        console.log("yo");
+        
+        soundManager.play("endBossDead", 0.5);
+       this.i ++;
+      }
   }
 
   clearEverything() {
