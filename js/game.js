@@ -9,6 +9,10 @@ const keyboardLeftREF = document.getElementById("keyboard-left");
 const keyboardRightREF = document.getElementById("keyboard-right");
 const keyboardSpaceREF = document.getElementById("keyboard-space");
 const keyboardThrowREF = document.getElementById("keyboard-throw");
+const gamePadLeftREF = document.getElementById("game-pad-left");
+const gamePadRightREF = document.getElementById("game-pad-right");
+const gamePadJumpREF = document.getElementById("game-pad-jump");
+const gamePadBottleREF = document.getElementById("game-pad-bottle");
 
 function init() {
   loadAllSounds();
@@ -30,6 +34,7 @@ function startGame() {
       startButtonREF.classList.add("d-none");
       controlsInGameREF.classList.remove("d-none");
       soundManager.play("startGame");
+      startIdleCheck();
     }, 1000);
   } else {
     startImgREF.classList.remove("d-none");
@@ -75,7 +80,7 @@ function stopDrawing() {
     world.pauseTheGame();
   } else {
     world.stopGame = false;
-      world.pauseTheGame();
+    world.pauseTheGame();
     world.draw();
   }
 }
@@ -134,6 +139,7 @@ function resetTimer() {
 }
 
 window.addEventListener("keydown", resetTimer);
+window.addEventListener("touchend", resetTimer);
 
 timerInterval = setInterval(updateIdleTime, 100);
 
@@ -249,7 +255,7 @@ function changeSound() {
     soundManager.soundMute = false;
   } else {
     soundIconREF.src = soundOffSrc;
-     soundManager.soundMute = true;
+    soundManager.soundMute = true;
   }
 }
 
@@ -264,3 +270,60 @@ function loadAllSounds() {
   soundManager.load("jump", "audio/808216_17002826-hq.mp3");
   soundManager.load("startGame", "audio/gameStartSound.mp3");
 }
+
+function startIdleCheck() {
+ 
+    idleInterval = setInterval(() => {
+      if (
+        keyboard.LEFT ||
+        keyboard.RIGHT ||
+        keyboard.SPACE ||
+        keyboard.THROWBOTTLE
+      ) {
+        resetTimer();
+      } else {
+        updateIdleTime();
+      }
+    }, 300);
+ 
+}
+
+gamePadLeftREF.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  keyboard.LEFT = true;
+});
+
+gamePadLeftREF.addEventListener("touchend", (e) => {
+  e.preventDefault();
+  keyboard.LEFT = false;
+});
+
+gamePadRightREF.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  keyboard.RIGHT = true;
+});
+
+gamePadRightREF.addEventListener("touchend", (e) => {
+  e.preventDefault();
+  keyboard.RIGHT = false;
+});
+
+gamePadJumpREF.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  keyboard.SPACE = true;
+});
+
+gamePadJumpREF.addEventListener("touchend", (e) => {
+  e.preventDefault();
+  keyboard.SPACE = false;
+});
+
+gamePadBottleREF.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  keyboard.THROWBOTTLE = true;
+});
+
+gamePadBottleREF.addEventListener("touchend",  (e) => {
+  e.preventDefault();
+  keyboard.THROWBOTTLE = false;
+});
