@@ -129,6 +129,7 @@ function updateIdleTime() {
   } else if (idleSeconds > 10) {
     keyboard.longIdle = true;
     keyboard.shortIdle = false;
+    
   } else {
     keyboard.longIdle = false;
     keyboard.shortIdle = false;
@@ -271,6 +272,8 @@ function loadAllSounds() {
   soundManager.load("endBossDead", "audio/endBossDeadSound.mp3");
   soundManager.load("jump", "audio/808216_17002826-hq.mp3");
   soundManager.load("startGame", "audio/gameStartSound.mp3");
+  soundManager.load("characterHurt", "audio/hurtSound.mp3");
+  soundManager.load("characterSnoring" , "audio/characterSnoring.mp3");
 }
 
 function startIdleCheck() {
