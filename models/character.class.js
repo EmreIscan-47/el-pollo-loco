@@ -100,8 +100,6 @@ class Character extends MovableObject {
 
   animate() {
     if (!this.characterWon) {
-      console.log("yo");
-
       setInterval(() => {
         if (!this.characterDead && !this.characterWon) {
           if (

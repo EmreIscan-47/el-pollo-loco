@@ -46,10 +46,12 @@ function winScreen() {
   let endImgREF = document.getElementById("end-img");
   let controlsInGameREF = document.getElementById("controls-in-game");
   let endButtonsREF = document.getElementById("end-screen-buttons");
+    let endScreenImgREF = document.getElementById("end-screen-img");
   if (!endImgREF.classList.contains("d-none")) {
     endImgREF.classList.add("d-none");
   } else {
     endImgREF.classList.remove("d-none");
+    endScreenImgREF.src = "img/You won, you lost/You won A.png";
     setTimeout(() => {
       endButtonsREF.classList.remove("d-none");
     }, 1500);
