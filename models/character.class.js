@@ -148,11 +148,16 @@ class Character extends MovableObject {
             this.playAnimation(this.IMAGES_LONG_IDLE);
             this.longIdleSound();
           } else {
-            this.idleCount = 0;
-            this.snoreLoop.pause();
-            this.snoreLoop.currentTime = 0;
+         
+            if (
+              this.idleCount == 1
+            ) {
+              this.snoreLoop.pause();
+              this.snoreLoop.currentTime = 0;
+              this.idleCount = 0;
+            }
           }
-        }
+        } 
       }, 1000 / 10);
 
       setInterval(() => {
