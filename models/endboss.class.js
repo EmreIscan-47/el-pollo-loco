@@ -54,10 +54,10 @@ class Endboss extends MovableObject {
   attackCharacter = false;
   endBossGotHit = true;
   endBossIsDead = false;
-  endBossHurtSound = new Audio("");
-  endBossDeadSound = new Audio("audio/endBossDeadSound.mp3");
   stopSounds = false;
   i = 0;
+  j = 0;
+  endBossSoundLoop;
 
   offset = {
     top: 100,
@@ -122,7 +122,12 @@ class Endboss extends MovableObject {
         this.playAnimation(this.IMAGES_WALKING);
       }, 6500 / 60);
       this.animateLeftInterval = setInterval(() => {
-        this.moveLeft();
+      this.moveLeft();
+      if (this.j == 0) {
+        this.j++;
+        this.endBossSoundLoop = soundManager.play("endBossSound", 1, true);
+        this.endBossSoundLoop.play();
+      }
       }, 2000 / 60);
     }
   }
@@ -151,6 +156,7 @@ class Endboss extends MovableObject {
         if (frame >= this.IMAGES_HURT.length) {
           this.endBossGotHit = true;
           this.startEndBossBattle(true, false, false);
+          this.endBossHurtSound();
           return;
         } else {
           let i = frame % this.IMAGES_HURT.length;
@@ -162,7 +168,16 @@ class Endboss extends MovableObject {
     }
   }
 
+  endBossHurtSound() {
+    this.endBossSoundLoop.pause();
+    soundManager.play("endBossHurt", 0.7);
+    setTimeout(() => {
+       this.endBossSoundLoop.play();
+    }, 500);
+  }
+
   endBossDead() {
+      this.endBossSoundLoop.pause();
       this.clearEverything();
       setInterval(() => {
         this.playAnimation(this.IMAGES_DEAD);

@@ -123,6 +123,7 @@ class World {
           );
           coin.loadImage("");
           coin.y = -1000;
+          soundManager.play("coinCollect");
         } else {
         }
       }

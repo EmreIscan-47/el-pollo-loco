@@ -46,15 +46,16 @@ function winScreen() {
   let endImgREF = document.getElementById("end-img");
   let controlsInGameREF = document.getElementById("controls-in-game");
   let endButtonsREF = document.getElementById("end-screen-buttons");
-    let endScreenImgREF = document.getElementById("end-screen-img");
+  let endScreenImgREF = document.getElementById("end-screen-img");
   if (!endImgREF.classList.contains("d-none")) {
     endImgREF.classList.add("d-none");
   } else {
     endImgREF.classList.remove("d-none");
     endScreenImgREF.src = "img/You won, you lost/You won A.png";
+    soundManager.play("youWinSound");
     setTimeout(() => {
       endButtonsREF.classList.remove("d-none");
-    }, 1500);
+    }, 1200);
     controlsInGameREF.classList.add("d-none");
   }
 }
@@ -69,9 +70,10 @@ function gameLostScreen() {
   } else {
     endImgREF.classList.remove("d-none");
     endScreenImgREF.src = "img/You won, you lost/Game over A.png";
+    soundManager.play("youLoseSound");
     setTimeout(() => {
       endButtonsREF.classList.remove("d-none");
-    }, 1500);
+    }, 1200);
     controlsInGameREF.classList.add("d-none");
   }
 }
@@ -129,7 +131,6 @@ function updateIdleTime() {
   } else if (idleSeconds > 10) {
     keyboard.longIdle = true;
     keyboard.shortIdle = false;
-    
   } else {
     keyboard.longIdle = false;
     keyboard.shortIdle = false;
@@ -273,24 +274,27 @@ function loadAllSounds() {
   soundManager.load("jump", "audio/808216_17002826-hq.mp3");
   soundManager.load("startGame", "audio/gameStartSound.mp3");
   soundManager.load("characterHurt", "audio/hurtSound.mp3");
-  soundManager.load("characterSnoring" , "audio/characterSnoring.mp3");
+  soundManager.load("characterSnoring", "audio/characterSnoring.mp3");
+  soundManager.load("coinCollect", "audio/coinCollect.mp3");
+  soundManager.load("endBossSound", "audio/endBossSound.mp3");
+  soundManager.load("endBossHurt", "audio/endBossHurt.mp3");
+  soundManager.load("youWinSound", "audio/youWinSound.mp3");
+   soundManager.load("youLoseSound", "audio/youLoseSound.mp3");
 }
 
 function startIdleCheck() {
- 
-    idleInterval = setInterval(() => {
-      if (
-        keyboard.LEFT ||
-        keyboard.RIGHT ||
-        keyboard.SPACE ||
-        keyboard.THROWBOTTLE
-      ) {
-        resetTimer();
-      } else {
-        updateIdleTime();
-      }
-    }, 300);
- 
+  idleInterval = setInterval(() => {
+    if (
+      keyboard.LEFT ||
+      keyboard.RIGHT ||
+      keyboard.SPACE ||
+      keyboard.THROWBOTTLE
+    ) {
+      resetTimer();
+    } else {
+      updateIdleTime();
+    }
+  }, 300);
 }
 
 gamePadLeftREF.addEventListener("touchstart", (e) => {
@@ -328,7 +332,7 @@ gamePadBottleREF.addEventListener("touchstart", (e) => {
   keyboard.THROWBOTTLE = true;
 });
 
-gamePadBottleREF.addEventListener("touchend",  (e) => {
+gamePadBottleREF.addEventListener("touchend", (e) => {
   e.preventDefault();
   keyboard.THROWBOTTLE = false;
 });
