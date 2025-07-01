@@ -718,8 +718,19 @@ canvas {
     height: 250px;
     margin-top: 110px;
   }
+
   .start-screen-button {
     height: 310px;
+  }
+
+  .end-screen-position img {
+    width: 300px !important;
+  }
+
+  .end-screen-button {
+    width: 100px;
+    height: 50px;
+    font-size: 14px;
   }
 }
 

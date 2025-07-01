@@ -74,7 +74,7 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
-    this.x = 2000;
+    this.x = 3000;
     this.height = 500;
     this.width = 500;
     this.y = -30;
@@ -88,7 +88,7 @@ class Endboss extends MovableObject {
       }
     }, 1000);
 
-    this.speed = 1.5 + Math.random() * 6.25;
+    this.speed = 2.5 + Math.random() * 6.25;
   }
 
   startEndBossBattle(startEndBattle, attackCharacter, hurtEndboss) {
