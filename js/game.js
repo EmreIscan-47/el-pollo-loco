@@ -23,6 +23,7 @@ function startGame() {
   let startButtonREF = document.getElementById("start-buttons");
   let controlsInGameREF = document.getElementById("controls-in-game");
   let startGameREF = document.getElementById("start-button");
+  let gamePadREF = document.getElementById("game-pad-visibility");
   if (!startImgREF.classList.contains("d-none")) {
     canvas = document.getElementById("canvas");
     canvas.style.border = "5px solid black";
@@ -32,12 +33,14 @@ function startGame() {
     setTimeout(() => {
       startImgREF.classList.add("d-none");
       startButtonREF.classList.add("d-none");
+      gamePadREF.classList.remove("d-none");
       controlsInGameREF.classList.remove("d-none");
       soundManager.play("startGame");
       startIdleCheck();
     }, 1000);
   } else {
     startImgREF.classList.remove("d-none");
+    gamePadREF.classList.add("d-none");
     startButtonREF.classList.remove("d-none");
   }
 }
@@ -47,11 +50,13 @@ function winScreen() {
   let controlsInGameREF = document.getElementById("controls-in-game");
   let endButtonsREF = document.getElementById("end-screen-buttons");
   let endScreenImgREF = document.getElementById("end-screen-img");
+  let gamePadREF = document.getElementById("game-pad-visibility");
   if (!endImgREF.classList.contains("d-none")) {
     endImgREF.classList.add("d-none");
   } else {
     endImgREF.classList.remove("d-none");
     endScreenImgREF.src = "img/You won, you lost/You won A.png";
+    gamePadREF.classList.add("d-none");
     soundManager.play("youWinSound");
     setTimeout(() => {
       endButtonsREF.classList.remove("d-none");
@@ -65,10 +70,12 @@ function gameLostScreen() {
   let controlsInGameREF = document.getElementById("controls-in-game");
   let endButtonsREF = document.getElementById("end-screen-buttons");
   let endScreenImgREF = document.getElementById("end-screen-img");
+  let gamePadREF = document.getElementById("game-pad-visibility");
   if (!endImgREF.classList.contains("d-none")) {
     endImgREF.classList.add("d-none");
   } else {
     endImgREF.classList.remove("d-none");
+    gamePadREF.classList.add("d-none");
     endScreenImgREF.src = "img/You won, you lost/Game over A.png";
     soundManager.play("youLoseSound");
     setTimeout(() => {
@@ -93,10 +100,12 @@ function deleteWorld() {
   let endImgREF = document.getElementById("end-img");
   let endButtonsREF = document.getElementById("end-screen-buttons");
   let controlsInGameREF = document.getElementById("controls-in-game");
+  let gamePadREF = document.getElementById("game-pad-visibility");
   if (!endImgREF.classList.contains("d-none")) {
     controlsInGameREF.classList.remove("d-none");
     endImgREF.classList.add("d-none");
     endButtonsREF.classList.add("d-none");
+    gamePadREF.classList.remove("d-none")
   } else {
     endImgREF.classList.remove("d-none");
     endButtonsREF.classList.remove("d-none");
