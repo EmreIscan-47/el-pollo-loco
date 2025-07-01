@@ -746,8 +746,8 @@ canvas {
   }
 
   .start-screen-button {
-    height: 400px;
-    margin-top: 35px;
+    height: 350px;
+    margin-top: 0;
   }
   .end-screen-position img {
     height: 100vh;
