@@ -508,7 +508,12 @@ canvas {
   .game-pad-visibility {
     display: block;
   }
+
+   .top-buttons{
+        margin-top: 90px !important;
+    }
 }
+
 
 @media (max-width: 900px) {
   .start-screen-position {
@@ -561,6 +566,7 @@ canvas {
   }
   .top-buttons {
     width: 550px;
+    margin-top: 80px;
   }
   .bottom-button {
     align-items: center;
@@ -591,6 +597,12 @@ canvas {
   .game-pad-movement svg {
     width: 45px !important;
     height: 45px !important;
+  }
+}
+
+@media (max-width: 750px) {
+   .top-buttons {
+    margin-top: 50px;
   }
 }
 
@@ -683,10 +695,10 @@ canvas {
   }
 }
 
-@media (max-height: 485px) {
+@media (max-height: 585px) {
   .bottom-button {
     align-items: center;
-    height: 80px;
+    height: 160px !important;
     margin-top: 220px;
   }
   .game-pad-actions {
@@ -702,14 +714,26 @@ canvas {
     width: 45px;
     height: 45px;
   }
+
+.start-button {
+  margin-top: 50px;
 }
 
-@media (max-height: 400px) {
+ .top-buttons {
+    margin-top: 60px;
+  }
+}
+
+@media (max-height: 430px) {
   .bottom-button {
     align-items: center;
     height: 120px;
     margin-top: 150px;
   }
+.start-button {
+  margin-top: 0px;
+}
+  
 }
 
 @media (max-height: 350px) {
@@ -731,6 +755,10 @@ canvas {
     width: 100px;
     height: 50px;
     font-size: 14px;
+  }
+
+  .start-screen-button {
+    height: 100vh !important;
   }
 }
 

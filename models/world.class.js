@@ -114,7 +114,7 @@ class World {
 
   checkCollisionsCoins() {
     this.collectableObjectsCoins.forEach((coin) => {
-      if (this.character.isCollidingObjects(coin)) {
+      if (this.character.isColliding(coin)) {
         if (this.character.collectedCoins <= 4) {
           this.character.collectedCoins += 1;
           this.statusBar[1].loadStatusBar(
@@ -145,24 +145,25 @@ class World {
       }
     });
   }
-
-  checkCollisionsEnemy() {
-    this.level.enemies.forEach((enemy) => {
-      if (this.character.isCollidingOnTop(enemy)) {
-        this.character.speedY = 15;
-        enemy.chickenDead();
-      } else if (this.character.isColliding(enemy)) {
-        this.character.hit();
-        if (this.character.energy == 0) {
-          this.gameOver = true;
-        }
-        this.statusBar[0].loadStatusBar("HEALTH", this.character.energy);
-        if (enemy.name == "Endboss") {
-          enemy.startEndBossBattle(false, true, false);
-        }
+checkCollisionsEnemy() {
+  for (let i = 0; i < this.level.enemies.length; i++) {
+    const enemy = this.level.enemies[i];
+    if (this.character.isCollidingOnTop(enemy)) {
+      this.character.speedY = 15;
+      enemy.chickenDead();
+      break;
+    } else if (this.character.isColliding(enemy)) {
+      this.character.hit();
+      if (this.character.energy == 0) {
+        this.gameOver = true;
       }
-    });
+      this.statusBar[0].loadStatusBar("HEALTH", this.character.energy);
+      if (enemy.name == "Endboss") {
+        enemy.startEndBossBattle(false, true, false);
+      }
+    }
   }
+}
 
   checkEndBossAttack() {}
 

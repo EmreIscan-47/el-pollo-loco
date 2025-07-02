@@ -52,8 +52,8 @@ class Chicken extends MovableObject {
        soundManager.play('chickenSound', 0.1);
       }
     }, 6500 / 60);
-    this.animateLeftInterval = setInterval(() => {
+   /*  this.animateLeftInterval = setInterval(() => {
       this.moveLeft();
-    }, 2000 / 60);
+    }, 2000 / 60); */
   }
 }

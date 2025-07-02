@@ -62,11 +62,14 @@ class MovableObject extends DrawableObjects {
 
   isCollidingOnTop(mo) {
     const tolerance = 20;
-    const horizontalOverlap =
-      this.x + this.width > mo.x && this.x < mo.x + mo.width;
+    const characterFootX = this.x + this.width / 2;
+    const headEdge = 15; 
+    const isCentered =
+      characterFootX > mo.x - headEdge &&
+      characterFootX < mo.x + mo.width + headEdge;
     const landsOnTop =
       this.y + this.height > mo.y && this.y + this.height < mo.y + tolerance;
-    return horizontalOverlap && landsOnTop;
+    return isCentered && landsOnTop;
   }
 
   isColliding(mo) {
