@@ -73,6 +73,7 @@ class ThrowableObjects extends MovableObject {
         clearInterval(this.animationInterval);
         this.stopGravity();
         this.loadImage("");
+        this.y = 10000;
         return;
       }
 
