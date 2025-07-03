@@ -5,6 +5,7 @@ const soundManager = new SoundManager();
 let lastKeyTime = Date.now();
 let timerInterval = null;
 let startTheGame = true;
+let backgroundMusicLoop;
 const keyboardLeftREF = document.getElementById("keyboard-left");
 const keyboardRightREF = document.getElementById("keyboard-right");
 const keyboardSpaceREF = document.getElementById("keyboard-space");
@@ -16,6 +17,7 @@ const gamePadBottleREF = document.getElementById("game-pad-bottle");
 
 function init() {
   loadAllSounds();
+  checkSoundMute();
 }
 
 function startGame() {
@@ -35,6 +37,10 @@ function startGame() {
       startButtonREF.classList.add("d-none");
       gamePadREF.classList.remove("d-none");
       controlsInGameREF.classList.remove("d-none");
+      backgroundMusicLoop = soundManager.play("backgroundMusic", 0.2, true);
+      if (backgroundMusicLoop.play()) {
+        backgroundMusicLoop.play();
+      }
       soundManager.play("startGame");
       startIdleCheck();
     }, 1000);
@@ -57,6 +63,8 @@ function winScreen() {
     endImgREF.classList.remove("d-none");
     endScreenImgREF.src = "img/You won, you lost/You won A.png";
     gamePadREF.classList.add("d-none");
+    backgroundMusicLoop.pause();
+    soundManager.pause("endBossSound");
     soundManager.play("youWinSound");
     setTimeout(() => {
       endButtonsREF.classList.remove("d-none");
@@ -77,6 +85,11 @@ function gameLostScreen() {
     endImgREF.classList.remove("d-none");
     gamePadREF.classList.add("d-none");
     endScreenImgREF.src = "img/You won, you lost/Game over A.png";
+    if (backgroundMusicLoop.pause()) {
+      backgroundMusicLoop.pause();
+    }
+    
+    soundManager.pause("endBossSound");
     soundManager.play("youLoseSound");
     setTimeout(() => {
       endButtonsREF.classList.remove("d-none");
@@ -105,7 +118,11 @@ function deleteWorld() {
     controlsInGameREF.classList.remove("d-none");
     endImgREF.classList.add("d-none");
     endButtonsREF.classList.add("d-none");
-    gamePadREF.classList.remove("d-none")
+    gamePadREF.classList.remove("d-none");
+    backgroundMusicLoop = soundManager.play("backgroundMusic", 0.2, true);
+    if (backgroundMusicLoop.play()) {
+      backgroundMusicLoop.play();
+    }
   } else {
     endImgREF.classList.remove("d-none");
     endButtonsREF.classList.remove("d-none");
@@ -258,6 +275,21 @@ function noClose(event) {
   event.stopPropagation();
 }
 
+function checkSoundMute() {
+  let soundOffSrc = "img/0_svgs/volume-muted-icon.svg";
+  let soundOnSrc = "img/0_svgs/volume-icon.svg";
+  let soundIconREF = document.getElementById("sound-icon");
+  console.log(localStorage.getItem("soundMute") == true);
+
+  if (localStorage.getItem("soundMute") == "true") {
+    soundIconREF.src = soundOffSrc;
+    soundManager.soundMute = true;
+  } else {
+    soundIconREF.src = soundOnSrc;
+    soundManager.soundMute = false;
+  }
+}
+
 function changeSound() {
   let soundOffSrc = "img/0_svgs/volume-muted-icon.svg";
   let soundOnSrc = "img/0_svgs/volume-icon.svg";
@@ -266,9 +298,11 @@ function changeSound() {
   if (soundIconREF.src.endsWith(soundOffSrc)) {
     soundIconREF.src = soundOnSrc;
     soundManager.soundMute = false;
+    localStorage.setItem("soundMute", false);
   } else {
     soundIconREF.src = soundOffSrc;
     soundManager.soundMute = true;
+    localStorage.setItem("soundMute", true);
   }
 }
 
@@ -288,7 +322,9 @@ function loadAllSounds() {
   soundManager.load("endBossSound", "audio/endBossSound.mp3");
   soundManager.load("endBossHurt", "audio/endBossHurt.mp3");
   soundManager.load("youWinSound", "audio/youWinSound.mp3");
-   soundManager.load("youLoseSound", "audio/youLoseSound.mp3");
+  soundManager.load("youLoseSound", "audio/youLoseSound.mp3");
+  soundManager.load("backgroundMusic", "audio/backgroundMusic.mp3");
+  soundManager.load("bottleCollect", "audio/bottleCollect.mp3");
 }
 
 function startIdleCheck() {

@@ -1,6 +1,6 @@
 class SoundManager {
   sounds;
-  soundMute = true;
+  soundMute;
   constructor() {
     this.sounds = {};
     this.lastPlayed = {};

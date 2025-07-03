@@ -4,6 +4,14 @@ class LittleChicken extends MovableObject {
     "img/3_enemies_chicken/chicken_small/1_walk/2_w.png",
     "img/3_enemies_chicken/chicken_small/1_walk/3_w.png",
   ];
+
+   offset = {
+    top: 8,
+    right: 2,
+    bottom: 0,
+    left: 2,
+  };
+
   stopSounds = false;
 
   constructor() {
@@ -11,7 +19,7 @@ class LittleChicken extends MovableObject {
     this.name = "little_chicken";
     this.loadImage("img/3_enemies_chicken/chicken_small/1_walk/1_w.png");
     this.x = 200 + Math.random() * 1500;
-    this.y = 370;
+    this.y = 365;
     this.height = 50;
     this.width = 50;
     this.loadImages(this.IMAGES_WALKING);

@@ -409,7 +409,7 @@ canvas {
 }
 
 @media only screen and (max-width: 900px) {
-     .canvas-location {
+  .canvas-location {
     margin-top: 0;
   }
   canvas {
@@ -509,11 +509,8 @@ canvas {
     display: block;
   }
 
-   .top-buttons{
-        margin-top: 90px !important;
-    }
-}
 
+}
 
 @media (max-width: 900px) {
   .start-screen-position {
@@ -601,7 +598,7 @@ canvas {
 }
 
 @media (max-width: 750px) {
-   .top-buttons {
+  .top-buttons {
     margin-top: 50px;
   }
 }
@@ -629,17 +626,17 @@ canvas {
   }
 
   .game-pad-actions {
-    gap: 150px !important;
+   gap: 200px !important;
   }
 
   .game-pad-action-button {
-    width: 35px !important;
-    height: 35px !important;
+    width: 45px !important;
+    height: 45px !important;
   }
 
   .game-pad-movement svg {
-    width: 35px !important;
-    height: 35px !important;
+    width: 45px !important;
+    height: 45px !important;
   }
 }
 
@@ -675,15 +672,50 @@ canvas {
     height: 50px;
     font-size: 20px;
   }
+
+    .game-pad-action-button {
+    width: 35px !important;
+    height: 35px !important;
+  }
+
+  .game-pad-movement svg {
+    width: 35px !important;
+    height: 35px !important;
+  }
 }
 
 @media (max-width: 390px) {
   .top-buttons {
     width: 280px;
   }
+
+  .game-pad-actions {
+   gap: 150px !important;
+  }
 }
 
-@media (max-height: 700px) {
+@media (max-height: 910px) {
+  .controls-in-game-style {
+    width: 400px;
+    height: 150px;
+  }
+
+  .control-buttons {
+    width: 40px;
+    height: 40px;
+  }
+
+  .control-buttons-space {
+    width: 60px;
+    height: 40px;
+  }
+}
+
+@media (max-height: 800px) {
+  .top-buttons {
+    margin-top: 20px !important;
+  }
+
   .game-pad-action-button {
     width: 55px;
     height: 55px;
@@ -693,14 +725,23 @@ canvas {
     width: 55px;
     height: 55px;
   }
+
+  canvas {
+    height: 480px;
+  }
 }
 
 @media (max-height: 585px) {
   .bottom-button {
     align-items: center;
-    height: 160px !important;
-    margin-top: 220px;
+    height: 260px !important;
+    margin-top: 250px;
   }
+
+  .top-buttons {
+    margin-top: 170px !important;
+  }
+
   .game-pad-actions {
     gap: 200px;
   }
@@ -715,28 +756,44 @@ canvas {
     height: 45px;
   }
 
-.start-button {
-  margin-top: 50px;
-}
+  .start-button {
+    margin-top: 50px;
+  }
 
- .top-buttons {
+  .top-buttons {
     margin-top: 60px;
   }
 }
 
-@media (max-height: 430px) {
+@media (max-height: 480px) {
   .bottom-button {
     align-items: center;
-    height: 120px;
-    margin-top: 150px;
+    height: 20px;
+    margin-top: 250px;
   }
-.start-button {
-  margin-top: 0px;
-}
-  
+
+  .top-buttons {
+   margin-top: 80px !important;
+  }
+
+  .start-button {
+    margin-top: 0px;
+  }
 }
 
-@media (max-height: 350px) {
+@media (max-height: 410px) {
+
+  .top-buttons {
+   margin-top: 40px !important;
+  }
+   
+  .bottom-button {
+    margin-top: 190px;
+  }
+ 
+}
+
+@media (max-height: 380px) {
   .bottom-button {
     align-items: center;
     height: 250px;
@@ -803,17 +860,17 @@ canvas {
     gap: 350px;
   }
 
-   .canvas-location {
+  .canvas-location {
     margin-top: 0;
   }
-  
+
   canvas {
     width: 100%;
     background-color: transparent;
     border-radius: 0;
     border: 0 !important;
   }
- .game-pad-position {
+  .game-pad-position {
     margin-top: 0 !important;
   }
 

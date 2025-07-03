@@ -183,8 +183,6 @@ class Endboss extends MovableObject {
         this.playAnimation(this.IMAGES_DEAD);
       }, 200);
       if (!this.stopSounds && this.i == 0) {
-        console.log("yo");
-        
         soundManager.play("endBossDead", 0.5);
        this.i ++;
       }

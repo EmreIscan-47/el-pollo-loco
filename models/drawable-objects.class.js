@@ -28,7 +28,8 @@ class DrawableObjects {
     if (
       this instanceof Character ||
       this instanceof Chicken ||
-      this instanceof Endboss
+      this instanceof Endboss ||
+      this instanceof LittleChicken
     ) {
       ctx.beginPath();
       ctx.lineWidth = "5";
@@ -39,7 +40,12 @@ class DrawableObjects {
   }
 
   drawOffsetFrame(ctx) {
-    if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
+    if (
+      this instanceof Character ||
+      this instanceof Chicken ||
+      this instanceof Endboss ||
+      this instanceof LittleChicken
+    ) {
       ctx.beginPath();
       ctx.lineWidth = "5";
       ctx.strokeStyle = "red";
