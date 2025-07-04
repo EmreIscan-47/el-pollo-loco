@@ -45,11 +45,7 @@ class World {
    * Array of status bars (health, coins, bottles, etc.).
    * @type {StatusBar[]}
    */
-  statusBar = [
-    new StatusBar("HEALTH", 0, 20, 100),
-    new StatusBar("COINS", 50, 20, 0),
-    new StatusBar("BOTTLE", 100, 20, 0)
-  ];
+  statusBar = [new StatusBar("HEALTH", 0, 20, 100), new StatusBar("COINS", 50, 20, 0), new StatusBar("BOTTLE", 100, 20, 0)];
 
   /**
    * Array of throwable objects (e.g., bottles).
@@ -103,13 +99,16 @@ class World {
   stopGame = false;
 
   /**
+   * The collision manager handles all collision detection and collision-related logic for the world.
+   * @type {WorldCollisionManager}
+   */
+  collisionManager;
+
+  /**
    * Array of collectible coin objects in the world.
    * @type {Coins[]}
    */
-  collectableObjectsCoins = [
-    new Coins(), new Coins(), new Coins(), new Coins(),
-    new Coins(), new Coins(), new Coins(), new Coins()
-  ];
+  collectableObjectsCoins = [new Coins(), new Coins(), new Coins(), new Coins(), new Coins(), new Coins(), new Coins(), new Coins()];
 
   /**
    * Array of collectible bottle objects in the world.
@@ -126,7 +125,8 @@ class World {
   ];
 
   /**
-   * Creates a new World instance, initializes game objects, and starts the game loop.
+   * Creates a new World instance, initializes game objects, starts the game loop, initializes the collision manager,
+   * and sets up all other game objects and logic..
    *
    * @constructor
    * @param {HTMLCanvasElement} canvas - The canvas element to render on.
@@ -139,6 +139,7 @@ class World {
     this.draw();
     this.setWorld();
     this.run();
+    this.collisionManager = new WorldCollisionManager(this);
     this.gameOver = false;
     this.statusBar[2].loadStatusBar("BOTTLE", this.character.collectedBottles);
     setInterval(() => {
@@ -156,15 +157,16 @@ class World {
     this.character.world = this;
   }
 
-  /**
-   * Starts the main game loop for collision checks and updates.
-   */
+/**
+ * Starts the main game loop for collision checks and updates.
+ * Uses the collision manager to perform all collision checks.
+ */
   run() {
     this.runIntervall = setInterval(() => {
-      this.checkCollisionsEnemy();
-      this.checkCollisionsCoins();
-      this.checkCollisionsBottles();
-      this.checkCollisionWithBottle();
+      this.collisionManager.checkCollisionsEnemy();
+      this.collisionManager.checkCollisionsCoins();
+      this.collisionManager.checkCollisionsBottles();
+      this.collisionManager.checkCollisionWithBottle();
     }, 40);
   }
 
@@ -197,152 +199,6 @@ class World {
       this.level.enemies[6].startEndBossBattle(true, false, false);
       let endbossBar = new StatusBar("ENDBOSS", 0, 500, 100);
       this.statusBar.push(endbossBar);
-    }
-  }
-
-  /**
-   * Checks for collisions between the character and coins, collects coins if collided.
-   */
-  checkCollisionsCoins() {
-    this.collectableObjectsCoins.forEach((coin) => {
-      if (this.character.isColliding(coin)) {
-        if (this.character.collectedCoins <= 4) {
-          this.character.collectedCoins += 1;
-          this.statusBar[1].loadStatusBar("COINS", this.character.collectedCoins);
-          coin.loadImage("");
-          coin.y = -1000;
-          soundManager.play("coinCollect");
-        }
-      }
-    });
-  }
-
-  /**
-   * Checks for collisions between the character and bottles, collects bottles if collided.
-   */
-  checkCollisionsBottles() {
-    this.collectableObjectsBottle.forEach((bottle) => {
-      if (this.character.isColliding(bottle)) {
-        if (this.character.collectedBottles <= 4) {
-          this.character.collectedBottles += 1;
-          bottle.loadImage("");
-          bottle.y = -1000;
-          soundManager.play("bottleCollect");
-          this.statusBar[2].loadStatusBar("BOTTLE", this.character.collectedBottles);
-        }
-      }
-    });
-  }
-
-  /**
-   * Checks for collisions between the character and enemies, handles collision logic.
-   */
-  checkCollisionsEnemy() {
-    for (let i = 0; i < this.level.enemies.length; i++) {
-      const enemy = this.level.enemies[i];
-      if (this.character.isCollidingOnTop(enemy)) {
-        this.handleTopCollision(enemy);
-        break;
-      } else if (this.character.isColliding(enemy)) {
-        this.handleEnemyCollision(enemy);
-      }
-    }
-  }
-
-  /**
-   * Handles the logic when the character lands on top of an enemy.
-   * @param {MovableObject} enemy - The enemy object.
-   */
-  handleTopCollision(enemy) {
-    this.character.speedY = 15;
-    enemy.chickenDead();
-  }
-
-  /**
-   * Handles the logic when the character collides with an enemy.
-   * @param {MovableObject} enemy - The enemy object.
-   */
-  handleEnemyCollision(enemy) {
-    this.character.hit();
-    if (this.character.energy == 0) {
-      this.gameOver = true;
-      setInterval(() => {
-        this.level.enemies[6].endBossSoundLoop.pause();
-      }, 1500);
-    }
-    this.statusBar[0].loadStatusBar("HEALTH", this.character.energy);
-    if (enemy.name == "Endboss") {
-      enemy.startEndBossBattle(false, true, false);
-    }
-  }
-
-  /**
-   * Checks for collisions between thrown bottles and enemies.
-   */
-  checkCollisionWithBottle() {
-    if (this.throwableObjects[this.bottleAmountThrown - 1] != undefined) {
-      this.level.enemies.forEach((enemy) => {
-        for (let index = 0; index < this.throwableObjects.length; index++) {
-          if (this.throwableObjects[index].isColliding(enemy)) {
-            this.handleEnemyCollisionWithBottle(enemy, index);
-          }
-        }
-      });
-    }
-  }
-
-  /**
-   * Handles the logic when a thrown bottle collides with an enemy.
-   * @param {MovableObject} enemy - The enemy object.
-   * @param {number} index - The index of the throwable object.
-   */
-  handleEnemyCollisionWithBottle(enemy, index) {
-    if (enemy.name == "chicken" || (enemy.name == "little_chicken" && enemy.chickenDead())) {
-      this.handleChickenCollision(enemy, index);
-    }
-    if (enemy.name == "Endboss") {
-      this.handleEndbossCollision(enemy, index);
-    }
-  }
-
-  /**
-   * Handles the logic when a bottle hits a chicken or little chicken.
-   * @param {MovableObject} enemy - The enemy object.
-   * @param {number} index - The index of the throwable object.
-   */
-  handleChickenCollision(enemy, index) {
-    enemy.chickenDead();
-    console.log(enemy.name);
-    this.throwableObjects[index].splashingOnEnemy(this.x, this.y);
-  }
-
-  /**
-   * Handles the logic when a bottle hits the endboss.
-   * @param {MovableObject} enemy - The enemy object.
-   * @param {number} index - The index of the throwable object.
-   */
-  handleEndbossCollision(enemy, index) {
-    if (enemy.endBossGotHit) {
-      enemy.endBossGotHit = false;
-      clearInterval(this.runIntervall);
-      this.throwableObjects[index].splashingOnEnemy(this.x, this.y);
-      enemy.startEndBossBattle(false, false, true);
-      enemy.energy -= 20;
-      this.handleEndbossDefeat(enemy);
-      this.statusBar[3].loadStatusBar("ENDBOSS", enemy.energy);
-      this.run();
-    }
-  }
-
-  /**
-   * Handles the logic when the endboss is defeated.
-   * @param {MovableObject} enemy - The endboss object.
-   */
-  handleEndbossDefeat(enemy) {
-    if (enemy.energy == 0) {
-      this.character.characterWon = true;
-      this.gameOver = true;
-      this.winScreenShown = true;
     }
   }
 
