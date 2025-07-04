@@ -213,12 +213,7 @@ function stopDrawing() {
   }
 }
 
-/**
- * Deletes the current game world and resets the game state.
- * If the end image is visible, restarts the game. Otherwise, shows the end image and buttons.
- *
- * @function
- */
+
 function deleteWorld() {
   let endImgREF = document.getElementById("end-img");
   let endButtonsREF = document.getElementById("end-screen-buttons");
@@ -235,15 +230,6 @@ function deleteWorld() {
   world = new World(canvas, keyboard, false);
 }
 
-/**
- * Restarts the game by resetting UI elements and starting background music.
- *
- * @function
- * @param {HTMLElement} endImgREF - Reference to the end image element.
- * @param {HTMLElement} endButtonsREF - Reference to the end screen buttons container.
- * @param {HTMLElement} controlsInGameREF - Reference to the in-game controls container.
- * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
- */
 function restartGame(endImgREF, endButtonsREF, controlsInGameREF, gamePadREF) {
   controlsInGameREF.classList.remove("d-none");
   endImgREF.classList.add("d-none");
@@ -255,11 +241,6 @@ function restartGame(endImgREF, endButtonsREF, controlsInGameREF, gamePadREF) {
   }
 }
 
-/**
- * Returns to the start screen from the end screen, updating UI elements accordingly.
- *
- * @function
- */
 function returnToStartScreen() {
   let startImgREF = document.getElementById("start-img");
   let startButtonREF = document.getElementById("start-buttons");
@@ -277,11 +258,6 @@ function returnToStartScreen() {
   }
 }
 
-/**
- * Updates the idle time for the keyboard and sets short/long idle flags.
- *
- * @function
- */
 function updateIdleTime() {
   const idleSeconds = ((Date.now() - lastKeyTime) / 1000).toFixed(1);
   if (10 >= idleSeconds && idleSeconds >= 2) {
@@ -296,31 +272,20 @@ function updateIdleTime() {
   }
 }
 
-/**
- * Resets the idle timer and updates idle time state.
- *
- * @function
- */
 function resetTimer() {
   lastKeyTime = Date.now();
   updateIdleTime();
 }
 
-// Event listeners for resetting idle timer on key or touch events
 window.addEventListener("keydown", resetTimer);
 window.addEventListener("touchend", resetTimer);
 
-// Periodically updates idle time
 timerInterval = setInterval(updateIdleTime, 100);
 
-// Debug event listener for keypress events
 window.addEventListener("onkeypress", (e) => {
   console.log(e);
 });
 
-/**
- * Handles keyboard keydown events and updates keyboard state accordingly.
- */
 window.addEventListener("keydown", (event) => {
   if (event.keyCode == 37) {
     keyboardPress(event.keyCode);
@@ -341,12 +306,6 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
-/**
- * Visually highlights the pressed key on the virtual keyboard.
- *
- * @function
- * @param {number} keyCode - The code of the pressed key.
- */
 function keyboardPress(keyCode) {
   switch (keyCode) {
     case 37:
@@ -366,12 +325,6 @@ function keyboardPress(keyCode) {
   }
 }
 
-/**
- * Resets the visual highlight of the released key on the virtual keyboard.
- *
- * @function
- * @param {number} keyCode - The code of the released key.
- */
 function keyboardDown(keyCode) {
   switch (keyCode) {
     case 37:
@@ -391,9 +344,6 @@ function keyboardDown(keyCode) {
   }
 }
 
-/**
- * Handles keyboard keyup events and updates keyboard state accordingly.
- */
 window.addEventListener("keyup", (event) => {
   if (event.keyCode == 37) {
     keyboardDown(event.keyCode);
@@ -412,11 +362,6 @@ window.addEventListener("keyup", (event) => {
   }
 });
 
-/**
- * Toggles the visibility of the controls information overlay.
- *
- * @function
- */
 function openControls() {
   let controlsInfoREF = document.getElementById("controls-info");
   if (!controlsInfoREF.classList.contains("d-none")) {
@@ -426,11 +371,6 @@ function openControls() {
   }
 }
 
-/**
- * Toggles the visibility of the story information overlay.
- *
- * @function
- */
 function openStory() {
   let storyInfoREF = document.getElementById("story-info");
   if (!storyInfoREF.classList.contains("d-none")) {
@@ -440,22 +380,10 @@ function openStory() {
   }
 }
 
-/**
- * Prevents the closing of overlays when clicking inside them by stopping event propagation.
- *
- * @function
- * @param {Event} event - The event object.
- */
 function noClose(event) {
   event.stopPropagation();
 }
 
-/**
- * Checks and updates the sound mute state based on localStorage,
- * and updates the sound icon accordingly.
- *
- * @function
- */
 function checkSoundMute() {
   let soundOffSrc = "img/0_svgs/volume-muted-icon.svg";
   let soundOnSrc = "img/0_svgs/volume-icon.svg";
@@ -471,11 +399,6 @@ function checkSoundMute() {
   }
 }
 
-/**
- * Toggles the sound mute state and updates the sound icon and localStorage.
- *
- * @function
- */
 function changeSound() {
   let soundOffSrc = "img/0_svgs/volume-muted-icon.svg";
   let soundOnSrc = "img/0_svgs/volume-icon.svg";
@@ -492,11 +415,6 @@ function changeSound() {
   }
 }
 
-/**
- * Loads all required sound effects and background music into the sound manager.
- *
- * @function
- */
 function loadAllSounds() {
   soundManager.load("jump", "audio/808216_17002826-hq.mp3");
   soundManager.load("characterMove", "audio/moveSound.mp3");
@@ -517,11 +435,6 @@ function loadAllSounds() {
   soundManager.load("bottleCollect", "audio/bottleCollect.mp3");
 }
 
-/**
- * Starts checking for player inactivity and updates idle state accordingly.
- *
- * @function
- */
 function startIdleCheck() {
   idleInterval = setInterval(() => {
     if (keyboard.LEFT || keyboard.RIGHT || keyboard.SPACE || keyboard.THROWBOTTLE) {
@@ -532,51 +445,41 @@ function startIdleCheck() {
   }, 300);
 }
 
-// Touch controls for gamepad buttons
-
-/**
- * Handles touch events for the left gamepad button.
- */
 gamePadLeftREF.addEventListener("touchstart", (e) => {
   e.preventDefault();
   keyboard.LEFT = true;
 });
+
 gamePadLeftREF.addEventListener("touchend", (e) => {
   e.preventDefault();
   keyboard.LEFT = false;
 });
 
-/**
- * Handles touch events for the right gamepad button.
- */
 gamePadRightREF.addEventListener("touchstart", (e) => {
   e.preventDefault();
   keyboard.RIGHT = true;
 });
+
 gamePadRightREF.addEventListener("touchend", (e) => {
   e.preventDefault();
   keyboard.RIGHT = false;
 });
 
-/**
- * Handles touch events for the jump gamepad button.
- */
 gamePadJumpREF.addEventListener("touchstart", (e) => {
   e.preventDefault();
   keyboard.SPACE = true;
 });
+
 gamePadJumpREF.addEventListener("touchend", (e) => {
   e.preventDefault();
   keyboard.SPACE = false;
 });
 
-/**
- * Handles touch events for the bottle throw gamepad button.
- */
 gamePadBottleREF.addEventListener("touchstart", (e) => {
   e.preventDefault();
   keyboard.THROWBOTTLE = true;
 });
+
 gamePadBottleREF.addEventListener("touchend", (e) => {
   e.preventDefault();
   keyboard.THROWBOTTLE = false;

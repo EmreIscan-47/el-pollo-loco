@@ -508,8 +508,6 @@ canvas {
   .game-pad-visibility {
     display: block;
   }
-
-
 }
 
 @media (max-width: 900px) {
@@ -534,7 +532,7 @@ canvas {
   }
 
   .story-text {
-    font-size: 20px;
+    font-size: 25px;
   }
 
   .game-pad-responsiv {
@@ -557,26 +555,32 @@ canvas {
     margin-top: 0;
     height: 400px;
   }
+
   .end-screen-buttons-positions {
     margin-top: 0;
     height: 130px;
   }
+
   .top-buttons {
     width: 550px;
     margin-top: 80px;
   }
+
   .bottom-button {
     align-items: center;
     height: 20px;
     margin-top: 270px;
   }
+
   .top-button {
     width: 65px;
     height: 65px;
   }
+
   .top-button img {
     width: 35px;
   }
+
   .start-button {
     width: 140px;
     height: 70px;
@@ -626,7 +630,7 @@ canvas {
   }
 
   .game-pad-actions {
-   gap: 200px !important;
+    gap: 200px !important;
   }
 
   .game-pad-action-button {
@@ -673,7 +677,7 @@ canvas {
     font-size: 20px;
   }
 
-    .game-pad-action-button {
+  .game-pad-action-button {
     width: 35px !important;
     height: 35px !important;
   }
@@ -690,7 +694,7 @@ canvas {
   }
 
   .game-pad-actions {
-   gap: 150px !important;
+    gap: 150px !important;
   }
 }
 
@@ -708,6 +712,14 @@ canvas {
   .control-buttons-space {
     width: 60px;
     height: 40px;
+  }
+
+  .overlay-txt {
+    gap: 2px;
+  }
+
+  h2 {
+    font-size: 18px;
   }
 }
 
@@ -763,6 +775,19 @@ canvas {
   .top-buttons {
     margin-top: 60px;
   }
+
+  .overlay-location {
+    margin-top: 0;
+    height: 97vh;
+  }
+
+  .overlay-info {
+    height: 97vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding: 0;
+    margin: 50px;
+  }
 }
 
 @media (max-height: 480px) {
@@ -773,7 +798,7 @@ canvas {
   }
 
   .top-buttons {
-   margin-top: 80px !important;
+    margin-top: 80px !important;
   }
 
   .start-button {
@@ -782,15 +807,13 @@ canvas {
 }
 
 @media (max-height: 410px) {
-
   .top-buttons {
-   margin-top: 40px !important;
+    margin-top: 40px !important;
   }
-   
+
   .bottom-button {
     margin-top: 190px;
   }
- 
 }
 
 @media (max-height: 380px) {
