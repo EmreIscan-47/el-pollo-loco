@@ -115,9 +115,7 @@ body {
     transform: scale(0.1); /* Start ganz klein */
   }
   70% {
-    transform: scale(
-      1.2
-    ); /* Schnell groß werden (leicht größer als Zielgröße) */
+    transform: scale(1.2); /* Schnell groß werden (leicht größer als Zielgröße) */
   }
   90% {
     transform: scale(0.95); /* Etwas kleiner zurückschwingen */
@@ -264,8 +262,8 @@ canvas {
 }
 
 .control-buttons {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
 }
 
 .control-buttons:hover {
@@ -273,8 +271,8 @@ canvas {
 }
 
 .control-buttons-space {
-  width: 120px;
-  height: 80px;
+ width: 80px;
+ height: 60px;
 }
 
 .control-buttons-space:hover {
@@ -351,12 +349,31 @@ canvas {
   gap: 10px;
 }
 
+.mobile-overlay {
+  display: none;
+}
+
+.overlay-cross {
+  width: 40px;
+  height: 40px;
+}
+
+.overlay-jump {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.overlay-bottle {
+  width: 40px !important;
+  height: 40px !important;
+}
+
 .overlay-txt {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-left: 50px;
-  gap: 25px;
+  gap: 7px;
 }
 
 .story-text {
@@ -373,6 +390,7 @@ canvas {
   left: 0;
   width: 100%;
   background-color: black;
+  z-index: 100;
 }
 
 .turn-device-img {
@@ -505,9 +523,22 @@ canvas {
   .game-pad-position {
     height: 470px;
   }
+
   .game-pad-visibility {
     display: block;
   }
+
+  .mobile-overlay {
+    display: flex;
+  }
+
+  .browser-overlay {
+    display: none !important;
+  }
+
+      .overlay-txt {
+        gap: 2px;
+    }
 }
 
 @media (max-width: 900px) {
