@@ -4,6 +4,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: "zabars";
+  scroll-behavior: smooth;
 }
 
 @font-face {
@@ -70,6 +71,7 @@ body {
   justify-content: center;
   align-items: flex-end;
   height: 350px;
+  gap: 10px;
 }
 
 .start-screen-img {
@@ -261,6 +263,28 @@ canvas {
   background-color: var(--backgroundshover);
 }
 
+.overlay-impressum {
+  overflow-y: scroll;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.overlay-impressum::-webkit-scrollbar {
+  width: 4px;
+  background: #f3f3f3;
+}
+
+.overlay-impressum::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 40px;
+  padding-right: 30px;
+}
+
+.overlay-impressum::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
 .control-buttons {
   width: 60px;
   height: 60px;
@@ -271,8 +295,8 @@ canvas {
 }
 
 .control-buttons-space {
- width: 80px;
- height: 60px;
+  width: 80px;
+  height: 60px;
 }
 
 .control-buttons-space:hover {
@@ -536,9 +560,9 @@ canvas {
     display: none !important;
   }
 
-      .overlay-txt {
-        gap: 2px;
-    }
+  .overlay-txt {
+    gap: 2px;
+  }
 }
 
 @media (max-width: 900px) {

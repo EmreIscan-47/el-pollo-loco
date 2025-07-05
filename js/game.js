@@ -269,6 +269,16 @@ function openStory() {
   }
 }
 
+
+function openImpressum() {
+    let impressumInfoREF = document.getElementById("impressum-info");
+  if (!impressumInfoREF.classList.contains("d-none")) {
+    impressumInfoREF.classList.add("d-none");
+  } else {
+   impressumInfoREF.classList.remove("d-none");
+  }
+}
+
 /**
  * Prevents the closing of overlays when clicking inside them by stopping event propagation.
  *
