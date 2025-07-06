@@ -279,6 +279,10 @@ function openImpressum() {
   }
 }
 
+function buttonClickSound() {
+  soundManager.play("buttonClick");
+}
+
 /**
  * Prevents the closing of overlays when clicking inside them by stopping event propagation.
  *
@@ -299,7 +303,6 @@ function checkSoundMute() {
   let soundOffSrc = "img/0_svgs/volume-muted-icon.svg";
   let soundOnSrc = "img/0_svgs/volume-icon.svg";
   let soundIconREF = document.getElementById("sound-icon");
-  console.log(localStorage.getItem("soundMute") == true);
 
   if (localStorage.getItem("soundMute") == "true") {
     soundIconREF.src = soundOffSrc;
@@ -354,6 +357,7 @@ function loadAllSounds() {
   soundManager.load("youLoseSound", "audio/youLoseSound.mp3");
   soundManager.load("backgroundMusic", "audio/backgroundMusic.mp3");
   soundManager.load("bottleCollect", "audio/bottleCollect.mp3");
+  soundManager.load("buttonClick", "audio/buttonClick.mp3")
 }
 
 /**

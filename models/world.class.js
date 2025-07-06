@@ -178,7 +178,6 @@ class World {
       if (!this.thrownBottle) {
         this.character.collectedBottles -= 1;
         this.thrownBottle = true;
-        console.log(this.thrownBottle);
         this.statusBar[2].loadStatusBar("BOTTLE", this.character.collectedBottles);
         this.bottle = new ThrowableObjects(this.character.x, this.character.y + 100);
         this.throwableObjects.push(this.bottle);
@@ -224,7 +223,6 @@ class World {
         enemy.stopGame = true;
       });
     } else {
-      console.log("Now it is true");
       soundManager.soundMute = false;
       this.character.stopGame = false;
       this.level.enemies.forEach((enemy) => {

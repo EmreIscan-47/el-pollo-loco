@@ -53,11 +53,7 @@ class Character extends MovableObject {
    * Image paths for the character's hurt animation.
    * @type {string[]}
    */
-  IMAGES_HURT = [
-    "img/2_character_pepe/4_hurt/H-41.png",
-    "img/2_character_pepe/4_hurt/H-42.png",
-    "img/2_character_pepe/4_hurt/H-43.png",
-  ];
+  IMAGES_HURT = ["img/2_character_pepe/4_hurt/H-41.png", "img/2_character_pepe/4_hurt/H-42.png", "img/2_character_pepe/4_hurt/H-43.png"];
 
   /**
    * Image paths for the character's short idle animation.
@@ -212,177 +208,177 @@ class Character extends MovableObject {
     bottom: 10,
   };
 
-
-
- /**
- * Creates a new Character instance, loads all necessary images, sets initial position and size,
- * applies gravity, and starts the animation loop.
- *
- * @constructor
- */
-constructor() {
-  super();
-  this.loadImage("img/2_character_pepe/2_walk/W-21.png");
-  this.y = 155;
-  this.height = 280;
-  this.loadImages(this.IMAGES_WALKING);
-  this.loadImages(this.IMAGES_JUMPING);
-  this.loadImages(this.IMAGES_DYING);
-  this.loadImages(this.IMAGES_HURT);
-  this.loadImages(this.IMAGES_SHORT_IDLE);
-  this.loadImages(this.IMAGES_LONG_IDLE);
-  this.applyGravity();
-  this.animate();
-}
-
-/**
- * Starts the character's animation and movement intervals if the character has not won.
- *
- * @function
- */
-animate() {
-  if (!this.characterWon) {
-    this.startMovementInterval();
-    this.startAnimationInterval();
-    this.startHurtInterval();
+  /**
+   * Creates a new Character instance, loads all necessary images, sets initial position and size,
+   * applies gravity, and starts the animation loop.
+   *
+   * @constructor
+   */
+  constructor() {
+    super();
+    this.loadImage("img/2_character_pepe/2_walk/W-21.png");
+    this.y = 155;
+    this.height = 280;
+    this.loadImages(this.IMAGES_WALKING);
+    this.loadImages(this.IMAGES_JUMPING);
+    this.loadImages(this.IMAGES_DYING);
+    this.loadImages(this.IMAGES_HURT);
+    this.loadImages(this.IMAGES_SHORT_IDLE);
+    this.loadImages(this.IMAGES_LONG_IDLE);
+    this.applyGravity();
+    this.animate();
   }
-}
 
-/**
- * Starts the interval for handling character movement and camera position.
- *
- * @function
- */
-startMovementInterval() {
-  setInterval(() => {
-    if (!this.characterDead && !this.characterWon) {
-      this.handleHorizontalMovement();
-      if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-        this.jump();
+  /**
+   * Starts the character's animation and movement intervals if the character has not won.
+   *
+   * @function
+   */
+  animate() {
+    if (!this.characterWon) {
+      this.startMovementInterval();
+      this.startAnimationInterval();
+      this.startHurtInterval();
+    }
+  }
+
+  /**
+   * Starts the interval for handling character movement and camera position.
+   *
+   * @function
+   */
+  startMovementInterval() {
+    setInterval(() => {
+      if (!this.characterDead && !this.characterWon) {
+        this.handleHorizontalMovement();
+        if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+          this.jump();
+        }
+        this.world.camera_x = -this.x + 150;
       }
-      this.world.camera_x = -this.x + 150;
-    }
-  }, 1000 / 60);
-}
-
-/**
- * Handles horizontal movement of the character based on keyboard input.
- * Plays footstep sound if moving.
- *
- * @function
- */
-handleHorizontalMovement() {
-  if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-    this.moveRight();
-    if (!this.stopSounds) {
-      soundManager.play("footStep");
-    }
-  } else if (this.world.keyboard.LEFT && this.x > 0) {
-    this.moveLeft();
-    if (!this.isAboveGround) {
-      soundManager.play("footStep");
-    }
-    this.otherDirection = true;
+    }, 1000 / 60);
   }
-}
 
-/**
- * Starts the interval for handling animation states (walking, jumping, dying, idle).
- *
- * @function
- */
-startAnimationInterval() {
-  setInterval(() => {
-    if (this.isDead()) {
-      this.characterDead = true;
-      this.speedY += 10;
-      this.playAnimation(this.IMAGES_DYING);
+  /**
+   * Handles horizontal movement of the character based on keyboard input.
+   * Plays footstep sound if moving.
+   *
+   * @function
+   */
+  handleHorizontalMovement() {
+    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+      this.moveRight();
+      if (!this.stopSounds) {
+        soundManager.play("footStep");
+      }
+    } else if (this.world.keyboard.LEFT && this.x > 0) {
+      this.moveLeft();
+      if (!this.isAboveGround) {
+        soundManager.play("footStep");
+      }
+      this.otherDirection = true;
     }
-    if (!this.characterDead && !this.characterWon) {
-      this.handleAnimationStates();
-    }
-  }, 1000 / 10);
-}
+  }
 
-/**
- * Determines and plays the correct animation state based on character status.
- *
- * @function
- */
-handleAnimationStates() {
-  if (this.isAboveGround()) {
-    this.playAnimation(this.IMAGES_JUMPING);
-    soundManager.pause("characterSnoring");
-  } else {
-    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-      this.playAnimation(this.IMAGES_WALKING);
+  /**
+   * Starts the interval for handling animation states (walking, jumping, dying, idle).
+   *
+   * @function
+   */
+  startAnimationInterval() {
+    setInterval(() => {
+      if (this.isDead()) {
+        this.characterDead = true;
+        this.speedY += 10;
+        this.playAnimation(this.IMAGES_DYING);
+      }
+      if (!this.characterDead && !this.characterWon) {
+        this.handleAnimationStates();
+      }
+    }, 1000 / 10);
+  }
+
+  /**
+   * Determines and plays the correct animation state based on character status.
+   *
+   * @function
+   */
+  handleAnimationStates() {
+    if (this.isAboveGround()) {
+      this.playAnimation(this.IMAGES_JUMPING);
       soundManager.pause("characterSnoring");
-    }
-  }
-  this.handleIdleAnimations();
-}
-
-/**
- * Handles idle animations and sounds based on idle state.
- *
- * @function
- */
-handleIdleAnimations() {
-  if (this.world.keyboard.shortIdle && this.isAboveGround) {
-    this.playAnimation(this.IMAGES_SHORT_IDLE);
-  } else if (this.world.keyboard.longIdle) {
-    this.playAnimation(this.IMAGES_LONG_IDLE);
-    this.longIdleSound();
-  } else {
-    if (this.idleCount == 1) {
-      this.snoreLoop.pause();
-      this.snoreLoop.currentTime = 0;
-      this.idleCount = 0;
-    }
-  }
-}
-
-/**
- * Starts the interval for handling the hurt animation and logic.
- *
- * @function
- */
-startHurtInterval() {
-  setInterval(() => {
-    if (this.isHurt()) {
-      this.playAnimation(this.IMAGES_HURT);
-      this.checkEnergy -= 5;
-      this.x -= 2;
-      console.log(this.otherDirection);
-      soundManager.play("characterHurt");
-      if (this.otherDirection == true) {
-        this.x += 10;
+    } else {
+      if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+        this.playAnimation(this.IMAGES_WALKING);
+        soundManager.pause("characterSnoring");
       }
     }
-  }, 1000 / 20);
-}
-
-/**
- * Plays the long idle (snoring) sound if not already playing.
- *
- * @function
- */
-longIdleSound() {
-  if (this.idleCount == 0) {
-    this.idleCount++;
-    this.snoreLoop = soundManager.play("characterSnoring", 1.0, true);
-    this.snoreLoop.play();
+    this.handleIdleAnimations();
   }
-}
 
-/**
- * Makes the character jump when landing on an enemy by stopping gravity and setting vertical speed.
- *
- * @function
- */
-jumpOnEnemy() {
-  this.stopGravity();
-  this.speedY = 28;
-}
+  /**
+   * Handles idle animations and sounds based on idle state.
+   *
+   * @function
+   */
+  handleIdleAnimations() {
+    if (this.world.keyboard.shortIdle && this.isAboveGround) {
+      this.playAnimation(this.IMAGES_SHORT_IDLE);
+    } else if (this.world.keyboard.longIdle) {
+      this.playAnimation(this.IMAGES_LONG_IDLE);
+      this.longIdleSound();
+    } else {
+      if (this.idleCount == 1) {
+        if (!soundManager.soundMute) {
+          this.snoreLoop.pause();
+          this.snoreLoop.currentTime = 0;
+        }
+        this.idleCount = 0;
+      }
+    }
+  }
 
+  /**
+   * Starts the interval for handling the hurt animation and logic.
+   *
+   * @function
+   */
+  startHurtInterval() {
+    setInterval(() => {
+      if (this.isHurt()) {
+        this.playAnimation(this.IMAGES_HURT);
+        this.checkEnergy -= 5;
+        this.x -= 2;
+        soundManager.play("characterHurt");
+        if (this.otherDirection == true) {
+          this.x += 10;
+        }
+      }
+    }, 1000 / 20);
+  }
+
+  /**
+   * Plays the long idle (snoring) sound if not already playing.
+   *
+   * @function
+   */
+  longIdleSound() {
+    if (this.idleCount == 0) {
+      this.idleCount++;
+      this.snoreLoop = soundManager.play("characterSnoring", 1.0, true);
+      if (!soundManager.soundMute) {
+        this.snoreLoop.play();
+      }
+    }
+  }
+
+  /**
+   * Makes the character jump when landing on an enemy by stopping gravity and setting vertical speed.
+   *
+   * @function
+   */
+  jumpOnEnemy() {
+    this.stopGravity();
+    this.speedY = 28;
+  }
 }

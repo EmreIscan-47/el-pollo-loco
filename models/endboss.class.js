@@ -25,12 +25,7 @@ class Endboss extends MovableObject {
    * Image paths for the walking animation.
    * @type {string[]}
    */
-  IMAGES_WALKING = [
-    "img/4_enemie_boss_chicken/1_walk/G1.png",
-    "img/4_enemie_boss_chicken/1_walk/G2.png",
-    "img/4_enemie_boss_chicken/1_walk/G3.png",
-    "img/4_enemie_boss_chicken/1_walk/G4.png",
-  ];
+  IMAGES_WALKING = ["img/4_enemie_boss_chicken/1_walk/G1.png", "img/4_enemie_boss_chicken/1_walk/G2.png", "img/4_enemie_boss_chicken/1_walk/G3.png", "img/4_enemie_boss_chicken/1_walk/G4.png"];
 
   /**
    * Image paths for the attack animation.
@@ -51,21 +46,13 @@ class Endboss extends MovableObject {
    * Image paths for the hurt animation.
    * @type {string[]}
    */
-  IMAGES_HURT = [
-    "img/4_enemie_boss_chicken/4_hurt/G21.png",
-    "img/4_enemie_boss_chicken/4_hurt/G22.png",
-    "img/4_enemie_boss_chicken/4_hurt/G23.png",
-  ];
+  IMAGES_HURT = ["img/4_enemie_boss_chicken/4_hurt/G21.png", "img/4_enemie_boss_chicken/4_hurt/G22.png", "img/4_enemie_boss_chicken/4_hurt/G23.png"];
 
   /**
    * Image paths for the dead animation.
    * @type {string[]}
    */
-  IMAGES_DEAD = [
-    "img/4_enemie_boss_chicken/5_dead/G24.png",
-    "img/4_enemie_boss_chicken/5_dead/G25.png",
-    "img/4_enemie_boss_chicken/5_dead/G26.png",
-  ];
+  IMAGES_DEAD = ["img/4_enemie_boss_chicken/5_dead/G24.png", "img/4_enemie_boss_chicken/5_dead/G25.png", "img/4_enemie_boss_chicken/5_dead/G26.png"];
 
   /**
    * The name of the boss.
@@ -214,7 +201,7 @@ class Endboss extends MovableObject {
      * The movement speed of the boss (randomized).
      * @type {number}
      */
-    this.speed = 2.5 + Math.random() * 6.25;
+    this.speed = 3;
   }
 
   /**
@@ -225,19 +212,16 @@ class Endboss extends MovableObject {
    * @param {boolean} hurtEndboss - Whether the boss should play the hurt animation.
    */
   startEndBossBattle(startEndBattle, attackCharacter, hurtEndboss) {
+    this.clearEverything();
+
     if (startEndBattle) {
-      clearInterval(this.animateAlertInterval);
-      clearInterval(this.animateAttackInterval);
-      clearInterval(this.animateHurtInterval);
+      
       this.animateEndBoss();
     } else if (attackCharacter) {
-      clearInterval(this.animateWalkingInterval);
-      clearInterval(this.animateLeftInterval);
-      clearInterval(this.animateHurtInterval);
+     
       this.animateAttack();
     } else if (hurtEndboss) {
-      clearInterval(this.animateWalkingInterval);
-      clearInterval(this.animateLeftInterval);
+      
       this.animateHurtEndboss();
     } else {
       this.animate();
@@ -267,7 +251,9 @@ class Endboss extends MovableObject {
         if (this.j == 0) {
           this.j++;
           this.endBossSoundLoop = soundManager.play("endBossSound", 1, true);
-          this.endBossSoundLoop.play();
+          if (!soundManager.soundMute) {
+            this.endBossSoundLoop.play();
+          }
         }
       }, 2000 / 60);
     }
@@ -320,10 +306,14 @@ class Endboss extends MovableObject {
    * Plays the boss's hurt sound and resumes the main sound loop after a short delay.
    */
   endBossHurtSound() {
-    this.endBossSoundLoop.pause();
+    if (!soundManager.soundMute) {
+      this.endBossSoundLoop.pause();
+    }
     soundManager.play("endBossHurt", 0.7);
     setTimeout(() => {
-      this.endBossSoundLoop.play();
+      if (!soundManager.soundMute) {
+        this.endBossSoundLoop.play();
+      }
     }, 500);
   }
 
@@ -331,7 +321,9 @@ class Endboss extends MovableObject {
    * Handles the boss's death animation and sound, and clears all intervals.
    */
   endBossDead() {
-    this.endBossSoundLoop.pause();
+    if (!soundManager.soundMute) {
+      this.endBossSoundLoop.pause();
+    }
     this.clearEverything();
     setInterval(() => {
       this.playAnimation(this.IMAGES_DEAD);

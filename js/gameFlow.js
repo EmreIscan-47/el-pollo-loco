@@ -99,7 +99,7 @@ function showGameUI(startImgREF, startButtonREF, controlsInGameREF, gamePadREF) 
   gamePadREF.classList.remove("d-none");
   controlsInGameREF.classList.remove("d-none");
   backgroundMusicLoop = soundManager.play("backgroundMusic", 0.2, true);
-  if (backgroundMusicLoop.play()) {
+  if (!soundManager.soundMute) {
     backgroundMusicLoop.play();
   }
   soundManager.play("startGame");
@@ -160,7 +160,7 @@ function gameLostScreenAppears(endImgREF, controlsInGameREF, endButtonsREF, endS
   endImgREF.classList.remove("d-none");
   gamePadREF.classList.add("d-none");
   endScreenImgREF.src = "img/You won, you lost/Game over A.png";
-  if (backgroundMusicLoop.pause()) {
+  if (!soundManager.soundMute) {
     backgroundMusicLoop.pause();
   }
   soundManager.pause("endBossSound");

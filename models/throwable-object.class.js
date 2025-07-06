@@ -135,7 +135,7 @@ class ThrowableObjects extends MovableObject {
     this.speedY = 13;
     this.applyGravity();
     this.interval = setInterval(() => {
-      if (this.y > 340) {
+      if (this.y > 340 || this.x >= 2000) {
         this.splashingBottle();
         clearInterval(this.interval);
       } else {
@@ -150,8 +150,11 @@ class ThrowableObjects extends MovableObject {
    * @function
    */
   splashingBottle() {
-    this.y = 340;
+    this.y = this.y;
     this.speedY = 0;
+    if (this.x >= 2000) {
+      this.x = 2000;
+    }
     clearInterval(this.bottleAnimationInterval);
     let frame = 0;
     if (!this.stopSounds) {
@@ -206,7 +209,8 @@ class ThrowableObjects extends MovableObject {
   keepXPosition() {
     setInterval(() => {
       let i = this.x;
-      this.x = i;
+        this.x = i;
+      
     }, 20);
   }
 

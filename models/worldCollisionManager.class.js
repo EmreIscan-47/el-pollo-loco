@@ -9,7 +9,7 @@ class WorldCollisionManager {
     this.world = world;
   }
 
-   /**
+  /**
    * Checks for collisions between the character and coins, collects coins if collided.
    */
   checkCollisionsCoins() {
@@ -76,7 +76,9 @@ class WorldCollisionManager {
     if (this.world.character.energy == 0) {
       this.world.gameOver = true;
       setInterval(() => {
-        this.world.level.enemies[6].endBossSoundLoop.pause();
+        if (!soundManager.soundMute) {
+          this.world.level.enemies[6].endBossSoundLoop.pause();
+        }
       }, 1500);
     }
     this.world.statusBar[0].loadStatusBar("HEALTH", this.world.character.energy);
@@ -121,7 +123,6 @@ class WorldCollisionManager {
    */
   handleChickenCollision(enemy, index) {
     enemy.chickenDead();
-    console.log(enemy.name);
     this.world.throwableObjects[index].splashingOnEnemy(this.world.x, this.world.y);
   }
 

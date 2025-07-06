@@ -6,6 +6,8 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="style.css" />
+     <link rel="shortcut icon" href="img/6_salsa_bottle/salsa_bottle.png" type="image/x-icon">
+
     <script src="models/drawable-objects.class.js"></script>
     <script src="models/movable-object.class.js"></script>
     <script src="models/status-bar.class.js"></script>
@@ -13,7 +15,6 @@
     <script src="models/chicken.class.js"></script>
     <script src="models/little-chicken.class.js"></script>
     <script src="models/cloud.class.js"></script>
-    ´
     <script src="models/worldCollisionManager.class.js"></script>
     <script src="models/world.class.js"></script>
     <script src="models/background-object.class.js"></script>
@@ -159,8 +160,8 @@
           <img id="end-screen-img" src="img/You won, you lost/You won A.png" alt="" />
           <div class="end-screen-buttons">
             <div id="end-screen-buttons" class="end-screen-buttons-positions d-none">
-              <button onclick="deleteWorld()" class="end-screen-button">Neu Starten!</button>
-              <button onclick="returnToStartScreen()" class="end-screen-button">Startbildschirm</button>
+              <button onclick="deleteWorld(), buttonClickSound()" class="end-screen-button">Neu Starten!</button>
+              <button onclick="returnToStartScreen(), buttonClickSound()" class="end-screen-button">Startbildschirm</button>
             </div>
           </div>
         </div>
@@ -173,16 +174,16 @@
           <button onclick="changeSound()" class="top-button">
             <img id="sound-icon" src="img/0_svgs/volume-icon.svg" alt="" />
           </button>
-          <button onclick="openStory()" class="top-button">
+          <button onclick="openStory(), buttonClickSound()" class="top-button">
             <img src="img/0_svgs/interesting-facts-icon.svg" alt="" />
           </button>
-          <button onclick="openControls()" class="top-button">
+          <button onclick="openControls(), buttonClickSound()" class="top-button">
             <img src="img/0_svgs/gamepad-icon.svg" alt="" />
           </button>
         </div>
         <div class="bottom-button">
-          <button id="start-button" onclick="startGame()" class="start-button">Start the Game!</button>
-          <button onclick="openImpressum()" class="start-button">Impressum</button>
+          <button id="start-button" onclick="buttonClickSound(), startGame()" class="start-button">Start the Game!</button>
+          <button onclick="openImpressum(), buttonClickSound()" class="start-button">Impressum</button>
         </div>
       </div>
     </section>
@@ -543,7 +544,6 @@
           </div>
           <div class="controls-in-game-stlye-description">
             <svg
-              onclick="stopDrawing()"
               id="keyboard-space"
               class="control-buttons-space"
               version="1.1"

@@ -157,12 +157,7 @@ class MovableObject extends DrawableObjects {
    * @returns {boolean} True if colliding, otherwise false.
    */
   isCollidingObjects(mo) {
-    return (
-      this.x + this.width > mo.x &&
-      this.y + this.height > mo.y &&
-      this.x < mo.x &&
-      this.y < mo.y + mo.height
-    );
+    return this.x + this.width > mo.x && this.y + this.height > mo.y && this.x < mo.x && this.y < mo.y + mo.height;
   }
 
   /**
@@ -177,11 +172,8 @@ class MovableObject extends DrawableObjects {
     const tolerance = 20;
     const characterFootX = this.x + this.width / 2;
     const headEdge = 15;
-    const isCentered =
-      characterFootX > mo.x - headEdge &&
-      characterFootX < mo.x + mo.width + headEdge;
-    const landsOnTop =
-      this.y + this.height > mo.y && this.y + this.height < mo.y + tolerance;
+    const isCentered = characterFootX > mo.x - headEdge && characterFootX < mo.x + mo.width + headEdge;
+    const landsOnTop = this.y + this.height > mo.y && this.y + this.height < mo.y + tolerance;
     return isCentered && landsOnTop;
   }
 
@@ -261,8 +253,13 @@ class MovableObject extends DrawableObjects {
    */
   hit() {
     this.energy -= 5;
-    this.x -= 20;
-    this.speedY = 1;
+    if (this.otherDirection) {
+      this.x += 20;
+      this.speedY = -1;
+    } else {
+      this.x -= 20;
+      this.speedY = 1;
+    }
     if (this.energy < 0) {
       this.energy = 0;
     }

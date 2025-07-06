@@ -115,7 +115,6 @@ class StatusBar extends DrawableObjects {
         this.setEndbossStatusBar(percentage);
         break;
       default:
-        console.log("Nothing here");
         break;
     }
   }
