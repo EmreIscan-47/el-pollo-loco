@@ -28,17 +28,7 @@ class Chicken extends MovableObject {
    * Image paths for the chicken's walking animation.
    * @type {string[]}
    */
-  IMAGES_WALKING = [
-    "img/3_enemies_chicken/chicken_normal/1_walk/1_w.png",
-    "img/3_enemies_chicken/chicken_normal/1_walk/2_w.png",
-    "img/3_enemies_chicken/chicken_normal/1_walk/3_w.png",
-  ];
-
-  /**
-   * The audio object for the chicken's sound.
-   * @type {HTMLAudioElement}
-   */
-  chickenSound = new Audio("audio/chicken_sound.mp3");
+  IMAGES_WALKING = ["img/3_enemies_chicken/chicken_normal/1_walk/1_w.png", "img/3_enemies_chicken/chicken_normal/1_walk/2_w.png", "img/3_enemies_chicken/chicken_normal/1_walk/3_w.png"];
 
   /**
    * The index of the currently displayed animation image.
@@ -75,39 +65,12 @@ class Chicken extends MovableObject {
     super();
     this.name = "chicken";
     this.loadImage("img/3_enemies_chicken/chicken_normal/1_walk/2_w.png");
-    /**
-     * The horizontal position of the chicken on the canvas.
-     * Randomized between 500 and 1300.
-     * @type {number}
-     */
     this.x = 500 + Math.random() * 800;
-
-    /**
-     * The vertical position of the chicken on the canvas.
-     * @type {number}
-     */
     this.y = 340;
-
-    /**
-     * The height of the chicken.
-     * @type {number}
-     */
     this.height = 80;
-
-    /**
-     * The width of the chicken.
-     * @type {number}
-     */
     this.width = 80;
-
     this.loadImages(this.IMAGES_WALKING);
     this.animateChicken();
-
-    /**
-     * The movement speed of the chicken.
-     * Randomized between 1.5 and 2.75.
-     * @type {number}
-     */
     this.speed = 1.5 + Math.random() * 1.25;
   }
 
@@ -143,10 +106,8 @@ class Chicken extends MovableObject {
       }
     }, 6500 / 60);
 
-    
     this.animateLeftInterval = setInterval(() => {
       this.moveLeft();
     }, 2000 / 60);
-   
   }
 }

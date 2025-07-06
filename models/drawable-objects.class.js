@@ -53,6 +53,15 @@ class DrawableObjects {
   width = 100;
 
   /**
+   * Indicates whether the game is currently running in test mode.
+   * Can be used to enable or disable features specifically for testing purposes.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  testGame = false;
+
+  /**
    * Loads a single image and assigns it to the object.
    *
    * @param {string} path - The path to the image file.
@@ -87,47 +96,38 @@ class DrawableObjects {
   /**
    * Draws a blue frame around the object for debugging purposes.
    * Only applies to certain subclasses.
+   * This is only active if the test mode is enabled (`this.testGame`).
    *
    * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
    */
   drawFrame(ctx) {
-    if (
-      this instanceof Character ||
-      this instanceof Chicken ||
-      this instanceof Endboss ||
-      this instanceof LittleChicken
-    ) {
-      ctx.beginPath();
-      ctx.lineWidth = "5";
-      ctx.strokeStyle = "blue";
-      ctx.rect(this.x, this.y, this.width, this.height);
-      ctx.stroke();
+    if (this.testGame) {
+      if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof LittleChicken || this instanceof Bottle || this instanceof ThrowableObjects) {
+        ctx.beginPath();
+        ctx.lineWidth = "5";
+        ctx.strokeStyle = "blue";
+        ctx.rect(this.x, this.y, this.width, this.height);
+        ctx.stroke();
+      }
     }
   }
 
   /**
    * Draws a red frame around the object's offset collision box for debugging.
    * Only applies to certain subclasses.
+   * This is only active if the test mode is enabled (`this.testGame`).
    *
    * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
    */
   drawOffsetFrame(ctx) {
-    if (
-      this instanceof Character ||
-      this instanceof Chicken ||
-      this instanceof Endboss ||
-      this instanceof LittleChicken
-    ) {
-      ctx.beginPath();
-      ctx.lineWidth = "5";
-      ctx.strokeStyle = "red";
-      ctx.rect(
-        this.x + this.offset.left,
-        this.y + this.offset.top,
-        this.width - this.offset.left - this.offset.right,
-        this.height - this.offset.bottom - this.offset.top
-      );
-      ctx.stroke();
+    if (this.testGame) {
+      if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof LittleChicken || this instanceof Bottle || this instanceof ThrowableObjects) {
+        ctx.beginPath();
+        ctx.lineWidth = "5";
+        ctx.strokeStyle = "red";
+        ctx.rect(this.x + this.offset.left, this.y + this.offset.top, this.width - this.offset.left - this.offset.right, this.height - this.offset.bottom - this.offset.top);
+        ctx.stroke();
+      }
     }
   }
 

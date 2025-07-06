@@ -10,18 +10,14 @@ class LittleChicken extends MovableObject {
    * Image paths for the little chicken's walking animation.
    * @type {string[]}
    */
-  IMAGES_WALKING = [
-    "img/3_enemies_chicken/chicken_small/1_walk/1_w.png",
-    "img/3_enemies_chicken/chicken_small/1_walk/2_w.png",
-    "img/3_enemies_chicken/chicken_small/1_walk/3_w.png",
-  ];
+  IMAGES_WALKING = ["img/3_enemies_chicken/chicken_small/1_walk/1_w.png", "img/3_enemies_chicken/chicken_small/1_walk/2_w.png", "img/3_enemies_chicken/chicken_small/1_walk/3_w.png"];
 
   /**
    * The offset values for the little chicken's collision box.
    * @type {{top: number, right: number, bottom: number, left: number}}
    */
   offset = {
-    top: 8,
+    top: 10,
     right: 2,
     bottom: 0,
     left: 2,
@@ -35,6 +31,13 @@ class LittleChicken extends MovableObject {
   stopSounds = false;
 
   /**
+   * Interval ID for the animation or movement loop of little chicken enemies.
+   *
+   * @type {number}
+   */
+  littleChickenLoop;
+
+  /**
    * Creates a new LittleChicken instance, loads its image, sets position and size,
    * loads animation frames, and starts the walking animation.
    *
@@ -42,47 +45,19 @@ class LittleChicken extends MovableObject {
    */
   constructor() {
     super();
-    /**
-     * The name of the enemy.
-     * @type {string}
-     */
     this.name = "little_chicken";
     this.loadImage("img/3_enemies_chicken/chicken_small/1_walk/1_w.png");
-
-    /**
-     * The horizontal position of the little chicken on the canvas.
-     * Randomized between 200 and 1700.
-     * @type {number}
-     */
     this.x = 200 + Math.random() * 1500;
-
-    /**
-     * The vertical position of the little chicken on the canvas.
-     * @type {number}
-     */
     this.y = 365;
-
-    /**
-     * The height of the little chicken.
-     * @type {number}
-     */
     this.height = 50;
-
-    /**
-     * The width of the little chicken.
-     * @type {number}
-     */
     this.width = 50;
-
     this.loadImages(this.IMAGES_WALKING);
     this.animateLittleChicken();
-
-    /**
-     * The movement speed of the little chicken.
-     * Randomized between 1.5 and 2.75.
-     * @type {number}
-     */
     this.speed = 1.5 + Math.random() * 1.25;
+    if (!soundManager.soundMute) {
+      this.littleChickenLoop = soundManager.play("littleChickenSound", 0.3, true);
+      this.littleChickenLoop.play();
+    }
   }
 
   /**
@@ -101,6 +76,9 @@ class LittleChicken extends MovableObject {
         this.y = 1000;
       }, 500);
     }, 200);
+    if (!soundManager.soundMute) {
+      this.littleChickenLoop.pause();
+    }
     soundManager.play("chickenDead");
   }
 
@@ -110,18 +88,10 @@ class LittleChicken extends MovableObject {
    * @function
    */
   animateLittleChicken() {
-    /**
-     * Interval ID for the walking animation.
-     * @type {number}
-     */
     this.animateChickenInterval = setInterval(() => {
       this.playAnimation(this.IMAGES_WALKING);
     }, 6500 / 60);
 
-    /**
-     * Interval ID for the leftward movement.
-     * @type {number}
-     */
     this.animateLeftInterval = setInterval(() => {
       this.moveLeft();
     }, 2000 / 60);

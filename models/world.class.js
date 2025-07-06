@@ -108,7 +108,7 @@ class World {
    * Array of collectible coin objects in the world.
    * @type {Coins[]}
    */
-  collectableObjectsCoins = [new Coins(), new Coins(), new Coins(), new Coins(), new Coins(), new Coins(), new Coins(), new Coins()];
+  collectableObjectsCoins = [new Coins(), new Coins(), new Coins(), new Coins(), new Coins()];
 
   /**
    * Array of collectible bottle objects in the world.

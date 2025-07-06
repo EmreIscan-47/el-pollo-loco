@@ -25,33 +25,12 @@ class Coins extends DrawableObjects {
   constructor() {
     super();
     this.loadImage("img/8_coin/coin_2.png");
-
-    /**
-     * The horizontal position of the coin on the canvas.
-     * Randomized between 200 and 2200, but not exceeding 2000.
-     * @type {number}
-     */
-    this.x = 200 + Math.random() * 2000;
+    this.x = 200 + Math.random() * 1500;
     if (this.x > 2000) {
       this.x -= 300;
     }
-
-    /**
-     * The vertical position of the coin on the canvas.
-     * @type {number}
-     */
     this.y = 340;
-
-    /**
-     * The height of the coin.
-     * @type {number}
-     */
     this.height = 80;
-
-    /**
-     * The width of the coin.
-     * @type {number}
-     */
     this.width = 80;
   }
 }

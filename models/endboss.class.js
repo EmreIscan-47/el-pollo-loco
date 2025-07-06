@@ -161,33 +161,11 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
-
-    /**
-     * The horizontal position of the boss on the canvas.
-     * @type {number}
-     */
-    this.x = 3000;
-
-    /**
-     * The height of the boss.
-     * @type {number}
-     */
+    this.x = 2200;
     this.height = 500;
-
-    /**
-     * The width of the boss.
-     * @type {number}
-     */
     this.width = 500;
-
-    /**
-     * The vertical position of the boss on the canvas.
-     * @type {number}
-     */
     this.y = -30;
-
     this.startEndBossBattle(false, false, false);
-
     this.deadInterval = setInterval(() => {
       if (this.energy == 0) {
         this.endBossIsDead = true;
@@ -197,10 +175,6 @@ class Endboss extends MovableObject {
       }
     }, 1000);
 
-    /**
-     * The movement speed of the boss (randomized).
-     * @type {number}
-     */
     this.speed = 3;
   }
 
@@ -215,13 +189,10 @@ class Endboss extends MovableObject {
     this.clearEverything();
 
     if (startEndBattle) {
-      
       this.animateEndBoss();
     } else if (attackCharacter) {
-     
       this.animateAttack();
     } else if (hurtEndboss) {
-      
       this.animateHurtEndboss();
     } else {
       this.animate();

@@ -49,6 +49,7 @@ body {
   display: flex;
   flex-direction: column;
 }
+
 .start-screen {
   position: absolute;
   top: 0;
@@ -361,6 +362,7 @@ canvas {
   font-style: italic;
   text-decoration: underline;
 }
+
 .overlay-layer {
   display: flex;
 }
@@ -454,6 +456,7 @@ canvas {
   .canvas-location {
     margin-top: 0;
   }
+
   canvas {
     width: 100%;
     background-color: transparent;
@@ -465,12 +468,14 @@ canvas {
     border: 0;
     border-radius: 0;
   }
+
   .end-screen-position img {
     width: 500px;
     height: 480px;
     border: 0;
     border-radius: 0;
   }
+
   .controls-in-game {
     display: none;
   }
@@ -569,6 +574,7 @@ canvas {
   .start-screen-position {
     margin-top: 0;
   }
+
   .end-screen-position {
     margin-top: 0;
   }
@@ -668,16 +674,20 @@ canvas {
     height: 55px;
     margin-top: 20px;
   }
+
   .top-button img {
     width: 30px;
   }
+
   .start-button {
     width: 130px;
     height: 60px;
   }
+
   .top-buttons {
     width: 460px;
   }
+
   .bottom-button {
     align-items: center;
     height: 150px !important;
@@ -705,16 +715,20 @@ canvas {
     height: 55px;
     margin-top: 20px;
   }
+
   .top-button img {
     width: 30px;
   }
+
   .start-button {
     width: 130px;
     height: 60px;
   }
+
   .top-buttons {
     width: 380px;
   }
+
   .bottom-button {
     align-items: center;
     height: 280px;
@@ -901,6 +915,7 @@ canvas {
   canvas {
     height: 100vh;
   }
+
   .start-screen-position {
     height: 100vh;
     margin-top: 0;
@@ -923,9 +938,11 @@ canvas {
     height: 350px;
     margin-top: 0;
   }
+
   .end-screen-position img {
     height: 100vh;
   }
+
   .end-screen-background {
     height: 100vh;
   }
@@ -948,6 +965,7 @@ canvas {
     border-radius: 0;
     border: 0 !important;
   }
+
   .game-pad-position {
     margin-top: 0 !important;
   }
@@ -974,6 +992,7 @@ canvas {
   .turn-device-overlay {
     display: block;
   }
+  
   .end-screen {
     display: none;
   }

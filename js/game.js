@@ -270,18 +270,33 @@ function openStory() {
 }
 
 
+/**
+ * Toggles the visibility of the "Impressum" (legal notice) information overlay.
+ * If the overlay is currently visible, it will be hidden.
+ * If it is hidden, it will be shown.
+ *
+ * @function
+ */
 function openImpressum() {
-    let impressumInfoREF = document.getElementById("impressum-info");
+  // Get the reference to the Impressum info element
+  let impressumInfoREF = document.getElementById("impressum-info");
+  // Toggle the "d-none" class to show or hide the overlay
   if (!impressumInfoREF.classList.contains("d-none")) {
-    impressumInfoREF.classList.add("d-none");
+    impressumInfoREF.classList.add("d-none"); // Hide if currently visible
   } else {
-   impressumInfoREF.classList.remove("d-none");
+    impressumInfoREF.classList.remove("d-none"); // Show if currently hidden
   }
 }
 
+/**
+ * Plays a sound effect when a button is clicked.
+ *
+ * @function
+ */
 function buttonClickSound() {
   soundManager.play("buttonClick");
 }
+
 
 /**
  * Prevents the closing of overlays when clicking inside them by stopping event propagation.
@@ -357,7 +372,8 @@ function loadAllSounds() {
   soundManager.load("youLoseSound", "audio/youLoseSound.mp3");
   soundManager.load("backgroundMusic", "audio/backgroundMusic.mp3");
   soundManager.load("bottleCollect", "audio/bottleCollect.mp3");
-  soundManager.load("buttonClick", "audio/buttonClick.mp3")
+  soundManager.load("buttonClick", "audio/buttonClick.mp3");
+  soundManager.load("littleChickenSound", "audio/littleChickenSound.mp3");
 }
 
 /**

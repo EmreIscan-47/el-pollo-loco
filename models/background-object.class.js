@@ -34,11 +34,6 @@ class BackgroundObject extends MovableObject {
   constructor(imagePath, x) {
     super();
     this.loadImage(imagePath);
-
-    /**
-     * The horizontal position of the background object on the canvas.
-     * @type {number}
-     */
     this.x = x;
   }
 }

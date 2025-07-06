@@ -68,6 +68,13 @@ class ThrowableObjects extends MovableObject {
    */
   isSplashing = true;
 
+  offset = {
+    top: 25,
+    right: 15,
+    bottom: 15,
+    left: 20,
+  };
+
   /**
    * Image paths for the bottle rotation animation.
    * @type {string[]}
@@ -209,8 +216,7 @@ class ThrowableObjects extends MovableObject {
   keepXPosition() {
     setInterval(() => {
       let i = this.x;
-        this.x = i;
-      
+      this.x = i;
     }, 20);
   }
 
