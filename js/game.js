@@ -294,7 +294,7 @@ function openImpressum() {
  * @function
  */
 function buttonClickSound() {
-  soundManager.play("buttonClick");
+  soundManager.play("buttonClick", 0.1);
 }
 
 

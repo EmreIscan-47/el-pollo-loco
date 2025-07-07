@@ -54,9 +54,33 @@ class LittleChicken extends MovableObject {
     this.loadImages(this.IMAGES_WALKING);
     this.animateLittleChicken();
     this.speed = 1.5 + Math.random() * 1.25;
-    if (!soundManager.soundMute) {
-      this.littleChickenLoop = soundManager.play("littleChickenSound", 0.3, true);
-      this.littleChickenLoop.play();
+    this.littleChickenSound();
+  }
+
+  /**
+   * Handles the looping sound effect for a little chicken object.
+   * - Starts playing the "littleChickenSound" in a loop if the sound is not muted,
+   *   the object is in a valid position, and sounds are not stopped.
+   * - Periodically checks if sounds should be stopped and pauses the loop if necessary.
+   *
+   * @function
+   */
+  littleChickenSound() {
+    setInterval(() => {
+      if (this.stopSounds) {
+        if (this.littleChickenLoop && typeof this.littleChickenLoop.pause === "function" && !this.littleChickenLoop.paused) {
+          this.littleChickenLoop.pause();
+        }
+        return;
+      }
+    }, 200);
+    if (!soundManager.soundMute && this.x >= -10 && !this.stopSounds) {
+      if (!this.littleChickenLoop || (this.littleChickenLoop && this.littleChickenLoop.paused)) {
+        this.littleChickenLoop = soundManager.play("littleChickenSound", 0.1, true);
+        if (this.littleChickenLoop && typeof this.littleChickenLoop.play === "function") {
+          this.littleChickenLoop.play().catch(() => {});
+        }
+      }
     }
   }
 

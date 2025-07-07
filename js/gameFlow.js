@@ -18,7 +18,6 @@ function winScreen() {
   }
 }
 
-
 /**
  * Handles the display logic for the game lost screen.
  * If the end image is currently visible, it hides it.
@@ -38,8 +37,6 @@ function gameLostScreen() {
     gameLostScreenAppears(endImgREF, controlsInGameREF, endButtonsREF, endScreenImgREF, gamePadREF);
   }
 }
-
-
 
 /**
  * Starts the game. Depending on the current state of the start image,
@@ -136,9 +133,12 @@ function winScreenAppears(endImgREF, endScreenImgREF, gamePadREF, endButtonsREF,
   endImgREF.classList.remove("d-none");
   endScreenImgREF.src = "img/You won, you lost/You won A.png";
   gamePadREF.classList.add("d-none");
-  backgroundMusicLoop.pause();
+  if (!soundManager.soundMute) {
+    backgroundMusicLoop.pause();
+  }
   soundManager.pause("endBossSound");
   soundManager.play("youWinSound");
+  world = null;
   setTimeout(() => {
     endButtonsREF.classList.remove("d-none");
   }, 1200);
@@ -165,6 +165,7 @@ function gameLostScreenAppears(endImgREF, controlsInGameREF, endButtonsREF, endS
   }
   soundManager.pause("endBossSound");
   soundManager.play("youLoseSound");
+  world = null;
   setTimeout(() => {
     endButtonsREF.classList.remove("d-none");
   }, 1200);
@@ -211,7 +212,6 @@ function deleteWorld() {
   world = new World(canvas, keyboard, false);
 }
 
-
 /**
  * Restarts the game by resetting UI elements and starting background music.
  *
@@ -247,6 +247,7 @@ function returnToStartScreen() {
     startImgREF.classList.remove("d-none");
     startButtonREF.classList.remove("d-none");
     startGameREF.removeAttribute("disabled");
+    /* world = null; */
   } else {
     startImgREF.classList.add("d-none");
     startButtonREF.classList.add("d-none");

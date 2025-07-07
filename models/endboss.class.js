@@ -63,16 +63,16 @@ class Endboss extends MovableObject {
   /**
    * The boss's current energy (health).
    * @type {number}
-   * @default 100
+   * @default 200
    */
-  energy = 100;
+  energy = 200;
 
   /**
    * The boss's maximum energy (health).
    * @type {number}
-   * @default 100
+   * @default 200
    */
-  checkEnergy = 100;
+  checkEnergy = 200;
 
   /** @type {number} */ animateEndbossInterval;
   /** @type {number} */ animateWalkingInterval;
@@ -143,7 +143,7 @@ class Endboss extends MovableObject {
    */
   offset = {
     top: 100,
-    left: 30,
+    left: 50,
     right: 90,
     bottom: 10,
   };
@@ -222,7 +222,7 @@ class Endboss extends MovableObject {
         if (this.j == 0) {
           this.j++;
           this.endBossSoundLoop = soundManager.play("endBossSound", 1, true);
-          if (!soundManager.soundMute) {
+          if (!soundManager.soundMute && !this.stopSounds) {
             this.endBossSoundLoop.play();
           }
         }

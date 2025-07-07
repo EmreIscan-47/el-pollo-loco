@@ -101,7 +101,7 @@ class Chicken extends MovableObject {
   animateChicken() {
     this.animateChickenInterval = setInterval(() => {
       this.playAnimation(this.IMAGES_WALKING);
-      if (!this.stopSounds) {
+      if (!this.stopSounds && this.x >= -20) {
         soundManager.play("chickenSound", 0.1);
       }
     }, 6500 / 60);

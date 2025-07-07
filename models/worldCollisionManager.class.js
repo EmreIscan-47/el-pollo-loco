@@ -76,7 +76,7 @@ class WorldCollisionManager {
     if (this.world.character.energy == 0) {
       this.world.gameOver = true;
       setInterval(() => {
-        if (!soundManager.soundMute) {
+        if (!soundManager.soundMute && !this.world.gameOver) {
           this.world.level.enemies[6].endBossSoundLoop.pause();
         }
       }, 1500);
