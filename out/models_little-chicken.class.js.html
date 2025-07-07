@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: models/little-chicken.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: models/little-chicken.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Represents a small chicken enemy in the game.
+ * Handles movement, walking animation, and death behavior.
+ *
+ * @class
+ * @extends MovableObject
+ */
+class LittleChicken extends MovableObject {
+  /**
+   * Image paths for the little chicken's walking animation.
+   * @type {string[]}
+   */
+  IMAGES_WALKING = ["img/3_enemies_chicken/chicken_small/1_walk/1_w.png", "img/3_enemies_chicken/chicken_small/1_walk/2_w.png", "img/3_enemies_chicken/chicken_small/1_walk/3_w.png"];
+
+  /**
+   * The offset values for the little chicken's collision box.
+   * @type {{top: number, right: number, bottom: number, left: number}}
+   */
+  offset = {
+    top: 10,
+    right: 2,
+    bottom: 0,
+    left: 2,
+  };
+
+  /**
+   * Indicates if all sounds should be stopped.
+   * @type {boolean}
+   * @default false
+   */
+  stopSounds = false;
+
+  /**
+   * Interval ID for the animation or movement loop of little chicken enemies.
+   *
+   * @type {number}
+   */
+  littleChickenLoop;
+
+  /**
+   * Creates a new LittleChicken instance, loads its image, sets position and size,
+   * loads animation frames, and starts the walking animation.
+   *
+   * @constructor
+   */
+  constructor() {
+    super();
+    this.name = "little_chicken";
+    this.loadImage("img/3_enemies_chicken/chicken_small/1_walk/1_w.png");
+    this.x = 200 + Math.random() * 1500;
+    this.y = 365;
+    this.height = 50;
+    this.width = 50;
+    this.loadImages(this.IMAGES_WALKING);
+    this.animateLittleChicken();
+    this.speed = 1.5 + Math.random() * 1.25;
+    this.littleChickenSound();
+  }
+
+  /**
+   * Handles the looping sound effect for a little chicken object.
+   * - Starts playing the "littleChickenSound" in a loop if the sound is not muted,
+   *   the object is in a valid position, and sounds are not stopped.
+   * - Periodically checks if sounds should be stopped and pauses the loop if necessary.
+   *
+   * @function
+   */
+  littleChickenSound() {
+    setInterval(() => {
+      if (this.stopSounds) {
+        if (this.littleChickenLoop &amp;&amp; typeof this.littleChickenLoop.pause === "function" &amp;&amp; !this.littleChickenLoop.paused) {
+          this.littleChickenLoop.pause();
+        }
+        return;
+      }
+    }, 200);
+    if (!soundManager.soundMute &amp;&amp; this.x >= -10 &amp;&amp; !this.stopSounds) {
+      if (!this.littleChickenLoop || (this.littleChickenLoop &amp;&amp; this.littleChickenLoop.paused)) {
+        this.littleChickenLoop = soundManager.play("littleChickenSound", 0.1, true);
+        if (this.littleChickenLoop &amp;&amp; typeof this.littleChickenLoop.play === "function") {
+          this.littleChickenLoop.play().catch(() => {});
+        }
+      }
+    }
+  }
+
+  /**
+   * Handles the little chicken's death animation and moves it off-screen after a delay.
+   *
+   * @function
+   */
+  chickenDead() {
+    const deadIntervall = setInterval(() => {
+      clearInterval(this.animateChickenInterval);
+      clearInterval(this.animateLeftInterval);
+      this.loadImage("img/3_enemies_chicken/chicken_small/2_dead/dead.png");
+      setInterval(() => {
+        this.loadImage("");
+        clearInterval(deadIntervall);
+        this.y = 1000;
+      }, 500);
+    }, 200);
+    if (!soundManager.soundMute) {
+      this.littleChickenLoop.pause();
+    }
+    soundManager.play("chickenDead");
+  }
+
+  /**
+   * Starts the walking animation and movement to the left for the little chicken.
+   *
+   * @function
+   */
+  animateLittleChicken() {
+    this.animateChickenInterval = setInterval(() => {
+      this.playAnimation(this.IMAGES_WALKING);
+    }, 6500 / 60);
+
+    this.animateLeftInterval = setInterval(() => {
+      this.moveLeft();
+      if (!soundManager.soundMute &amp;&amp; this.x &lt; -20) {
+        this.littleChickenLoop.pause();
+      }
+    }, 2000 / 60);
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Bottle.html">Bottle</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coins.html">Coins</a></li><li><a href="DrawableObjects.html">DrawableObjects</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="LittleChicken.html">LittleChicken</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObjects.html">ThrowableObjects</a></li><li><a href="World.html">World</a></li><li><a href="WorldCollisionManager.html">WorldCollisionManager</a></li></ul><h3>Global</h3><ul><li><a href="global.html#backgroundMusicLoop">backgroundMusicLoop</a></li><li><a href="global.html#buttonClickSound">buttonClickSound</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#changeSound">changeSound</a></li><li><a href="global.html#checkSoundMute">checkSoundMute</a></li><li><a href="global.html#deleteWorld">deleteWorld</a></li><li><a href="global.html#gameLostScreen">gameLostScreen</a></li><li><a href="global.html#gameLostScreenAppears">gameLostScreenAppears</a></li><li><a href="global.html#gamePadBottleREF">gamePadBottleREF</a></li><li><a href="global.html#gamePadJumpREF">gamePadJumpREF</a></li><li><a href="global.html#gamePadLeftREF">gamePadLeftREF</a></li><li><a href="global.html#gamePadRightREF">gamePadRightREF</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initLevel">initLevel</a></li><li><a href="global.html#keyboard">keyboard</a></li><li><a href="global.html#keyboardDown">keyboardDown</a></li><li><a href="global.html#keyboardLeftREF">keyboardLeftREF</a></li><li><a href="global.html#keyboardPress">keyboardPress</a></li><li><a href="global.html#keyboardRightREF">keyboardRightREF</a></li><li><a href="global.html#keyboardSpaceREF">keyboardSpaceREF</a></li><li><a href="global.html#keyboardThrowREF">keyboardThrowREF</a></li><li><a href="global.html#lastKeyTime">lastKeyTime</a></li><li><a href="global.html#level1">level1</a></li><li><a href="global.html#loadAllSounds">loadAllSounds</a></li><li><a href="global.html#noClose">noClose</a></li><li><a href="global.html#openControls">openControls</a></li><li><a href="global.html#openImpressum">openImpressum</a></li><li><a href="global.html#openStory">openStory</a></li><li><a href="global.html#prepareGame">prepareGame</a></li><li><a href="global.html#resetStartScreen">resetStartScreen</a></li><li><a href="global.html#resetTimer">resetTimer</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#returnToStartScreen">returnToStartScreen</a></li><li><a href="global.html#showGameUI">showGameUI</a></li><li><a href="global.html#soundManager">soundManager</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#startIdleCheck">startIdleCheck</a></li><li><a href="global.html#startTheGame">startTheGame</a></li><li><a href="global.html#stopDrawing">stopDrawing</a></li><li><a href="global.html#timerInterval">timerInterval</a></li><li><a href="global.html#updateIdleTime">updateIdleTime</a></li><li><a href="global.html#winScreen">winScreen</a></li><li><a href="global.html#winScreenAppears">winScreenAppears</a></li><li><a href="global.html#world">world</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Jul 07 2025 18:12:12 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

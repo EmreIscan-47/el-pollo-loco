@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: models/keyboard-object.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: models/keyboard-object.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Represents the state of keyboard controls for the game.
+ * Stores the status of all relevant keys and idle states.
+ *
+ * @class
+ */
+class Keyboard {
+  /**
+   * Indicates if the left arrow key is pressed.
+   * @type {boolean}
+   * @default false
+   */
+  LEFT = false;
+
+  /**
+   * Indicates if the right arrow key is pressed.
+   * @type {boolean}
+   * @default false
+   */
+  RIGHT = false;
+
+  /**
+   * Indicates if the spacebar is pressed.
+   * @type {boolean}
+   * @default false
+   */
+  SPACE = false;
+
+  /**
+   * Indicates if the up arrow key is pressed.
+   * @type {boolean}
+   * @default false
+   */
+  UP = false;
+
+  /**
+   * Indicates if the down arrow key is pressed.
+   * @type {boolean}
+   * @default false
+   */
+  DOWN = false;
+
+  /**
+   * Indicates if the jump key is pressed.
+   * @type {boolean}
+   * @default false
+   */
+  JUMP = false;
+
+  /**
+   * Indicates if the throw bottle key is pressed.
+   * @type {boolean}
+   * @default false
+   */
+  THROWBOTTLE = false;
+
+  /**
+   * Indicates if the player is in a short idle state.
+   * @type {boolean}
+   * @default false
+   */
+  shortIdle = false;
+
+  /**
+   * Indicates if the player is in a long idle state.
+   * @type {boolean}
+   * @default false
+   */
+  longIdle = false;
+
+  /**
+   * Creates a new Keyboard instance.
+   *
+   * @constructor
+   */
+  constructor() {
+    
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Bottle.html">Bottle</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coins.html">Coins</a></li><li><a href="DrawableObjects.html">DrawableObjects</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="LittleChicken.html">LittleChicken</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObjects.html">ThrowableObjects</a></li><li><a href="World.html">World</a></li><li><a href="WorldCollisionManager.html">WorldCollisionManager</a></li></ul><h3>Global</h3><ul><li><a href="global.html#backgroundMusicLoop">backgroundMusicLoop</a></li><li><a href="global.html#buttonClickSound">buttonClickSound</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#changeSound">changeSound</a></li><li><a href="global.html#checkSoundMute">checkSoundMute</a></li><li><a href="global.html#deleteWorld">deleteWorld</a></li><li><a href="global.html#gameLostScreen">gameLostScreen</a></li><li><a href="global.html#gameLostScreenAppears">gameLostScreenAppears</a></li><li><a href="global.html#gamePadBottleREF">gamePadBottleREF</a></li><li><a href="global.html#gamePadJumpREF">gamePadJumpREF</a></li><li><a href="global.html#gamePadLeftREF">gamePadLeftREF</a></li><li><a href="global.html#gamePadRightREF">gamePadRightREF</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initLevel">initLevel</a></li><li><a href="global.html#keyboard">keyboard</a></li><li><a href="global.html#keyboardDown">keyboardDown</a></li><li><a href="global.html#keyboardLeftREF">keyboardLeftREF</a></li><li><a href="global.html#keyboardPress">keyboardPress</a></li><li><a href="global.html#keyboardRightREF">keyboardRightREF</a></li><li><a href="global.html#keyboardSpaceREF">keyboardSpaceREF</a></li><li><a href="global.html#keyboardThrowREF">keyboardThrowREF</a></li><li><a href="global.html#lastKeyTime">lastKeyTime</a></li><li><a href="global.html#level1">level1</a></li><li><a href="global.html#loadAllSounds">loadAllSounds</a></li><li><a href="global.html#noClose">noClose</a></li><li><a href="global.html#openControls">openControls</a></li><li><a href="global.html#openImpressum">openImpressum</a></li><li><a href="global.html#openStory">openStory</a></li><li><a href="global.html#prepareGame">prepareGame</a></li><li><a href="global.html#resetStartScreen">resetStartScreen</a></li><li><a href="global.html#resetTimer">resetTimer</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#returnToStartScreen">returnToStartScreen</a></li><li><a href="global.html#showGameUI">showGameUI</a></li><li><a href="global.html#soundManager">soundManager</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#startIdleCheck">startIdleCheck</a></li><li><a href="global.html#startTheGame">startTheGame</a></li><li><a href="global.html#stopDrawing">stopDrawing</a></li><li><a href="global.html#timerInterval">timerInterval</a></li><li><a href="global.html#updateIdleTime">updateIdleTime</a></li><li><a href="global.html#winScreen">winScreen</a></li><li><a href="global.html#winScreenAppears">winScreenAppears</a></li><li><a href="global.html#world">world</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Jul 07 2025 18:12:12 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

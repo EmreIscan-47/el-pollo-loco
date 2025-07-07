@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: js/game.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: js/game.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * The HTML canvas element used for rendering the game.
+ * @type {HTMLCanvasElement}
+ */
+let canvas;
+
+/**
+ * The main game world instance.
+ * @type {World}
+ */
+let world;
+
+/**
+ * The keyboard input handler instance.
+ * @type {Keyboard}
+ */
+let keyboard = new Keyboard();
+
+/**
+ * The global sound manager instance.
+ * @type {SoundManager}
+ */
+const soundManager = new SoundManager();
+
+/**
+ * Timestamp of the last key press (used for input timing).
+ * @type {number}
+ */
+let lastKeyTime = Date.now();
+
+/**
+ * Interval ID for the game timer.
+ * @type {number|null}
+ */
+let timerInterval = null;
+
+/**
+ * Indicates if the game should start (e.g., for splash/start screen).
+ * @type {boolean}
+ * @default true
+ */
+let startTheGame = true;
+
+/**
+ * Audio element for looping background music.
+ * @type {HTMLAudioElement}
+ */
+let backgroundMusicLoop;
+
+/**
+ * Reference to the left keyboard button in the DOM.
+ * @type {HTMLElement}
+ */
+const keyboardLeftREF = document.getElementById("keyboard-left");
+
+/**
+ * Reference to the right keyboard button in the DOM.
+ * @type {HTMLElement}
+ */
+const keyboardRightREF = document.getElementById("keyboard-right");
+
+/**
+ * Reference to the space keyboard button in the DOM.
+ * @type {HTMLElement}
+ */
+const keyboardSpaceREF = document.getElementById("keyboard-space");
+
+/**
+ * Reference to the throw keyboard button in the DOM.
+ * @type {HTMLElement}
+ */
+const keyboardThrowREF = document.getElementById("keyboard-throw");
+
+/**
+ * Reference to the left gamepad button in the DOM.
+ * @type {HTMLElement}
+ */
+const gamePadLeftREF = document.getElementById("game-pad-left");
+
+/**
+ * Reference to the right gamepad button in the DOM.
+ * @type {HTMLElement}
+ */
+const gamePadRightREF = document.getElementById("game-pad-right");
+
+/**
+ * Reference to the jump gamepad button in the DOM.
+ * @type {HTMLElement}
+ */
+const gamePadJumpREF = document.getElementById("game-pad-jump");
+
+/**
+ * Reference to the bottle/gamepad throw button in the DOM.
+ * @type {HTMLElement}
+ */
+const gamePadBottleREF = document.getElementById("game-pad-bottle");
+
+
+/**
+ * Initializes the game by loading all sounds and checking the mute status.
+ *
+ * @function
+ */
+function init() {
+  loadAllSounds();
+  checkSoundMute();
+}
+
+/**
+ * Updates the idle time for the keyboard and sets short/long idle flags.
+ *
+ * @function
+ */
+function updateIdleTime() {
+  const idleSeconds = ((Date.now() - lastKeyTime) / 1000).toFixed(1);
+  if (10 >= idleSeconds &amp;&amp; idleSeconds >= 2) {
+    keyboard.longIdle = false;
+    keyboard.shortIdle = true;
+  } else if (idleSeconds > 10) {
+    keyboard.longIdle = true;
+    keyboard.shortIdle = false;
+  } else {
+    keyboard.longIdle = false;
+    keyboard.shortIdle = false;
+  }
+}
+
+/**
+ * Resets the idle timer and updates idle time state.
+ *
+ * @function
+ */
+function resetTimer() {
+  lastKeyTime = Date.now();
+  updateIdleTime();
+}
+
+// Event listeners for resetting idle timer on key or touch events
+window.addEventListener("keydown", resetTimer);
+window.addEventListener("touchend", resetTimer);
+
+// Periodically updates idle time
+timerInterval = setInterval(updateIdleTime, 100);
+
+// Debug event listener for keypress events
+window.addEventListener("onkeypress", (e) => {
+  console.log(e);
+});
+
+/**
+ * Handles keyboard keydown events and updates keyboard state accordingly.
+ */
+window.addEventListener("keydown", (event) => {
+  if (event.keyCode == 37) {
+    keyboardPress(event.keyCode);
+    keyboard.LEFT = true;
+  } else if (event.keyCode == 38) {
+    keyboard.UP = true;
+  } else if (event.keyCode == 39) {
+    keyboardPress(event.keyCode);
+    keyboard.RIGHT = true;
+  } else if (event.keyCode == 40) {
+    keyboard.DOWN = true;
+  } else if (event.keyCode == 32) {
+    keyboardPress(event.keyCode);
+    keyboard.SPACE = true;
+  } else if (event.keyCode == 68) {
+    keyboardPress(event.keyCode);
+    keyboard.THROWBOTTLE = true;
+  }
+});
+
+/**
+ * Visually highlights the pressed key on the virtual keyboard.
+ *
+ * @function
+ * @param {number} keyCode - The code of the pressed key.
+ */
+function keyboardPress(keyCode) {
+  switch (keyCode) {
+    case 37:
+      keyboardLeftREF.style.transform = "scale(1.7)";
+      break;
+    case 39:
+      keyboardRightREF.style.transform = "scale(1.7)";
+      break;
+    case 32:
+      keyboardSpaceREF.style.transform = "scale(1.7)";
+      break;
+    case 68:
+      keyboardThrowREF.style.transform = "scale(2.7)";
+      break;
+    default:
+      break;
+  }
+}
+
+/**
+ * Resets the visual highlight of the released key on the virtual keyboard.
+ *
+ * @function
+ * @param {number} keyCode - The code of the released key.
+ */
+function keyboardDown(keyCode) {
+  switch (keyCode) {
+    case 37:
+      keyboardLeftREF.style.transform = "scale(1)";
+      break;
+    case 39:
+      keyboardRightREF.style.transform = "scale(1)";
+      break;
+    case 32:
+      keyboardSpaceREF.style.transform = "scale(1)";
+      break;
+    case 68:
+      keyboardThrowREF.style.transform = "scale(1)";
+      break;
+    default:
+      break;
+  }
+}
+
+/**
+ * Handles keyboard keyup events and updates keyboard state accordingly.
+ */
+window.addEventListener("keyup", (event) => {
+  if (event.keyCode == 37) {
+    keyboardDown(event.keyCode);
+    keyboard.LEFT = false;
+  } else if (event.keyCode == 39) {
+    keyboardDown(event.keyCode);
+    keyboard.RIGHT = false;
+  } else if (event.keyCode == 40) {
+    keyboard.DOWN = false;
+  } else if (event.keyCode == 32) {
+    keyboardDown(event.keyCode);
+    keyboard.SPACE = false;
+  } else if (event.keyCode == 68) {
+    keyboardDown(event.keyCode);
+    keyboard.THROWBOTTLE = false;
+  }
+});
+
+/**
+ * Toggles the visibility of the controls information overlay.
+ *
+ * @function
+ */
+function openControls() {
+  let controlsInfoREF = document.getElementById("controls-info");
+  if (!controlsInfoREF.classList.contains("d-none")) {
+    controlsInfoREF.classList.add("d-none");
+  } else {
+    controlsInfoREF.classList.remove("d-none");
+  }
+}
+
+/**
+ * Toggles the visibility of the story information overlay.
+ *
+ * @function
+ */
+function openStory() {
+  let storyInfoREF = document.getElementById("story-info");
+  if (!storyInfoREF.classList.contains("d-none")) {
+    storyInfoREF.classList.add("d-none");
+  } else {
+    storyInfoREF.classList.remove("d-none");
+  }
+}
+
+
+/**
+ * Toggles the visibility of the "Impressum" (legal notice) information overlay.
+ * If the overlay is currently visible, it will be hidden.
+ * If it is hidden, it will be shown.
+ *
+ * @function
+ */
+function openImpressum() {
+  // Get the reference to the Impressum info element
+  let impressumInfoREF = document.getElementById("impressum-info");
+  // Toggle the "d-none" class to show or hide the overlay
+  if (!impressumInfoREF.classList.contains("d-none")) {
+    impressumInfoREF.classList.add("d-none"); // Hide if currently visible
+  } else {
+    impressumInfoREF.classList.remove("d-none"); // Show if currently hidden
+  }
+}
+
+/**
+ * Plays a sound effect when a button is clicked.
+ *
+ * @function
+ */
+function buttonClickSound() {
+  soundManager.play("buttonClick", 0.1);
+}
+
+
+/**
+ * Prevents the closing of overlays when clicking inside them by stopping event propagation.
+ *
+ * @function
+ * @param {Event} event - The event object.
+ */
+function noClose(event) {
+  event.stopPropagation();
+}
+
+/**
+ * Checks and updates the sound mute state based on localStorage,
+ * and updates the sound icon accordingly.
+ *
+ * @function
+ */
+function checkSoundMute() {
+  let soundOffSrc = "img/0_svgs/volume-muted-icon.svg";
+  let soundOnSrc = "img/0_svgs/volume-icon.svg";
+  let soundIconREF = document.getElementById("sound-icon");
+
+  if (localStorage.getItem("soundMute") == "true") {
+    soundIconREF.src = soundOffSrc;
+    soundManager.soundMute = true;
+  } else {
+    soundIconREF.src = soundOnSrc;
+    soundManager.soundMute = false;
+  }
+}
+
+/**
+ * Toggles the sound mute state and updates the sound icon and localStorage.
+ *
+ * @function
+ */
+function changeSound() {
+  let soundOffSrc = "img/0_svgs/volume-muted-icon.svg";
+  let soundOnSrc = "img/0_svgs/volume-icon.svg";
+  let soundIconREF = document.getElementById("sound-icon");
+
+  if (soundIconREF.src.endsWith(soundOffSrc)) {
+    soundIconREF.src = soundOnSrc;
+    soundManager.soundMute = false;
+    localStorage.setItem("soundMute", false);
+  } else {
+    soundIconREF.src = soundOffSrc;
+    soundManager.soundMute = true;
+    localStorage.setItem("soundMute", true);
+  }
+}
+
+/**
+ * Loads all required sound effects and background music into the sound manager.
+ *
+ * @function
+ */
+function loadAllSounds() {
+  soundManager.load("jump", "audio/808216_17002826-hq.mp3");
+  soundManager.load("characterMove", "audio/moveSound.mp3");
+  soundManager.load("chickenSound", "audio/chicken_sound.mp3");
+  soundManager.load("footStep", "audio/footStep.mp3");
+  soundManager.load("chickenDead", "audio/enemyDead.mp3");
+  soundManager.load("bottleBreak", "audio/bottle_break.mp3");
+  soundManager.load("endBossDead", "audio/endBossDeadSound.mp3");
+  soundManager.load("startGame", "audio/gameStartSound.mp3");
+  soundManager.load("characterHurt", "audio/hurtSound.mp3");
+  soundManager.load("characterSnoring", "audio/characterSnoring.mp3");
+  soundManager.load("coinCollect", "audio/coinCollect.mp3");
+  soundManager.load("endBossSound", "audio/endBossSound.mp3");
+  soundManager.load("endBossHurt", "audio/endBossHurt.mp3");
+  soundManager.load("youWinSound", "audio/youWinSound.mp3");
+  soundManager.load("youLoseSound", "audio/youLoseSound.mp3");
+  soundManager.load("backgroundMusic", "audio/backgroundMusic.mp3");
+  soundManager.load("bottleCollect", "audio/bottleCollect.mp3");
+  soundManager.load("buttonClick", "audio/buttonClick.mp3");
+  soundManager.load("littleChickenSound", "audio/littleChickenSound.mp3");
+}
+
+/**
+ * Starts checking for player inactivity and updates idle state accordingly.
+ *
+ * @function
+ */
+function startIdleCheck() {
+  idleInterval = setInterval(() => {
+    if (keyboard.LEFT || keyboard.RIGHT || keyboard.SPACE || keyboard.THROWBOTTLE) {
+      resetTimer();
+    } else {
+      updateIdleTime();
+    }
+  }, 300);
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Bottle.html">Bottle</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coins.html">Coins</a></li><li><a href="DrawableObjects.html">DrawableObjects</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="LittleChicken.html">LittleChicken</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObjects.html">ThrowableObjects</a></li><li><a href="World.html">World</a></li><li><a href="WorldCollisionManager.html">WorldCollisionManager</a></li></ul><h3>Global</h3><ul><li><a href="global.html#backgroundMusicLoop">backgroundMusicLoop</a></li><li><a href="global.html#buttonClickSound">buttonClickSound</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#changeSound">changeSound</a></li><li><a href="global.html#checkSoundMute">checkSoundMute</a></li><li><a href="global.html#deleteWorld">deleteWorld</a></li><li><a href="global.html#gameLostScreen">gameLostScreen</a></li><li><a href="global.html#gameLostScreenAppears">gameLostScreenAppears</a></li><li><a href="global.html#gamePadBottleREF">gamePadBottleREF</a></li><li><a href="global.html#gamePadJumpREF">gamePadJumpREF</a></li><li><a href="global.html#gamePadLeftREF">gamePadLeftREF</a></li><li><a href="global.html#gamePadRightREF">gamePadRightREF</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initLevel">initLevel</a></li><li><a href="global.html#keyboard">keyboard</a></li><li><a href="global.html#keyboardDown">keyboardDown</a></li><li><a href="global.html#keyboardLeftREF">keyboardLeftREF</a></li><li><a href="global.html#keyboardPress">keyboardPress</a></li><li><a href="global.html#keyboardRightREF">keyboardRightREF</a></li><li><a href="global.html#keyboardSpaceREF">keyboardSpaceREF</a></li><li><a href="global.html#keyboardThrowREF">keyboardThrowREF</a></li><li><a href="global.html#lastKeyTime">lastKeyTime</a></li><li><a href="global.html#level1">level1</a></li><li><a href="global.html#loadAllSounds">loadAllSounds</a></li><li><a href="global.html#noClose">noClose</a></li><li><a href="global.html#openControls">openControls</a></li><li><a href="global.html#openImpressum">openImpressum</a></li><li><a href="global.html#openStory">openStory</a></li><li><a href="global.html#prepareGame">prepareGame</a></li><li><a href="global.html#resetStartScreen">resetStartScreen</a></li><li><a href="global.html#resetTimer">resetTimer</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#returnToStartScreen">returnToStartScreen</a></li><li><a href="global.html#showGameUI">showGameUI</a></li><li><a href="global.html#soundManager">soundManager</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#startIdleCheck">startIdleCheck</a></li><li><a href="global.html#startTheGame">startTheGame</a></li><li><a href="global.html#stopDrawing">stopDrawing</a></li><li><a href="global.html#timerInterval">timerInterval</a></li><li><a href="global.html#updateIdleTime">updateIdleTime</a></li><li><a href="global.html#winScreen">winScreen</a></li><li><a href="global.html#winScreenAppears">winScreenAppears</a></li><li><a href="global.html#world">world</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Jul 07 2025 18:12:12 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

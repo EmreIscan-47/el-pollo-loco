@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: models/throwable-object.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: models/throwable-object.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Represents a throwable object (e.g., a bottle) in the game.
+ * Handles throwing, gravity, splash animation, and sound effects.
+ *
+ * @class
+ * @extends MovableObject
+ */
+class ThrowableObjects extends MovableObject {
+  /**
+   * The horizontal speed of the throwable object.
+   * @type {number}
+   */
+  speedX;
+
+  /**
+   * The vertical speed of the throwable object.
+   * @type {number}
+   */
+  speedY;
+
+  /**
+   * Interval ID for the bottle rotation animation.
+   * @type {number}
+   */
+  bottleAnimationInterval;
+
+  /**
+   * Indicates if the object is currently visible.
+   * @type {boolean}
+   */
+  visible;
+
+  /**
+   * Interval ID for the throw movement.
+   * @type {number}
+   */
+  interval;
+
+  /**
+   * Interval ID for the splash animation.
+   * @type {number}
+   */
+  animationInterval;
+
+  /**
+   * Interval ID for the bottle splash sequence.
+   * @type {number}
+   */
+  bottleSplashInterval;
+
+  /**
+   * Audio object for the bottle break sound.
+   * @type {HTMLAudioElement}
+   */
+  bottleBreakSound = new Audio("audio/bottle_break.mp3");
+
+  /**
+   * Indicates if sound effects should be stopped.
+   * @type {boolean}
+   * @default false
+   */
+  stopSounds = false;
+
+  /**
+   * Indicates if the bottle is in the splash state.
+   * @type {boolean}
+   * @default true
+   */
+  isSplashing = true;
+
+   /**
+   * Indicates whether the end game sequence has started for this throwable object.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  endGameStarted = false;
+
+  /**
+   * The offset values for the collision box of the throwable object.
+   * These values adjust the collision area relative to the object's position and size.
+   *
+   * @type {{top: number, right: number, bottom: number, left: number}}
+   * @property {number} top - The offset from the top edge.
+   * @property {number} right - The offset from the right edge.
+   * @property {number} bottom - The offset from the bottom edge.
+   * @property {number} left - The offset from the left edge.
+   */
+  offset = {
+    top: 25,
+    right: 15,
+    bottom: 15,
+    left: 20,
+  };
+
+
+  /**
+   * Image paths for the bottle rotation animation.
+   * @type {string[]}
+   */
+  IMAGES_BOTTLES = [
+    "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
+    "img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png",
+    "img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png",
+    "img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png",
+  ];
+
+  /**
+   * Image paths for the bottle splash animation.
+   * @type {string[]}
+   */
+  IMAGES_SPLASH = [
+    "img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png",
+    "img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png",
+    "img/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png",
+    "img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png",
+    "img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png",
+    "img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
+  ];
+
+  /**
+   * Creates a new ThrowableObjects instance, loads images, and starts the throw animation.
+   *
+   * @constructor
+   * @param {number} x - The initial x position.
+   * @param {number} y - The initial y position.
+   */
+  constructor(x, y, endGameStarted) {
+    super().loadImage("img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png");
+    this.loadImages(this.IMAGES_BOTTLES);
+    this.loadImages(this.IMAGES_SPLASH);
+    this.throwBottleAnimation();
+    this.x = 0;
+    this.y = 0;
+    this.endGameStarted = endGameStarted;
+    this.height = 100;
+    this.width = 80;
+    this.throw(x, y);
+  }
+
+  /**
+   * Starts the bottle rotation animation.
+   *
+   * @function
+   */
+  throwBottleAnimation() {
+    this.bottleAnimationInterval = setInterval(() => {
+      this.playAnimation(this.IMAGES_BOTTLES);
+    }, 100);
+  }
+
+  /**
+   * Starts the throw movement, applies gravity, and checks for ground collision.
+   *
+   * @function
+   * @param {number} x - The starting x position.
+   * @param {number} y - The starting y position.
+   */
+  throw(x, y) {
+    this.x = x;
+    this.y = y;
+    this.speedY = 13;
+    this.applyGravity();
+    this.interval = setInterval(() => {
+      if (this.y > 340 || (this.x >= 2000 &amp;&amp; !this.endGameStarted)) {
+        this.splashingBottle();
+        clearInterval(this.interval);
+      } else {
+        this.x += 10;
+      }
+    }, 24);
+  }
+
+  /**
+   * Handles the splash animation and sound when the bottle hits the ground.
+   *
+   * @function
+   */
+  splashingBottle() {
+    this.y = this.y;
+    this.speedY = 0;
+    if (this.x >= 2000) {
+      this.x = 2000;
+    }
+    clearInterval(this.bottleAnimationInterval);
+    let frame = 0;
+    if (!this.stopSounds) {
+      soundManager.play("bottleBreak");
+    }
+    this.startSplashAnimation(frame);
+  }
+
+  /**
+   * Starts the splash animation sequence.
+   *
+   * @function
+   * @param {number} frame - The starting frame index.
+   */
+  startSplashAnimation(frame) {
+    this.animationInterval = setInterval(() => {
+      if (frame >= this.IMAGES_SPLASH.length) {
+        clearInterval(this.animationInterval);
+        this.stopGravity();
+        this.loadImage("");
+        this.y = 10000;
+        return;
+      }
+      this.playAnimation(this.IMAGES_SPLASH);
+      frame++;
+    }, 25);
+  }
+
+  /**
+   * Handles the splash animation and sound when the bottle hits an enemy.
+   *
+   * @function
+   */
+  splashingOnEnemy() {
+    this.stopGravity();
+    this.x = this.x;
+    this.y = this.y;
+    clearInterval(this.interval);
+    clearInterval(this.animationInterval);
+    clearInterval(this.bottleAnimationInterval);
+    this.keepXPosition();
+    this.speedY = 0;
+    this.startBottleSplash();
+    soundManager.play("bottleBreak");
+  }
+
+  /**
+   * Keeps the bottle's x position fixed during the splash animation.
+   *
+   * @function
+   */
+  keepXPosition() {
+    setInterval(() => {
+      let i = this.x;
+      this.x = i;
+    }, 20);
+  }
+
+  /**
+   * Starts the bottle splash animation and moves the bottle off-screen after it finishes.
+   *
+   * @function
+   */
+  startBottleSplash() {
+    this.bottleSplashInterval = setInterval(() => {
+      this.playAnimation(this.IMAGES_SPLASH);
+      setInterval(() => {
+        this.y = 10000;
+        clearInterval(this.bottleSplashInterval);
+      }, 50);
+    }, 100);
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Bottle.html">Bottle</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coins.html">Coins</a></li><li><a href="DrawableObjects.html">DrawableObjects</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="LittleChicken.html">LittleChicken</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObjects.html">ThrowableObjects</a></li><li><a href="World.html">World</a></li><li><a href="WorldCollisionManager.html">WorldCollisionManager</a></li></ul><h3>Global</h3><ul><li><a href="global.html#backgroundMusicLoop">backgroundMusicLoop</a></li><li><a href="global.html#buttonClickSound">buttonClickSound</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#changeSound">changeSound</a></li><li><a href="global.html#checkSoundMute">checkSoundMute</a></li><li><a href="global.html#deleteWorld">deleteWorld</a></li><li><a href="global.html#gameLostScreen">gameLostScreen</a></li><li><a href="global.html#gameLostScreenAppears">gameLostScreenAppears</a></li><li><a href="global.html#gamePadBottleREF">gamePadBottleREF</a></li><li><a href="global.html#gamePadJumpREF">gamePadJumpREF</a></li><li><a href="global.html#gamePadLeftREF">gamePadLeftREF</a></li><li><a href="global.html#gamePadRightREF">gamePadRightREF</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initLevel">initLevel</a></li><li><a href="global.html#keyboard">keyboard</a></li><li><a href="global.html#keyboardDown">keyboardDown</a></li><li><a href="global.html#keyboardLeftREF">keyboardLeftREF</a></li><li><a href="global.html#keyboardPress">keyboardPress</a></li><li><a href="global.html#keyboardRightREF">keyboardRightREF</a></li><li><a href="global.html#keyboardSpaceREF">keyboardSpaceREF</a></li><li><a href="global.html#keyboardThrowREF">keyboardThrowREF</a></li><li><a href="global.html#lastKeyTime">lastKeyTime</a></li><li><a href="global.html#level1">level1</a></li><li><a href="global.html#loadAllSounds">loadAllSounds</a></li><li><a href="global.html#noClose">noClose</a></li><li><a href="global.html#openControls">openControls</a></li><li><a href="global.html#openImpressum">openImpressum</a></li><li><a href="global.html#openStory">openStory</a></li><li><a href="global.html#prepareGame">prepareGame</a></li><li><a href="global.html#resetStartScreen">resetStartScreen</a></li><li><a href="global.html#resetTimer">resetTimer</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#returnToStartScreen">returnToStartScreen</a></li><li><a href="global.html#showGameUI">showGameUI</a></li><li><a href="global.html#soundManager">soundManager</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#startIdleCheck">startIdleCheck</a></li><li><a href="global.html#startTheGame">startTheGame</a></li><li><a href="global.html#stopDrawing">stopDrawing</a></li><li><a href="global.html#timerInterval">timerInterval</a></li><li><a href="global.html#updateIdleTime">updateIdleTime</a></li><li><a href="global.html#winScreen">winScreen</a></li><li><a href="global.html#winScreenAppears">winScreenAppears</a></li><li><a href="global.html#world">world</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Jul 07 2025 18:12:12 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

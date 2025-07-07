@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: js/gameFlow.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: js/gameFlow.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Handles the display logic for the win screen.
+ * If the end image is currently visible, it hides it.
+ * Otherwise, it triggers the win screen appearance.
+ *
+ * @function
+ */
+function winScreen() {
+  let endImgREF = document.getElementById("end-img");
+  let controlsInGameREF = document.getElementById("controls-in-game");
+  let endButtonsREF = document.getElementById("end-screen-buttons");
+  let endScreenImgREF = document.getElementById("end-screen-img");
+  let gamePadREF = document.getElementById("game-pad-visibility");
+  if (!endImgREF.classList.contains("d-none")) {
+    endImgREF.classList.add("d-none");
+  } else {
+    winScreenAppears(endImgREF, endScreenImgREF, gamePadREF, endButtonsREF, controlsInGameREF);
+  }
+}
+
+/**
+ * Handles the display logic for the game lost screen.
+ * If the end image is currently visible, it hides it.
+ * Otherwise, it triggers the lost screen appearance.
+ *
+ * @function
+ */
+function gameLostScreen() {
+  let endImgREF = document.getElementById("end-img");
+  let controlsInGameREF = document.getElementById("controls-in-game");
+  let endButtonsREF = document.getElementById("end-screen-buttons");
+  let endScreenImgREF = document.getElementById("end-screen-img");
+  let gamePadREF = document.getElementById("game-pad-visibility");
+  if (!endImgREF.classList.contains("d-none")) {
+    endImgREF.classList.add("d-none");
+  } else {
+    gameLostScreenAppears(endImgREF, controlsInGameREF, endButtonsREF, endScreenImgREF, gamePadREF);
+  }
+}
+
+/**
+ * Starts the game. Depending on the current state of the start image,
+ * it either prepares the game or resets the start screen.
+ *
+ * @function
+ */
+function startGame() {
+  let startImgREF = document.getElementById("start-img");
+  let startButtonREF = document.getElementById("start-buttons");
+  let controlsInGameREF = document.getElementById("controls-in-game");
+  let startGameREF = document.getElementById("start-button");
+  let gamePadREF = document.getElementById("game-pad-visibility");
+
+  if (!startImgREF.classList.contains("d-none")) {
+    prepareGame(startImgREF, startButtonREF, controlsInGameREF, startGameREF, gamePadREF);
+  } else {
+    resetStartScreen(startImgREF, gamePadREF, startButtonREF);
+  }
+}
+
+/**
+ * Prepares the game environment, initializes the level and world,
+ * and shows the game UI after a short delay.
+ *
+ * @function
+ * @param {HTMLElement} startImgREF - Reference to the start image element.
+ * @param {HTMLElement} startButtonREF - Reference to the start buttons container.
+ * @param {HTMLElement} controlsInGameREF - Reference to the in-game controls container.
+ * @param {HTMLElement} startGameREF - Reference to the start game button.
+ * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
+ */
+function prepareGame(startImgREF, startButtonREF, controlsInGameREF, startGameREF, gamePadREF) {
+  canvas = document.getElementById("canvas");
+  canvas.style.border = "5px solid black";
+  startGameREF.setAttribute("disabled", "");
+  initLevel();
+  world = new World(canvas, keyboard, false);
+  setTimeout(() => {
+    showGameUI(startImgREF, startButtonREF, controlsInGameREF, gamePadREF);
+  }, 1000);
+}
+
+/**
+ * Displays the game UI, hides the start screen elements,
+ * starts background music, and initiates idle checking.
+ *
+ * @function
+ * @param {HTMLElement} startImgREF - Reference to the start image element.
+ * @param {HTMLElement} startButtonREF - Reference to the start buttons container.
+ * @param {HTMLElement} controlsInGameREF - Reference to the in-game controls container.
+ * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
+ */
+function showGameUI(startImgREF, startButtonREF, controlsInGameREF, gamePadREF) {
+  startImgREF.classList.add("d-none");
+  startButtonREF.classList.add("d-none");
+  gamePadREF.classList.remove("d-none");
+  controlsInGameREF.classList.remove("d-none");
+  backgroundMusicLoop = soundManager.play("backgroundMusic", 0.2, true);
+  if (!soundManager.soundMute) {
+    backgroundMusicLoop.play();
+  }
+  soundManager.play("startGame");
+  startIdleCheck();
+}
+
+/**
+ * Resets the start screen by showing the start image and button,
+ * and hiding the game pad.
+ *
+ * @function
+ * @param {HTMLElement} startImgREF - Reference to the start image element.
+ * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
+ * @param {HTMLElement} startButtonREF - Reference to the start buttons container.
+ */
+function resetStartScreen(startImgREF, gamePadREF, startButtonREF) {
+  startImgREF.classList.remove("d-none");
+  gamePadREF.classList.add("d-none");
+  startButtonREF.classList.remove("d-none");
+}
+
+/**
+ * Shows the win screen by updating UI elements, pausing background music,
+ * playing the win sound, and revealing end screen buttons after a short delay.
+ *
+ * @function
+ * @param {HTMLElement} endImgREF - Reference to the end image element.
+ * @param {HTMLImageElement} endScreenImgREF - Reference to the end screen image element.
+ * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
+ * @param {HTMLElement} endButtonsREF - Reference to the end screen buttons container.
+ * @param {HTMLElement} controlsInGameREF - Reference to the in-game controls container.
+ */
+function winScreenAppears(endImgREF, endScreenImgREF, gamePadREF, endButtonsREF, controlsInGameREF) {
+  endImgREF.classList.remove("d-none");
+  endScreenImgREF.src = "img/You won, you lost/You won A.png";
+  gamePadREF.classList.add("d-none");
+  if (!soundManager.soundMute) {
+    backgroundMusicLoop.pause();
+  }
+  soundManager.pause("endBossSound");
+  soundManager.play("youWinSound");
+  world = null;
+  setTimeout(() => {
+    endButtonsREF.classList.remove("d-none");
+  }, 1200);
+  controlsInGameREF.classList.add("d-none");
+}
+
+/**
+ * Shows the game lost screen by updating UI elements, pausing background music,
+ * playing the lose sound, and revealing end screen buttons after a short delay.
+ *
+ * @function
+ * @param {HTMLElement} endImgREF - Reference to the end image element.
+ * @param {HTMLElement} controlsInGameREF - Reference to the in-game controls container.
+ * @param {HTMLElement} endButtonsREF - Reference to the end screen buttons container.
+ * @param {HTMLImageElement} endScreenImgREF - Reference to the end screen image element.
+ * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
+ */
+function gameLostScreenAppears(endImgREF, controlsInGameREF, endButtonsREF, endScreenImgREF, gamePadREF) {
+  endImgREF.classList.remove("d-none");
+  gamePadREF.classList.add("d-none");
+  endScreenImgREF.src = "img/You won, you lost/Game over A.png";
+  if (!soundManager.soundMute) {
+    backgroundMusicLoop.pause();
+  }
+  soundManager.pause("endBossSound");
+  soundManager.play("youLoseSound");
+  world = null;
+  setTimeout(() => {
+    endButtonsREF.classList.remove("d-none");
+  }, 1200);
+  controlsInGameREF.classList.add("d-none");
+}
+
+/**
+ * Toggles the game's drawing and pause state.
+ * If the game is running, it stops and pauses the game.
+ * If the game is stopped, it resumes and redraws the game.
+ *
+ * @function
+ */
+function stopDrawing() {
+  if (!world.stopGame) {
+    world.stopGame = true;
+    world.pauseTheGame();
+  } else {
+    world.stopGame = false;
+    world.pauseTheGame();
+    world.draw();
+  }
+}
+
+/**
+ * Deletes the current game world and resets the game state.
+ * If the end image is visible, restarts the game. Otherwise, shows the end image and buttons.
+ *
+ * @function
+ */
+function deleteWorld() {
+  let endImgREF = document.getElementById("end-img");
+  let endButtonsREF = document.getElementById("end-screen-buttons");
+  let controlsInGameREF = document.getElementById("controls-in-game");
+  let gamePadREF = document.getElementById("game-pad-visibility");
+  if (!endImgREF.classList.contains("d-none")) {
+    restartGame(endImgREF, endButtonsREF, controlsInGameREF, gamePadREF);
+  } else {
+    endImgREF.classList.remove("d-none");
+    endButtonsREF.classList.remove("d-none");
+  }
+  world = null;
+  initLevel();
+  world = new World(canvas, keyboard, false);
+}
+
+/**
+ * Restarts the game by resetting UI elements and starting background music.
+ *
+ * @function
+ * @param {HTMLElement} endImgREF - Reference to the end image element.
+ * @param {HTMLElement} endButtonsREF - Reference to the end screen buttons container.
+ * @param {HTMLElement} controlsInGameREF - Reference to the in-game controls container.
+ * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
+ */
+function restartGame(endImgREF, endButtonsREF, controlsInGameREF, gamePadREF) {
+  controlsInGameREF.classList.remove("d-none");
+  endImgREF.classList.add("d-none");
+  endButtonsREF.classList.add("d-none");
+  gamePadREF.classList.remove("d-none");
+  backgroundMusicLoop = soundManager.play("backgroundMusic", 0.2, true);
+  if (backgroundMusicLoop.play()) {
+    backgroundMusicLoop.play();
+  }
+}
+
+/**
+ * Returns to the start screen from the end screen, updating UI elements accordingly.
+ *
+ * @function
+ */
+function returnToStartScreen() {
+  let startImgREF = document.getElementById("start-img");
+  let startButtonREF = document.getElementById("start-buttons");
+  let endImgREF = document.getElementById("end-img");
+  let startGameREF = document.getElementById("start-button");
+  if (!endImgREF.classList.contains("d-none")) {
+    endImgREF.classList.add("d-none");
+    startImgREF.classList.remove("d-none");
+    startButtonREF.classList.remove("d-none");
+    startGameREF.removeAttribute("disabled");
+    /* world = null; */
+  } else {
+    startImgREF.classList.add("d-none");
+    startButtonREF.classList.add("d-none");
+    endImgREF.classList.remove("d-none");
+  }
+}
+
+
+/**
+ * Handles touch events for the left gamepad button.
+ */
+gamePadLeftREF.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  keyboard.LEFT = true;
+});
+gamePadLeftREF.addEventListener("touchend", (e) => {
+  e.preventDefault();
+  keyboard.LEFT = false;
+});
+
+/**
+ * Handles touch events for the right gamepad button.
+ */
+gamePadRightREF.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  keyboard.RIGHT = true;
+});
+gamePadRightREF.addEventListener("touchend", (e) => {
+  e.preventDefault();
+  keyboard.RIGHT = false;
+});
+
+/**
+ * Handles touch events for the jump gamepad button.
+ */
+gamePadJumpREF.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  keyboard.SPACE = true;
+});
+gamePadJumpREF.addEventListener("touchend", (e) => {
+  e.preventDefault();
+  keyboard.SPACE = false;
+});
+
+/**
+ * Handles touch events for the bottle throw gamepad button.
+ */
+gamePadBottleREF.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  keyboard.THROWBOTTLE = true;
+});
+gamePadBottleREF.addEventListener("touchend", (e) => {
+  e.preventDefault();
+  keyboard.THROWBOTTLE = false;
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Bottle.html">Bottle</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coins.html">Coins</a></li><li><a href="DrawableObjects.html">DrawableObjects</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="LittleChicken.html">LittleChicken</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObjects.html">ThrowableObjects</a></li><li><a href="World.html">World</a></li><li><a href="WorldCollisionManager.html">WorldCollisionManager</a></li></ul><h3>Global</h3><ul><li><a href="global.html#backgroundMusicLoop">backgroundMusicLoop</a></li><li><a href="global.html#buttonClickSound">buttonClickSound</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#changeSound">changeSound</a></li><li><a href="global.html#checkSoundMute">checkSoundMute</a></li><li><a href="global.html#deleteWorld">deleteWorld</a></li><li><a href="global.html#gameLostScreen">gameLostScreen</a></li><li><a href="global.html#gameLostScreenAppears">gameLostScreenAppears</a></li><li><a href="global.html#gamePadBottleREF">gamePadBottleREF</a></li><li><a href="global.html#gamePadJumpREF">gamePadJumpREF</a></li><li><a href="global.html#gamePadLeftREF">gamePadLeftREF</a></li><li><a href="global.html#gamePadRightREF">gamePadRightREF</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initLevel">initLevel</a></li><li><a href="global.html#keyboard">keyboard</a></li><li><a href="global.html#keyboardDown">keyboardDown</a></li><li><a href="global.html#keyboardLeftREF">keyboardLeftREF</a></li><li><a href="global.html#keyboardPress">keyboardPress</a></li><li><a href="global.html#keyboardRightREF">keyboardRightREF</a></li><li><a href="global.html#keyboardSpaceREF">keyboardSpaceREF</a></li><li><a href="global.html#keyboardThrowREF">keyboardThrowREF</a></li><li><a href="global.html#lastKeyTime">lastKeyTime</a></li><li><a href="global.html#level1">level1</a></li><li><a href="global.html#loadAllSounds">loadAllSounds</a></li><li><a href="global.html#noClose">noClose</a></li><li><a href="global.html#openControls">openControls</a></li><li><a href="global.html#openImpressum">openImpressum</a></li><li><a href="global.html#openStory">openStory</a></li><li><a href="global.html#prepareGame">prepareGame</a></li><li><a href="global.html#resetStartScreen">resetStartScreen</a></li><li><a href="global.html#resetTimer">resetTimer</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#returnToStartScreen">returnToStartScreen</a></li><li><a href="global.html#showGameUI">showGameUI</a></li><li><a href="global.html#soundManager">soundManager</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#startIdleCheck">startIdleCheck</a></li><li><a href="global.html#startTheGame">startTheGame</a></li><li><a href="global.html#stopDrawing">stopDrawing</a></li><li><a href="global.html#timerInterval">timerInterval</a></li><li><a href="global.html#updateIdleTime">updateIdleTime</a></li><li><a href="global.html#winScreen">winScreen</a></li><li><a href="global.html#winScreenAppears">winScreenAppears</a></li><li><a href="global.html#world">world</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Jul 07 2025 18:12:12 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
