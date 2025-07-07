@@ -210,7 +210,7 @@ class World {
     if (this.character.collectedCoins == 5) {
       clearInterval(this.startBattleIntervall);
       this.level.enemies[6].startEndBossBattle(true, false, false);
-      let endbossBar = new StatusBar("ENDBOSS", 0, 500, 100);
+      let endbossBar = new StatusBar("ENDBOSS", 0, 500, 200);
       this.endGameStarted = true;
       this.statusBar.push(endbossBar);
     }

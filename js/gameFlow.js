@@ -74,6 +74,7 @@ function prepareGame(startImgREF, startButtonREF, controlsInGameREF, startGameRE
   canvas.style.border = "5px solid black";
   startGameREF.setAttribute("disabled", "");
   initLevel();
+  resetTimer();
   world = new World(canvas, keyboard, false);
   setTimeout(() => {
     showGameUI(startImgREF, startButtonREF, controlsInGameREF, gamePadREF);
@@ -163,9 +164,9 @@ function gameLostScreenAppears(endImgREF, controlsInGameREF, endButtonsREF, endS
   if (!soundManager.soundMute) {
     backgroundMusicLoop.pause();
   }
+  world = null;
   soundManager.pause("endBossSound");
   soundManager.play("youLoseSound");
-  world = null;
   setTimeout(() => {
     endButtonsREF.classList.remove("d-none");
   }, 1200);
@@ -227,7 +228,7 @@ function restartGame(endImgREF, endButtonsREF, controlsInGameREF, gamePadREF) {
   endButtonsREF.classList.add("d-none");
   gamePadREF.classList.remove("d-none");
   backgroundMusicLoop = soundManager.play("backgroundMusic", 0.2, true);
-  if (backgroundMusicLoop.play()) {
+  if (!soundManager.soundMute) {
     backgroundMusicLoop.play();
   }
 }

@@ -169,11 +169,13 @@ class MovableObject extends DrawableObjects {
    * @returns {boolean} True if colliding on top, otherwise false.
    */
   isCollidingOnTop(mo) {
-    const tolerance = 20;
-    const characterFootX = this.x + this.width / 2;
+    const tolerance = 30;
     const headEdge = 15;
-    const isCentered = characterFootX > mo.x - headEdge && characterFootX < mo.x + mo.width + headEdge;
-    const landsOnTop = this.y + this.height > mo.y && this.y + this.height < mo.y + tolerance;
+    const characterFootX = this.x + this.offset.left + (this.width - this.offset.left - this.offset.right) / 2;
+
+    const isCentered = characterFootX > mo.x + mo.offset.left - headEdge && characterFootX < mo.x + mo.width - mo.offset.right + headEdge;
+    const landsOnTop = this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+    this.y + this.height - this.offset.bottom < mo.y + mo.offset.top + tolerance;
     return isCentered && landsOnTop;
   }
 
@@ -251,14 +253,14 @@ class MovableObject extends DrawableObjects {
    *
    * @function
    */
-  hit() {
-    this.energy -= 5;
-    if (this.otherDirection) {
-      this.x += 20;
+  hit(hp, enemyName) {
+    this.energy -= hp;
+    if (this.otherDirection && enemyName != "Endboss") {
+      this.x += 40;
       this.speedY = -1;
     } else {
-      this.x -= 20;
-      this.speedY = 1;
+      this.x -= 40;
+      this.speedY = -1;
     }
     if (this.energy < 0) {
       this.energy = 0;

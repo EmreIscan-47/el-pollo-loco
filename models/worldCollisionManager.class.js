@@ -72,7 +72,7 @@ class WorldCollisionManager {
    * @param {MovableObject} enemy - The enemy object.
    */
   handleEnemyCollision(enemy) {
-    this.world.character.hit();
+    this.handleHpOfCharacter(enemy);
     if (this.world.character.energy == 0) {
       this.world.gameOver = true;
       setInterval(() => {
@@ -84,6 +84,14 @@ class WorldCollisionManager {
     this.world.statusBar[0].loadStatusBar("HEALTH", this.world.character.energy);
     if (enemy.name == "Endboss") {
       enemy.startEndBossBattle(false, true, false);
+    }
+  }
+
+  handleHpOfCharacter(enemy) {
+    if (enemy.name == "chicken" || enemy.name == "little_chicken") {
+        this.world.character.hit(10, enemy.name);
+    } else {
+       this.world.character.hit(30, enemy.name);
     }
   }
 
