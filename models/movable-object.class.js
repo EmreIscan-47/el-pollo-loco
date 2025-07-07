@@ -177,8 +177,8 @@ class MovableObject extends DrawableObjects {
    * @returns {boolean} True if colliding on top, otherwise false.
    */
   isCollidingOnTop(mo) {
-    const tolerance = 30;
-    const headEdge = 15;
+    const tolerance = 20;
+    const headEdge = 20;
     const characterFootX = this.x + this.offset.left + (this.width - this.offset.left - this.offset.right) / 2;
 
     const isCentered = characterFootX > mo.x + mo.offset.left - headEdge && characterFootX < mo.x + mo.width - mo.offset.right + headEdge;
