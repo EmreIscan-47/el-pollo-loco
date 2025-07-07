@@ -95,9 +95,9 @@ class WorldCollisionManager {
    */
   handleHpOfCharacter(enemy) {
     if (enemy.name == "chicken" || enemy.name == "little_chicken") {
-      this.world.character.hit(10, enemy.name);
+      this.world.character.hit(10, enemy.name, this.world.character.x - enemy.x);
     } else {
-      this.world.character.hit(25, enemy.name);
+      this.world.character.hit(25, enemy.name, this.world.character.x - enemy.x);
     }
   }
 

@@ -109,7 +109,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 170px;
+  height: 100vh;
 }
 
 @keyframes popIn {
@@ -572,6 +572,10 @@ canvas {
 @media (max-width: 900px) {
   .start-screen-position {
     margin-top: 0;
+    height: 480px;
+  }
+
+  .end-screen-position {
     height: 480px;
   }
 
