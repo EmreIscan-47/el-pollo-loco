@@ -968,6 +968,10 @@ canvas {
     height: 100vh;
   }
 
+  .canvas-location{
+        height: 100vh;
+    }
+
   .start-screen-position {
     height: 100vh;
     margin-top: 0;
