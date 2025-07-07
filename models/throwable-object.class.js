@@ -68,12 +68,31 @@ class ThrowableObjects extends MovableObject {
    */
   isSplashing = true;
 
+   /**
+   * Indicates whether the end game sequence has started for this throwable object.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  endGameStarted = false;
+
+  /**
+   * The offset values for the collision box of the throwable object.
+   * These values adjust the collision area relative to the object's position and size.
+   *
+   * @type {{top: number, right: number, bottom: number, left: number}}
+   * @property {number} top - The offset from the top edge.
+   * @property {number} right - The offset from the right edge.
+   * @property {number} bottom - The offset from the bottom edge.
+   * @property {number} left - The offset from the left edge.
+   */
   offset = {
     top: 25,
     right: 15,
     bottom: 15,
     left: 20,
   };
+
 
   /**
    * Image paths for the bottle rotation animation.
@@ -106,13 +125,14 @@ class ThrowableObjects extends MovableObject {
    * @param {number} x - The initial x position.
    * @param {number} y - The initial y position.
    */
-  constructor(x, y) {
+  constructor(x, y, endGameStarted) {
     super().loadImage("img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png");
     this.loadImages(this.IMAGES_BOTTLES);
     this.loadImages(this.IMAGES_SPLASH);
     this.throwBottleAnimation();
     this.x = 0;
     this.y = 0;
+    this.endGameStarted = endGameStarted;
     this.height = 100;
     this.width = 80;
     this.throw(x, y);
@@ -142,7 +162,7 @@ class ThrowableObjects extends MovableObject {
     this.speedY = 13;
     this.applyGravity();
     this.interval = setInterval(() => {
-      if (this.y > 340 || this.x >= 2000) {
+      if (this.y > 340 || (this.x >= 2000 && !this.endGameStarted)) {
         this.splashingBottle();
         clearInterval(this.interval);
       } else {

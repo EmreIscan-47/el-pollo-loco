@@ -104,6 +104,14 @@ class World {
    */
   collisionManager;
 
+    /**
+   * Indicates whether the end game sequence has started.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  endGameStarted = false;
+
   /**
    * Array of collectible coin objects in the world.
    * @type {Coins[]}
@@ -185,7 +193,7 @@ class World {
         this.character.collectedBottles -= 1;
         this.thrownBottle = true;
         this.statusBar[2].loadStatusBar("BOTTLE", this.character.collectedBottles);
-        this.bottle = new ThrowableObjects(this.character.x, this.character.y + 100);
+        this.bottle = new ThrowableObjects(this.character.x, this.character.y + 100, this.endGameStarted);
         this.throwableObjects.push(this.bottle);
         this.bottleAmountThrown = this.throwableObjects.length;
         setInterval(() => {
@@ -203,6 +211,7 @@ class World {
       clearInterval(this.startBattleIntervall);
       this.level.enemies[6].startEndBossBattle(true, false, false);
       let endbossBar = new StatusBar("ENDBOSS", 0, 500, 100);
+      this.endGameStarted = true;
       this.statusBar.push(endbossBar);
     }
   }

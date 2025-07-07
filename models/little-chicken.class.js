@@ -118,7 +118,7 @@ class LittleChicken extends MovableObject {
 
     this.animateLeftInterval = setInterval(() => {
       this.moveLeft();
-      if (this.x < -20) {
+      if (!soundManager.soundMute && this.x < -20) {
         this.littleChickenLoop.pause();
       }
     }, 2000 / 60);
