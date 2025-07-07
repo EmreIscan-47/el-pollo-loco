@@ -179,16 +179,16 @@ window.addEventListener("keydown", (event) => {
 function keyboardPress(keyCode) {
   switch (keyCode) {
     case 37:
-      keyboardLeftREF.style.transform = "scale(1.7)";
+      keyboardLeftREF.style.transform = "scale(1.4)";
       break;
     case 39:
-      keyboardRightREF.style.transform = "scale(1.7)";
+      keyboardRightREF.style.transform = "scale(1.4)";
       break;
     case 32:
-      keyboardSpaceREF.style.transform = "scale(1.7)";
+      keyboardSpaceREF.style.transform = "scale(1.4)";
       break;
     case 68:
-      keyboardThrowREF.style.transform = "scale(2.7)";
+      keyboardThrowREF.style.transform = "scale(1.4)";
       break;
     default:
       break;

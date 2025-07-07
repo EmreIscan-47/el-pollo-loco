@@ -225,7 +225,7 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_SHORT_IDLE);
     this.loadImages(this.IMAGES_LONG_IDLE);
-    this.applyGravity();
+    this.applyGravity("Character");
     this.animate();
   }
 
@@ -267,7 +267,7 @@ class Character extends MovableObject {
    */
   handleHorizontalMovement() {
     if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-      this.moveRight();      
+      this.moveRight();     
       if (!this.stopSounds && this.y > 154) {
         soundManager.play("footStep");
       }

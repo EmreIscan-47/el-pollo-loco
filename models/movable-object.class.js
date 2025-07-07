@@ -100,19 +100,20 @@ class MovableObject extends DrawableObjects {
     bottom: 0,
   };
 
-  /**
-   * Applies gravity to the object by updating its vertical position and speed.
-   * Starts an interval that repeatedly applies gravity.
-   *
-   * @function
-   */
-  applyGravity() {
+ /**
+ * Applies gravity to the object by periodically updating its vertical position and speed.
+ * This simulates a falling effect, causing the object to accelerate downwards unless it is on the ground.
+ * For the character, it prevents falling below a specific ground level (y = 155).
+ *
+ * @param {string} [nameOfObject="none"] - The name of the object (used to apply special rules, e.g. for the character).
+ */
+  applyGravity(nameOfObject = "none") {
     this.gravityInterval = setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
 
-        if (this.y > 155) {
+        if (this.y > 155 && nameOfObject == "Character") {
           this.y = 155;
           this.speedY = 0;
         }

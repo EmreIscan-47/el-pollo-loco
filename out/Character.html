@@ -3048,7 +3048,7 @@
     
 
     
-    <h4 class="name" id="applyGravity"><span class="type-signature"></span>applyGravity<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="applyGravity"><span class="type-signature"></span>applyGravity<span class="signature">(nameOfObject<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -3056,7 +3056,7 @@
 
 
 <div class="description">
-    Applies gravity to the object by updating its vertical position and speed.Starts an interval that repeatedly applies gravity.
+    Applies gravity to the object by periodically updating its vertical position and speed.This simulates a falling effect, causing the object to accelerate downwards unless it is on the ground.For the character, it prevents falling below a specific ground level (y = 155).
 </div>
 
 
@@ -3065,6 +3065,75 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>nameOfObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "none"
+                
+                </td>
+            
+
+            <td class="description last">The name of the object (used to apply special rules, e.g. for the character).</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -3105,7 +3174,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line109">line 109</a>
+        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -3761,7 +3830,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_character.class.js.html">models/character.class.js</a>, <a href="models_character.class.js.html#line306">line 306</a>
+        <a href="models_character.class.js.html">models/character.class.js</a>, <a href="models_character.class.js.html#line308">line 308</a>
     </li></ul></dd>
     
 
@@ -3937,7 +4006,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_character.class.js.html">models/character.class.js</a>, <a href="models_character.class.js.html#line324">line 324</a>
+        <a href="models_character.class.js.html">models/character.class.js</a>, <a href="models_character.class.js.html#line326">line 326</a>
     </li></ul></dd>
     
 
@@ -4030,7 +4099,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line256">line 256</a>
+        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line263">line 263</a>
     </li></ul></dd>
     
 
@@ -4123,7 +4192,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line144">line 144</a>
+        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line152">line 152</a>
     </li></ul></dd>
     
 
@@ -4287,7 +4356,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line189">line 189</a>
+        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line196">line 196</a>
     </li></ul></dd>
     
 
@@ -4451,7 +4520,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line159">line 159</a>
+        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line167">line 167</a>
     </li></ul></dd>
     
 
@@ -4615,7 +4684,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line171">line 171</a>
+        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line179">line 179</a>
     </li></ul></dd>
     
 
@@ -4730,7 +4799,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line286">line 286</a>
+        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line293">line 293</a>
     </li></ul></dd>
     
 
@@ -4845,7 +4914,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line276">line 276</a>
+        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line283">line 283</a>
     </li></ul></dd>
     
 
@@ -4960,7 +5029,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line132">line 132</a>
+        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line138">line 138</a>
     </li></ul></dd>
     
 
@@ -5048,7 +5117,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_character.class.js.html">models/character.class.js</a>, <a href="models_character.class.js.html#line380">line 380</a>
+        <a href="models_character.class.js.html">models/character.class.js</a>, <a href="models_character.class.js.html#line382">line 382</a>
     </li></ul></dd>
     
 
@@ -5420,7 +5489,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_character.class.js.html">models/character.class.js</a>, <a href="models_character.class.js.html#line365">line 365</a>
+        <a href="models_character.class.js.html">models/character.class.js</a>, <a href="models_character.class.js.html#line367">line 367</a>
     </li></ul></dd>
     
 
@@ -5513,7 +5582,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line231">line 231</a>
+        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line238">line 238</a>
     </li></ul></dd>
     
 
@@ -5606,7 +5675,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line219">line 219</a>
+        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line226">line 226</a>
     </li></ul></dd>
     
 
@@ -5748,7 +5817,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line243">line 243</a>
+        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line250">line 250</a>
     </li></ul></dd>
     
 
@@ -5959,7 +6028,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line207">line 207</a>
+        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line214">line 214</a>
     </li></ul></dd>
     
 
@@ -6047,7 +6116,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_character.class.js.html">models/character.class.js</a>, <a href="models_character.class.js.html#line288">line 288</a>
+        <a href="models_character.class.js.html">models/character.class.js</a>, <a href="models_character.class.js.html#line290">line 290</a>
     </li></ul></dd>
     
 
@@ -6135,7 +6204,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_character.class.js.html">models/character.class.js</a>, <a href="models_character.class.js.html#line346">line 346</a>
+        <a href="models_character.class.js.html">models/character.class.js</a>, <a href="models_character.class.js.html#line348">line 348</a>
     </li></ul></dd>
     
 
@@ -6316,7 +6385,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line123">line 123</a>
+        <a href="models_movable-object.class.js.html">models/movable-object.class.js</a>, <a href="models_movable-object.class.js.html#line129">line 129</a>
     </li></ul></dd>
     
 
@@ -6368,7 +6437,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Jul 07 2025 22:38:31 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Jul 07 2025 23:34:27 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>
