@@ -87,11 +87,17 @@ class WorldCollisionManager {
     }
   }
 
+  /**
+   * Handles the reduction of the character's health points (HP) when colliding with an enemy.
+   * Chickens and little chickens deal less damage, while other enemies (e.g., Endboss) deal more.
+   *
+   * @param {MovableObject} enemy - The enemy object that the character has collided with.
+   */
   handleHpOfCharacter(enemy) {
     if (enemy.name == "chicken" || enemy.name == "little_chicken") {
-        this.world.character.hit(10, enemy.name);
+      this.world.character.hit(10, enemy.name);
     } else {
-       this.world.character.hit(30, enemy.name);
+      this.world.character.hit(25, enemy.name);
     }
   }
 

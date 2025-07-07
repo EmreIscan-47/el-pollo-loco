@@ -104,7 +104,7 @@ class World {
    */
   collisionManager;
 
-    /**
+  /**
    * Indicates whether the end game sequence has started.
    *
    * @type {boolean}
@@ -135,7 +135,7 @@ class World {
     new Bottle("right"),
     new Bottle("right"),
     new Bottle("left"),
-    new Bottle("right")
+    new Bottle("right"),
   ];
 
   /**
@@ -158,7 +158,7 @@ class World {
     this.statusBar[2].loadStatusBar("BOTTLE", this.character.collectedBottles);
     setInterval(() => {
       this.checkThrowObjects();
-    }, 500);
+    }, 200);
     this.startBattleIntervall = setInterval(() => {
       this.startWalkingEndbossAnimation();
     }, 20);
@@ -171,10 +171,10 @@ class World {
     this.character.world = this;
   }
 
-/**
- * Starts the main game loop for collision checks and updates.
- * Uses the collision manager to perform all collision checks.
- */
+  /**
+   * Starts the main game loop for collision checks and updates.
+   * Uses the collision manager to perform all collision checks.
+   */
   run() {
     this.runIntervall = setInterval(() => {
       this.collisionManager.checkCollisionsEnemy();
@@ -196,9 +196,9 @@ class World {
         this.bottle = new ThrowableObjects(this.character.x, this.character.y + 100, this.endGameStarted);
         this.throwableObjects.push(this.bottle);
         this.bottleAmountThrown = this.throwableObjects.length;
-        setInterval(() => {
+        setTimeout(() => {
           this.thrownBottle = false;
-        }, 1500);
+        }, 1000);
       }
     }
   }

@@ -111,6 +111,11 @@ class MovableObject extends DrawableObjects {
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
+
+        if (this.y > 155) {
+          this.y = 155;
+          this.speedY = 0;
+        }
       }
     }, 1000 / 25);
   }
@@ -130,8 +135,10 @@ class MovableObject extends DrawableObjects {
    * @function
    */
   jump() {
-    this.speedY = 18;
-    soundManager.play("jump");
+    if (this.y == 155) {
+      this.speedY = 18;
+      soundManager.play("jump");
+    }
   }
 
   /**
@@ -174,8 +181,7 @@ class MovableObject extends DrawableObjects {
     const characterFootX = this.x + this.offset.left + (this.width - this.offset.left - this.offset.right) / 2;
 
     const isCentered = characterFootX > mo.x + mo.offset.left - headEdge && characterFootX < mo.x + mo.width - mo.offset.right + headEdge;
-    const landsOnTop = this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
-    this.y + this.height - this.offset.bottom < mo.y + mo.offset.top + tolerance;
+    const landsOnTop = this.y + this.height - this.offset.bottom > mo.y + mo.offset.top && this.y + this.height - this.offset.bottom < mo.y + mo.offset.top + tolerance;
     return isCentered && landsOnTop;
   }
 

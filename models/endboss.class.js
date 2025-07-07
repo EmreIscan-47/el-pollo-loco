@@ -175,7 +175,7 @@ class Endboss extends MovableObject {
       }
     }, 1000);
 
-    this.speed = 6.5;
+    this.speed = 7.5;
   }
 
   /**
