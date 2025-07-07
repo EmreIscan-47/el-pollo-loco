@@ -182,13 +182,13 @@ function keyboardPress(keyCode) {
       keyboardLeftREF.style.transform = "scale(1.7)";
       break;
     case 39:
-      keyboardRightREF.style.transform = "scale(1.2)";
+      keyboardRightREF.style.transform = "scale(1.7)";
       break;
     case 32:
-      keyboardSpaceREF.style.transform = "scale(1.2)";
+      keyboardSpaceREF.style.transform = "scale(1.7)";
       break;
     case 68:
-      keyboardThrowREF.style.transform = "scale(1.2)";
+      keyboardThrowREF.style.transform = "scale(2.7)";
       break;
     default:
       break;
