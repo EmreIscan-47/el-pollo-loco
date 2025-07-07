@@ -261,10 +261,8 @@ class MovableObject extends DrawableObjects {
    * @function
    */
   hit(hp, enemyName, positionOfCharacter) {
-    console.log(positionOfCharacter);
-    
     this.energy -= hp;
-    if (this.otherDirection && enemyName != "Endboss" && positionOfCharacter < 0) {
+    if (this.otherDirection && enemyName != "Endboss" && positionOfCharacter > 0) {
       this.x += 40;
       this.speedY = -1;
     } else {
