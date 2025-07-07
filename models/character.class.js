@@ -256,7 +256,7 @@ class Character extends MovableObject {
         }
         this.world.camera_x = -this.x + 150;
       }
-    }, 1000 / 60);
+    }, 1000 / 80);
   }
 
   /**
@@ -267,13 +267,13 @@ class Character extends MovableObject {
    */
   handleHorizontalMovement() {
     if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-      this.moveRight();
-      if (!this.stopSounds) {
+      this.moveRight();      
+      if (!this.stopSounds && this.y > 154) {
         soundManager.play("footStep");
       }
     } else if (this.world.keyboard.LEFT && this.x > 0) {
       this.moveLeft();
-      if (!this.isAboveGround) {
+      if (!this.stopSounds && this.y > 154) {
         soundManager.play("footStep");
       }
       this.otherDirection = true;
