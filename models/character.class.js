@@ -305,6 +305,8 @@ class Character extends MovableObject {
    */
   handleAnimationStates() {
     if (this.isAboveGround()) {
+      console.log(this.speedY);
+      resetTimer();
       this.playAnimation(this.IMAGES_JUMPING);
       soundManager.pause("characterSnoring");
     } else {

@@ -113,7 +113,7 @@ function init() {
  */
 function updateIdleTime() {
   const idleSeconds = ((Date.now() - lastKeyTime) / 1000).toFixed(1);
-  if (10 >= idleSeconds && idleSeconds >= 2) {
+  if (10 >= idleSeconds && idleSeconds >= 0.5) {
     keyboard.longIdle = false;
     keyboard.shortIdle = true;
   } else if (idleSeconds > 10) {

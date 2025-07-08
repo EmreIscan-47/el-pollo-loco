@@ -228,6 +228,7 @@ function restartGame(endImgREF, endButtonsREF, controlsInGameREF, gamePadREF) {
   endButtonsREF.classList.add("d-none");
   gamePadREF.classList.remove("d-none");
   backgroundMusicLoop = soundManager.play("backgroundMusic", 0.2, true);
+  resetTimer();
   if (!soundManager.soundMute) {
     backgroundMusicLoop.play();
   }
@@ -255,7 +256,6 @@ function returnToStartScreen() {
     endImgREF.classList.remove("d-none");
   }
 }
-
 
 /**
  * Handles touch events for the left gamepad button.

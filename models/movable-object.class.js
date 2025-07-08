@@ -116,7 +116,6 @@ class MovableObject extends DrawableObjects {
         if (this.y >= 155 && nameOfObject == "Character") {
           this.y = 155;
           this.speedY = 0;
-          this.img.src = "img/2_character_pepe/2_walk/W-21.png";
         }
       }
     }, 1000 / 25);
