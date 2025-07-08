@@ -48,30 +48,6 @@ let startTheGame = true;
 let backgroundMusicLoop;
 
 /**
- * Reference to the left keyboard button in the DOM.
- * @type {HTMLElement}
- */
-const keyboardLeftREF = document.getElementById("keyboard-left");
-
-/**
- * Reference to the right keyboard button in the DOM.
- * @type {HTMLElement}
- */
-const keyboardRightREF = document.getElementById("keyboard-right");
-
-/**
- * Reference to the space keyboard button in the DOM.
- * @type {HTMLElement}
- */
-const keyboardSpaceREF = document.getElementById("keyboard-space");
-
-/**
- * Reference to the throw keyboard button in the DOM.
- * @type {HTMLElement}
- */
-const keyboardThrowREF = document.getElementById("keyboard-throw");
-
-/**
  * Reference to the left gamepad button in the DOM.
  * @type {HTMLElement}
  */
@@ -152,91 +128,36 @@ window.addEventListener("onkeypress", (e) => {
  */
 window.addEventListener("keydown", (event) => {
   if (event.keyCode == 37) {
-    keyboardPress(event.keyCode);
     keyboard.LEFT = true;
   } else if (event.keyCode == 38) {
     keyboard.UP = true;
   } else if (event.keyCode == 39) {
-    keyboardPress(event.keyCode);
     keyboard.RIGHT = true;
   } else if (event.keyCode == 40) {
     keyboard.DOWN = true;
   } else if (event.keyCode == 32) {
-    keyboardPress(event.keyCode);
     keyboard.SPACE = true;
   } else if (event.keyCode == 68) {
-    keyboardPress(event.keyCode);
     keyboard.THROWBOTTLE = true;
   }
 });
 
-/**
- * Visually highlights the pressed key on the virtual keyboard.
- *
- * @function
- * @param {number} keyCode - The code of the pressed key.
- */
-function keyboardPress(keyCode) {
-  switch (keyCode) {
-    case 37:
-      keyboardLeftREF.style.transform = "scale(1.4)";
-      break;
-    case 39:
-      keyboardRightREF.style.transform = "scale(1.4)";
-      break;
-    case 32:
-      keyboardSpaceREF.style.transform = "scale(1.4)";
-      break;
-    case 68:
-      keyboardThrowREF.style.transform = "scale(1.4)";
-      break;
-    default:
-      break;
-  }
-}
-
-/**
- * Resets the visual highlight of the released key on the virtual keyboard.
- *
- * @function
- * @param {number} keyCode - The code of the released key.
- */
-function keyboardDown(keyCode) {
-  switch (keyCode) {
-    case 37:
-      keyboardLeftREF.style.transform = "scale(1)";
-      break;
-    case 39:
-      keyboardRightREF.style.transform = "scale(1)";
-      break;
-    case 32:
-      keyboardSpaceREF.style.transform = "scale(1)";
-      break;
-    case 68:
-      keyboardThrowREF.style.transform = "scale(1)";
-      break;
-    default:
-      break;
-  }
-}
 
 /**
  * Handles keyboard keyup events and updates keyboard state accordingly.
  */
 window.addEventListener("keyup", (event) => {
   if (event.keyCode == 37) {
-    keyboardDown(event.keyCode);
+
     keyboard.LEFT = false;
   } else if (event.keyCode == 39) {
-    keyboardDown(event.keyCode);
+
     keyboard.RIGHT = false;
   } else if (event.keyCode == 40) {
     keyboard.DOWN = false;
   } else if (event.keyCode == 32) {
-    keyboardDown(event.keyCode);
     keyboard.SPACE = false;
   } else if (event.keyCode == 68) {
-    keyboardDown(event.keyCode);
     keyboard.THROWBOTTLE = false;
   }
 });

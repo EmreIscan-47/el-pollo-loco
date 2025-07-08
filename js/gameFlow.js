@@ -7,14 +7,13 @@
  */
 function winScreen() {
   let endImgREF = document.getElementById("end-img");
-  let controlsInGameREF = document.getElementById("controls-in-game");
   let endButtonsREF = document.getElementById("end-screen-buttons");
   let endScreenImgREF = document.getElementById("end-screen-img");
   let gamePadREF = document.getElementById("game-pad-visibility");
   if (!endImgREF.classList.contains("d-none")) {
     endImgREF.classList.add("d-none");
   } else {
-    winScreenAppears(endImgREF, endScreenImgREF, gamePadREF, endButtonsREF, controlsInGameREF);
+    winScreenAppears(endImgREF, endScreenImgREF, gamePadREF, endButtonsREF);
   }
 }
 
@@ -27,14 +26,13 @@ function winScreen() {
  */
 function gameLostScreen() {
   let endImgREF = document.getElementById("end-img");
-  let controlsInGameREF = document.getElementById("controls-in-game");
   let endButtonsREF = document.getElementById("end-screen-buttons");
   let endScreenImgREF = document.getElementById("end-screen-img");
   let gamePadREF = document.getElementById("game-pad-visibility");
   if (!endImgREF.classList.contains("d-none")) {
     endImgREF.classList.add("d-none");
   } else {
-    gameLostScreenAppears(endImgREF, controlsInGameREF, endButtonsREF, endScreenImgREF, gamePadREF);
+    gameLostScreenAppears(endImgREF, endButtonsREF, endScreenImgREF, gamePadREF);
   }
 }
 
@@ -47,12 +45,11 @@ function gameLostScreen() {
 function startGame() {
   let startImgREF = document.getElementById("start-img");
   let startButtonREF = document.getElementById("start-buttons");
-  let controlsInGameREF = document.getElementById("controls-in-game");
   let startGameREF = document.getElementById("start-button");
   let gamePadREF = document.getElementById("game-pad-visibility");
 
   if (!startImgREF.classList.contains("d-none")) {
-    prepareGame(startImgREF, startButtonREF, controlsInGameREF, startGameREF, gamePadREF);
+    prepareGame(startImgREF, startButtonREF, startGameREF, gamePadREF);
   } else {
     resetStartScreen(startImgREF, gamePadREF, startButtonREF);
   }
@@ -65,11 +62,10 @@ function startGame() {
  * @function
  * @param {HTMLElement} startImgREF - Reference to the start image element.
  * @param {HTMLElement} startButtonREF - Reference to the start buttons container.
- * @param {HTMLElement} controlsInGameREF - Reference to the in-game controls container.
  * @param {HTMLElement} startGameREF - Reference to the start game button.
  * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
  */
-function prepareGame(startImgREF, startButtonREF, controlsInGameREF, startGameREF, gamePadREF) {
+function prepareGame(startImgREF, startButtonREF, startGameREF, gamePadREF) {
   canvas = document.getElementById("canvas");
   canvas.style.border = "5px solid black";
   startGameREF.setAttribute("disabled", "");
@@ -77,7 +73,7 @@ function prepareGame(startImgREF, startButtonREF, controlsInGameREF, startGameRE
   resetTimer();
   world = new World(canvas, keyboard, false);
   setTimeout(() => {
-    showGameUI(startImgREF, startButtonREF, controlsInGameREF, gamePadREF);
+    showGameUI(startImgREF, startButtonREF, gamePadREF);
   }, 1000);
 }
 
@@ -88,14 +84,12 @@ function prepareGame(startImgREF, startButtonREF, controlsInGameREF, startGameRE
  * @function
  * @param {HTMLElement} startImgREF - Reference to the start image element.
  * @param {HTMLElement} startButtonREF - Reference to the start buttons container.
- * @param {HTMLElement} controlsInGameREF - Reference to the in-game controls container.
  * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
  */
-function showGameUI(startImgREF, startButtonREF, controlsInGameREF, gamePadREF) {
+function showGameUI(startImgREF, startButtonREF, gamePadREF) {
   startImgREF.classList.add("d-none");
   startButtonREF.classList.add("d-none");
   gamePadREF.classList.remove("d-none");
-  controlsInGameREF.classList.remove("d-none");
   backgroundMusicLoop = soundManager.play("backgroundMusic", 0.2, true);
   if (!soundManager.soundMute) {
     backgroundMusicLoop.play();
@@ -128,9 +122,8 @@ function resetStartScreen(startImgREF, gamePadREF, startButtonREF) {
  * @param {HTMLImageElement} endScreenImgREF - Reference to the end screen image element.
  * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
  * @param {HTMLElement} endButtonsREF - Reference to the end screen buttons container.
- * @param {HTMLElement} controlsInGameREF - Reference to the in-game controls container.
  */
-function winScreenAppears(endImgREF, endScreenImgREF, gamePadREF, endButtonsREF, controlsInGameREF) {
+function winScreenAppears(endImgREF, endScreenImgREF, gamePadREF, endButtonsREF) {
   endImgREF.classList.remove("d-none");
   endScreenImgREF.src = "img/You won, you lost/You won A.png";
   gamePadREF.classList.add("d-none");
@@ -143,7 +136,6 @@ function winScreenAppears(endImgREF, endScreenImgREF, gamePadREF, endButtonsREF,
   setTimeout(() => {
     endButtonsREF.classList.remove("d-none");
   }, 1200);
-  controlsInGameREF.classList.add("d-none");
 }
 
 /**
@@ -152,12 +144,11 @@ function winScreenAppears(endImgREF, endScreenImgREF, gamePadREF, endButtonsREF,
  *
  * @function
  * @param {HTMLElement} endImgREF - Reference to the end image element.
- * @param {HTMLElement} controlsInGameREF - Reference to the in-game controls container.
  * @param {HTMLElement} endButtonsREF - Reference to the end screen buttons container.
  * @param {HTMLImageElement} endScreenImgREF - Reference to the end screen image element.
  * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
  */
-function gameLostScreenAppears(endImgREF, controlsInGameREF, endButtonsREF, endScreenImgREF, gamePadREF) {
+function gameLostScreenAppears(endImgREF, endButtonsREF, endScreenImgREF, gamePadREF) {
   endImgREF.classList.remove("d-none");
   gamePadREF.classList.add("d-none");
   endScreenImgREF.src = "img/You won, you lost/Game over A.png";
@@ -170,7 +161,6 @@ function gameLostScreenAppears(endImgREF, controlsInGameREF, endButtonsREF, endS
   setTimeout(() => {
     endButtonsREF.classList.remove("d-none");
   }, 1200);
-  controlsInGameREF.classList.add("d-none");
 }
 
 /**
@@ -200,10 +190,9 @@ function stopDrawing() {
 function deleteWorld() {
   let endImgREF = document.getElementById("end-img");
   let endButtonsREF = document.getElementById("end-screen-buttons");
-  let controlsInGameREF = document.getElementById("controls-in-game");
   let gamePadREF = document.getElementById("game-pad-visibility");
   if (!endImgREF.classList.contains("d-none")) {
-    restartGame(endImgREF, endButtonsREF, controlsInGameREF, gamePadREF);
+    restartGame(endImgREF, endButtonsREF, gamePadREF);
   } else {
     endImgREF.classList.remove("d-none");
     endButtonsREF.classList.remove("d-none");
@@ -219,11 +208,9 @@ function deleteWorld() {
  * @function
  * @param {HTMLElement} endImgREF - Reference to the end image element.
  * @param {HTMLElement} endButtonsREF - Reference to the end screen buttons container.
- * @param {HTMLElement} controlsInGameREF - Reference to the in-game controls container.
  * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
  */
-function restartGame(endImgREF, endButtonsREF, controlsInGameREF, gamePadREF) {
-  controlsInGameREF.classList.remove("d-none");
+function restartGame(endImgREF, endButtonsREF, gamePadREF) {
   endImgREF.classList.add("d-none");
   endButtonsREF.classList.add("d-none");
   gamePadREF.classList.remove("d-none");
