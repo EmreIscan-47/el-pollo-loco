@@ -113,7 +113,7 @@ function init() {
  */
 function updateIdleTime() {
   const idleSeconds = ((Date.now() - lastKeyTime) / 1000).toFixed(1);
-  if (10 >= idleSeconds && idleSeconds >= 0.5) {
+  if (10 >= idleSeconds && idleSeconds >= 0.2) {
     keyboard.longIdle = false;
     keyboard.shortIdle = true;
   } else if (idleSeconds > 10) {
@@ -374,6 +374,7 @@ function loadAllSounds() {
   soundManager.load("bottleCollect", "audio/bottleCollect.mp3");
   soundManager.load("buttonClick", "audio/buttonClick.mp3");
   soundManager.load("littleChickenSound", "audio/littleChickenSound.mp3");
+  soundManager.load("characterDeath", "audio/characterDeath.mp3")
 }
 
 /**

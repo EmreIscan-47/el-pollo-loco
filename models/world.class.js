@@ -131,11 +131,6 @@ class World {
     new Bottle("left"),
     new Bottle("right"),
     new Bottle("right"),
-    new Bottle("left"),
-    new Bottle("right"),
-    new Bottle("right"),
-    new Bottle("left"),
-    new Bottle("right"),
   ];
 
   /**

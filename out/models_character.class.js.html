@@ -48,20 +48,16 @@ class Character extends MovableObject {
   ];
 
   /**
-   * Image paths for the character's jumping animation.
+   * Image paths for the jump-up animation sequence.
    * @type {string[]}
    */
-  IMAGES_JUMPING = [
-    "img/2_character_pepe/3_jump/J-31.png",
-    "img/2_character_pepe/3_jump/J-32.png",
-    "img/2_character_pepe/3_jump/J-33.png",
-    "img/2_character_pepe/3_jump/J-34.png",
-    "img/2_character_pepe/3_jump/J-35.png",
-    "img/2_character_pepe/3_jump/J-36.png",
-    "img/2_character_pepe/3_jump/J-37.png",
-    "img/2_character_pepe/3_jump/J-38.png",
-    "img/2_character_pepe/3_jump/J-39.png",
-  ];
+  IMAGES_JUMP_UP = ["img/2_character_pepe/3_jump/J-31.png", "img/2_character_pepe/3_jump/J-32.png", "img/2_character_pepe/3_jump/J-33.png", "img/2_character_pepe/3_jump/J-34.png"];
+
+  /**
+   * Image paths for the fall-down animation sequence.
+   * @type {string[]}
+   */
+  IMAGES_FALL_DOWN = ["img/2_character_pepe/3_jump/J-35.png", "img/2_character_pepe/3_jump/J-36.png", "img/2_character_pepe/3_jump/J-37.png", "img/2_character_pepe/3_jump/J-38.png"];
 
   /**
    * Image paths for the character's dying animation.
@@ -226,6 +222,18 @@ class Character extends MovableObject {
   snoreLoop;
 
   /**
+   * Represents the current jump state of the character ("ground", "up", or "down").
+   * @type {string}
+   */
+  jumpState;
+
+  /**
+   * Indicates whether the character has just landed.
+   * @type {boolean}
+   */
+  justLanded;
+
+  /**
    * The offset values for the character's collision box.
    * @type {{top: number, left: number, right: number, bottom: number}}
    */
@@ -247,13 +255,20 @@ class Character extends MovableObject {
     this.loadImage("img/2_character_pepe/2_walk/W-21.png");
     this.y = 155;
     this.height = 280;
+    this.jumpState = "ground";
     this.loadImages(this.IMAGES_WALKING);
-    this.loadImages(this.IMAGES_JUMPING);
+    this.loadImages(this.IMAGES_JUMP_UP);
+    this.loadImages(this.IMAGES_FALL_DOWN);
     this.loadImages(this.IMAGES_DYING);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_SHORT_IDLE);
     this.loadImages(this.IMAGES_LONG_IDLE);
     this.applyGravity("Character");
+    this.snoreLoop = soundManager.play("characterSnoring", 1.0, true);
+    if (!soundManager.soundMute) {
+      this.snoreLoop.pause();
+      this.snoreLoop.currentTime = 0;
+    }
     this.animate();
   }
 
@@ -295,7 +310,7 @@ class Character extends MovableObject {
    */
   handleHorizontalMovement() {
     if (this.world.keyboard.RIGHT &amp;&amp; this.x &lt; this.world.level.level_end_x) {
-      this.moveRight();     
+      this.moveRight();
       if (!this.stopSounds &amp;&amp; this.y > 154) {
         soundManager.play("footStep");
       }
@@ -314,11 +329,19 @@ class Character extends MovableObject {
    * @function
    */
   startAnimationInterval() {
+    this.deathSoundPlayed = false;
     setInterval(() => {
       if (this.isDead()) {
         this.characterDead = true;
         this.speedY += 10;
         this.playAnimation(this.IMAGES_DYING);
+        if (!soundManager.soundMute) {
+          this.snoreLoop.pause();
+        }
+        if (!this.deathSoundPlayed) {
+          soundManager.play("characterDeath");
+          this.deathSoundPlayed = true;
+        }
       }
       if (!this.characterDead &amp;&amp; !this.characterWon) {
         this.handleAnimationStates();
@@ -327,21 +350,70 @@ class Character extends MovableObject {
   }
 
   /**
-   * Determines and plays the correct animation state based on character status.
-   *
-   * @function
+   * Controls the animation state of the character depending on whether it is in the air or on the ground.
    */
   handleAnimationStates() {
+    this.initAnimationStates();
     if (this.isAboveGround()) {
-      this.playAnimation(this.IMAGES_JUMPING);
-      soundManager.pause("characterSnoring");
+      this.handleAirAnimation();
+    } else {
+      this.handleGroundAnimation();
+    }
+  }
+
+  /**
+   * Initializes animation state variables if they are undefined.
+   */
+  initAnimationStates() {
+    if (this.jumpState === undefined) this.jumpState = "ground";
+    if (this.justLanded === undefined) this.justLanded = false;
+  }
+
+  /**
+   * Handles the animation logic when the character is in the air.
+   * Sets the jump state and plays the appropriate jump or fall animation.
+   */
+  handleAirAnimation() {
+    this.justLanded = false;
+    if (this.speedY > 0 &amp;&amp; this.jumpState !== "up") {
+      this.jumpState = "up";
+      this.currentImage = 0;
+    } else if (this.speedY &lt; 0 &amp;&amp; this.jumpState !== "down") {
+      this.jumpState = "down";
+      this.currentImage = 0;
+    }
+    if (this.jumpState === "up") {
+      this.playAnimation(this.IMAGES_JUMP_UP, false);
+    } else if (this.jumpState === "down") {
+      this.playAnimation(this.IMAGES_FALL_DOWN, false);
+    }
+    soundManager.pause("characterSnoring");
+    resetTimer();
+  }
+
+  /**
+   * Handles the animation logic when the character is on the ground.
+   * Plays landing, walking, or idle animations as appropriate.
+   */
+  handleGroundAnimation() {
+    if (this.jumpState !== "ground") {
+      this.jumpState = "ground";
+      this.currentImage = 0;
+      this.justLanded = true;
+    }
+    if (this.justLanded) {
+      this.loadImage("img/2_character_pepe/3_jump/J-39.png");
+      setTimeout(() => {
+        this.justLanded = false;
+      }, 100);
     } else {
       if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-        this.playAnimation(this.IMAGES_WALKING);
+        this.playAnimation(this.IMAGES_WALKING, true);
         soundManager.pause("characterSnoring");
+      } else {
+        this.handleIdleAnimations();
       }
     }
-    this.handleIdleAnimations();
   }
 
   /**
@@ -393,7 +465,6 @@ class Character extends MovableObject {
   longIdleSound() {
     if (this.idleCount == 0) {
       this.idleCount++;
-      this.snoreLoop = soundManager.play("characterSnoring", 1.0, true);
       if (!soundManager.soundMute) {
         this.snoreLoop.play();
       }
@@ -426,7 +497,7 @@ class Character extends MovableObject {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Jul 07 2025 23:52:05 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Jul 08 2025 18:20:31 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

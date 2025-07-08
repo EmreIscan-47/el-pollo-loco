@@ -32,7 +32,7 @@ class Bottle extends DrawableObjects {
       this.loadImage("img/6_salsa_bottle/2_salsa_bottle_on_ground.png");
     }
 
-    this.x = 200 + Math.random() * 2000;
+    this.x = 200 + Math.random() * 1500;
     if (this.x > 2000) {
       this.x -= 300;
     }

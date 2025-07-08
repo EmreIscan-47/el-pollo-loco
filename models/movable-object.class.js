@@ -100,13 +100,13 @@ class MovableObject extends DrawableObjects {
     bottom: 0,
   };
 
- /**
- * Applies gravity to the object by periodically updating its vertical position and speed.
- * This simulates a falling effect, causing the object to accelerate downwards unless it is on the ground.
- * For the character, it prevents falling below a specific ground level (y = 155).
- *
- * @param {string} [nameOfObject="none"] - The name of the object (used to apply special rules, e.g. for the character).
- */
+  /**
+   * Applies gravity to the object by periodically updating its vertical position and speed.
+   * This simulates a falling effect, causing the object to accelerate downwards unless it is on the ground.
+   * For the character, it prevents falling below a specific ground level (y = 155).
+   *
+   * @param {string} [nameOfObject="none"] - The name of the object (used to apply special rules, e.g. for the character).
+   */
   applyGravity(nameOfObject = "none") {
     this.gravityInterval = setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
@@ -242,16 +242,26 @@ class MovableObject extends DrawableObjects {
   }
 
   /**
-   * Plays an animation by cycling through the provided images.
+   * Plays an animation sequence by updating the current image.
+   * If looping is enabled, the animation will repeat; otherwise, it stops at the last frame.
    *
-   * @function
    * @param {string[]} images - Array of image paths for the animation.
+   * @param {boolean} [loop=true] - Whether the animation should loop.
    */
-  playAnimation(images) {
-    let i = this.currentImage % images.length;
-    let path = images[i];
-    this.img = this.imageCache[path];
-    this.currentImage++;
+  playAnimation(images, loop = true) {
+    if (loop) {
+      let i = this.currentImage % images.length;
+      let path = images[i];
+      this.img = this.imageCache[path];
+      this.currentImage++;
+    } else {
+      let i = Math.min(this.currentImage, images.length - 1);
+      let path = images[i];
+      this.img = this.imageCache[path];
+      if (this.currentImage < images.length - 1) {
+        this.currentImage++;
+      }
+    }
   }
 
   /**
