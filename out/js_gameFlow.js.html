@@ -35,14 +35,13 @@
  */
 function winScreen() {
   let endImgREF = document.getElementById("end-img");
-  let controlsInGameREF = document.getElementById("controls-in-game");
   let endButtonsREF = document.getElementById("end-screen-buttons");
   let endScreenImgREF = document.getElementById("end-screen-img");
   let gamePadREF = document.getElementById("game-pad-visibility");
   if (!endImgREF.classList.contains("d-none")) {
     endImgREF.classList.add("d-none");
   } else {
-    winScreenAppears(endImgREF, endScreenImgREF, gamePadREF, endButtonsREF, controlsInGameREF);
+    winScreenAppears(endImgREF, endScreenImgREF, gamePadREF, endButtonsREF);
   }
 }
 
@@ -55,14 +54,13 @@ function winScreen() {
  */
 function gameLostScreen() {
   let endImgREF = document.getElementById("end-img");
-  let controlsInGameREF = document.getElementById("controls-in-game");
   let endButtonsREF = document.getElementById("end-screen-buttons");
   let endScreenImgREF = document.getElementById("end-screen-img");
   let gamePadREF = document.getElementById("game-pad-visibility");
   if (!endImgREF.classList.contains("d-none")) {
     endImgREF.classList.add("d-none");
   } else {
-    gameLostScreenAppears(endImgREF, controlsInGameREF, endButtonsREF, endScreenImgREF, gamePadREF);
+    gameLostScreenAppears(endImgREF, endButtonsREF, endScreenImgREF, gamePadREF);
   }
 }
 
@@ -75,12 +73,11 @@ function gameLostScreen() {
 function startGame() {
   let startImgREF = document.getElementById("start-img");
   let startButtonREF = document.getElementById("start-buttons");
-  let controlsInGameREF = document.getElementById("controls-in-game");
   let startGameREF = document.getElementById("start-button");
   let gamePadREF = document.getElementById("game-pad-visibility");
 
   if (!startImgREF.classList.contains("d-none")) {
-    prepareGame(startImgREF, startButtonREF, controlsInGameREF, startGameREF, gamePadREF);
+    prepareGame(startImgREF, startButtonREF, startGameREF, gamePadREF);
   } else {
     resetStartScreen(startImgREF, gamePadREF, startButtonREF);
   }
@@ -93,11 +90,10 @@ function startGame() {
  * @function
  * @param {HTMLElement} startImgREF - Reference to the start image element.
  * @param {HTMLElement} startButtonREF - Reference to the start buttons container.
- * @param {HTMLElement} controlsInGameREF - Reference to the in-game controls container.
  * @param {HTMLElement} startGameREF - Reference to the start game button.
  * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
  */
-function prepareGame(startImgREF, startButtonREF, controlsInGameREF, startGameREF, gamePadREF) {
+function prepareGame(startImgREF, startButtonREF, startGameREF, gamePadREF) {
   canvas = document.getElementById("canvas");
   canvas.style.border = "5px solid black";
   startGameREF.setAttribute("disabled", "");
@@ -105,7 +101,7 @@ function prepareGame(startImgREF, startButtonREF, controlsInGameREF, startGameRE
   resetTimer();
   world = new World(canvas, keyboard, false);
   setTimeout(() => {
-    showGameUI(startImgREF, startButtonREF, controlsInGameREF, gamePadREF);
+    showGameUI(startImgREF, startButtonREF, gamePadREF);
   }, 1000);
 }
 
@@ -116,14 +112,12 @@ function prepareGame(startImgREF, startButtonREF, controlsInGameREF, startGameRE
  * @function
  * @param {HTMLElement} startImgREF - Reference to the start image element.
  * @param {HTMLElement} startButtonREF - Reference to the start buttons container.
- * @param {HTMLElement} controlsInGameREF - Reference to the in-game controls container.
  * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
  */
-function showGameUI(startImgREF, startButtonREF, controlsInGameREF, gamePadREF) {
+function showGameUI(startImgREF, startButtonREF, gamePadREF) {
   startImgREF.classList.add("d-none");
   startButtonREF.classList.add("d-none");
   gamePadREF.classList.remove("d-none");
-  controlsInGameREF.classList.remove("d-none");
   backgroundMusicLoop = soundManager.play("backgroundMusic", 0.2, true);
   if (!soundManager.soundMute) {
     backgroundMusicLoop.play();
@@ -156,9 +150,8 @@ function resetStartScreen(startImgREF, gamePadREF, startButtonREF) {
  * @param {HTMLImageElement} endScreenImgREF - Reference to the end screen image element.
  * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
  * @param {HTMLElement} endButtonsREF - Reference to the end screen buttons container.
- * @param {HTMLElement} controlsInGameREF - Reference to the in-game controls container.
  */
-function winScreenAppears(endImgREF, endScreenImgREF, gamePadREF, endButtonsREF, controlsInGameREF) {
+function winScreenAppears(endImgREF, endScreenImgREF, gamePadREF, endButtonsREF) {
   endImgREF.classList.remove("d-none");
   endScreenImgREF.src = "img/You won, you lost/You won A.png";
   gamePadREF.classList.add("d-none");
@@ -171,7 +164,6 @@ function winScreenAppears(endImgREF, endScreenImgREF, gamePadREF, endButtonsREF,
   setTimeout(() => {
     endButtonsREF.classList.remove("d-none");
   }, 1200);
-  controlsInGameREF.classList.add("d-none");
 }
 
 /**
@@ -180,12 +172,11 @@ function winScreenAppears(endImgREF, endScreenImgREF, gamePadREF, endButtonsREF,
  *
  * @function
  * @param {HTMLElement} endImgREF - Reference to the end image element.
- * @param {HTMLElement} controlsInGameREF - Reference to the in-game controls container.
  * @param {HTMLElement} endButtonsREF - Reference to the end screen buttons container.
  * @param {HTMLImageElement} endScreenImgREF - Reference to the end screen image element.
  * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
  */
-function gameLostScreenAppears(endImgREF, controlsInGameREF, endButtonsREF, endScreenImgREF, gamePadREF) {
+function gameLostScreenAppears(endImgREF, endButtonsREF, endScreenImgREF, gamePadREF) {
   endImgREF.classList.remove("d-none");
   gamePadREF.classList.add("d-none");
   endScreenImgREF.src = "img/You won, you lost/Game over A.png";
@@ -198,7 +189,6 @@ function gameLostScreenAppears(endImgREF, controlsInGameREF, endButtonsREF, endS
   setTimeout(() => {
     endButtonsREF.classList.remove("d-none");
   }, 1200);
-  controlsInGameREF.classList.add("d-none");
 }
 
 /**
@@ -228,10 +218,9 @@ function stopDrawing() {
 function deleteWorld() {
   let endImgREF = document.getElementById("end-img");
   let endButtonsREF = document.getElementById("end-screen-buttons");
-  let controlsInGameREF = document.getElementById("controls-in-game");
   let gamePadREF = document.getElementById("game-pad-visibility");
   if (!endImgREF.classList.contains("d-none")) {
-    restartGame(endImgREF, endButtonsREF, controlsInGameREF, gamePadREF);
+    restartGame(endImgREF, endButtonsREF, gamePadREF);
   } else {
     endImgREF.classList.remove("d-none");
     endButtonsREF.classList.remove("d-none");
@@ -247,11 +236,9 @@ function deleteWorld() {
  * @function
  * @param {HTMLElement} endImgREF - Reference to the end image element.
  * @param {HTMLElement} endButtonsREF - Reference to the end screen buttons container.
- * @param {HTMLElement} controlsInGameREF - Reference to the in-game controls container.
  * @param {HTMLElement} gamePadREF - Reference to the game pad visibility element.
  */
-function restartGame(endImgREF, endButtonsREF, controlsInGameREF, gamePadREF) {
-  controlsInGameREF.classList.remove("d-none");
+function restartGame(endImgREF, endButtonsREF, gamePadREF) {
   endImgREF.classList.add("d-none");
   endButtonsREF.classList.add("d-none");
   gamePadREF.classList.remove("d-none");
@@ -342,13 +329,13 @@ gamePadBottleREF.addEventListener("touchend", (e) => {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Bottle.html">Bottle</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coins.html">Coins</a></li><li><a href="DrawableObjects.html">DrawableObjects</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="LittleChicken.html">LittleChicken</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObjects.html">ThrowableObjects</a></li><li><a href="World.html">World</a></li><li><a href="WorldCollisionManager.html">WorldCollisionManager</a></li></ul><h3>Global</h3><ul><li><a href="global.html#backgroundMusicLoop">backgroundMusicLoop</a></li><li><a href="global.html#buttonClickSound">buttonClickSound</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#changeSound">changeSound</a></li><li><a href="global.html#checkSoundMute">checkSoundMute</a></li><li><a href="global.html#deleteWorld">deleteWorld</a></li><li><a href="global.html#gameLostScreen">gameLostScreen</a></li><li><a href="global.html#gameLostScreenAppears">gameLostScreenAppears</a></li><li><a href="global.html#gamePadBottleREF">gamePadBottleREF</a></li><li><a href="global.html#gamePadJumpREF">gamePadJumpREF</a></li><li><a href="global.html#gamePadLeftREF">gamePadLeftREF</a></li><li><a href="global.html#gamePadRightREF">gamePadRightREF</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initLevel">initLevel</a></li><li><a href="global.html#keyboard">keyboard</a></li><li><a href="global.html#keyboardDown">keyboardDown</a></li><li><a href="global.html#keyboardLeftREF">keyboardLeftREF</a></li><li><a href="global.html#keyboardPress">keyboardPress</a></li><li><a href="global.html#keyboardRightREF">keyboardRightREF</a></li><li><a href="global.html#keyboardSpaceREF">keyboardSpaceREF</a></li><li><a href="global.html#keyboardThrowREF">keyboardThrowREF</a></li><li><a href="global.html#lastKeyTime">lastKeyTime</a></li><li><a href="global.html#level1">level1</a></li><li><a href="global.html#loadAllSounds">loadAllSounds</a></li><li><a href="global.html#noClose">noClose</a></li><li><a href="global.html#openControls">openControls</a></li><li><a href="global.html#openImpressum">openImpressum</a></li><li><a href="global.html#openStory">openStory</a></li><li><a href="global.html#prepareGame">prepareGame</a></li><li><a href="global.html#resetStartScreen">resetStartScreen</a></li><li><a href="global.html#resetTimer">resetTimer</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#returnToStartScreen">returnToStartScreen</a></li><li><a href="global.html#showGameUI">showGameUI</a></li><li><a href="global.html#soundManager">soundManager</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#startIdleCheck">startIdleCheck</a></li><li><a href="global.html#startTheGame">startTheGame</a></li><li><a href="global.html#stopDrawing">stopDrawing</a></li><li><a href="global.html#timerInterval">timerInterval</a></li><li><a href="global.html#updateIdleTime">updateIdleTime</a></li><li><a href="global.html#winScreen">winScreen</a></li><li><a href="global.html#winScreenAppears">winScreenAppears</a></li><li><a href="global.html#world">world</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BackgroundObject.html">BackgroundObject</a></li><li><a href="Bottle.html">Bottle</a></li><li><a href="Character.html">Character</a></li><li><a href="Chicken.html">Chicken</a></li><li><a href="Cloud.html">Cloud</a></li><li><a href="Coins.html">Coins</a></li><li><a href="DrawableObjects.html">DrawableObjects</a></li><li><a href="Endboss.html">Endboss</a></li><li><a href="Keyboard.html">Keyboard</a></li><li><a href="Level.html">Level</a></li><li><a href="LittleChicken.html">LittleChicken</a></li><li><a href="MovableObject.html">MovableObject</a></li><li><a href="SoundManager.html">SoundManager</a></li><li><a href="StatusBar.html">StatusBar</a></li><li><a href="ThrowableObjects.html">ThrowableObjects</a></li><li><a href="World.html">World</a></li><li><a href="WorldCollisionManager.html">WorldCollisionManager</a></li></ul><h3>Global</h3><ul><li><a href="global.html#backgroundMusicLoop">backgroundMusicLoop</a></li><li><a href="global.html#buttonClickSound">buttonClickSound</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#changeSound">changeSound</a></li><li><a href="global.html#checkSoundMute">checkSoundMute</a></li><li><a href="global.html#deleteWorld">deleteWorld</a></li><li><a href="global.html#gameLostScreen">gameLostScreen</a></li><li><a href="global.html#gameLostScreenAppears">gameLostScreenAppears</a></li><li><a href="global.html#gamePadBottleREF">gamePadBottleREF</a></li><li><a href="global.html#gamePadJumpREF">gamePadJumpREF</a></li><li><a href="global.html#gamePadLeftREF">gamePadLeftREF</a></li><li><a href="global.html#gamePadRightREF">gamePadRightREF</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initLevel">initLevel</a></li><li><a href="global.html#keyboard">keyboard</a></li><li><a href="global.html#lastKeyTime">lastKeyTime</a></li><li><a href="global.html#level1">level1</a></li><li><a href="global.html#loadAllSounds">loadAllSounds</a></li><li><a href="global.html#noClose">noClose</a></li><li><a href="global.html#openControls">openControls</a></li><li><a href="global.html#openImpressum">openImpressum</a></li><li><a href="global.html#openStory">openStory</a></li><li><a href="global.html#prepareGame">prepareGame</a></li><li><a href="global.html#resetStartScreen">resetStartScreen</a></li><li><a href="global.html#resetTimer">resetTimer</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#returnToStartScreen">returnToStartScreen</a></li><li><a href="global.html#showGameUI">showGameUI</a></li><li><a href="global.html#soundManager">soundManager</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#startIdleCheck">startIdleCheck</a></li><li><a href="global.html#startTheGame">startTheGame</a></li><li><a href="global.html#stopDrawing">stopDrawing</a></li><li><a href="global.html#timerInterval">timerInterval</a></li><li><a href="global.html#updateIdleTime">updateIdleTime</a></li><li><a href="global.html#winScreen">winScreen</a></li><li><a href="global.html#winScreenAppears">winScreenAppears</a></li><li><a href="global.html#world">world</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Jul 08 2025 18:20:31 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Jul 08 2025 19:18:14 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>
